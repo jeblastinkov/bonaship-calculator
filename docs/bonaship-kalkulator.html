@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonaship — Kalkulačka spolufinancovania</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --lime:#C8FF00;--lime-dim:#9BBF00;--lime-glow:rgba(200,255,0,0.15);
+      --bg:#0A0A0A;--card:#141414;--card-border:#222;--card-hover:#1A1A1A;
+      --text:#E5E5E5;--text-dim:#888;--text-muted:#555;
+      --red:#FF4D4D;--amber:#FFB800;--green:#00E676;--blue:#4A9FE7;
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    .header{background:linear-gradient(135deg,#0A0A0A,#111);padding:36px 48px 28px;border-bottom:2px solid var(--lime);position:relative;overflow:hidden}
+    .header::after{content:'';position:absolute;top:0;right:0;bottom:0;width:40%;background:linear-gradient(135deg,transparent,var(--lime-glow));pointer-events:none}
+    .header h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.5px;position:relative;z-index:1}
+    .header h1 span{color:var(--lime)}
+    .header-sub{color:var(--text-dim);font-size:13px;margin-top:6px;font-weight:500;position:relative;z-index:1}
+    .brand-tag{display:inline-flex;align-items:center;gap:8px;background:#1A1A1A;border:1px solid var(--card-border);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;color:var(--lime);letter-spacing:1px;text-transform:uppercase;position:relative;z-index:1}
+    .header-top{display:flex;justify-content:space-between;align-items:flex-start}
+    .container{max-width:1200px;margin:0 auto;padding:32px 24px}
+    .section-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--card-border);display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:0.8px}
+    .section-title .dot{width:8px;height:8px;border-radius:50%;background:var(--lime);flex-shrink:0}
+    .card{background:var(--card);border-radius:12px;padding:24px;border:1px solid var(--card-border);margin-bottom:20px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    @media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+    /* INPUTS */
+    .input-group{margin-bottom:18px}
+    .input-group label{display:block;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+    .input-group input,.input-group select{width:100%;background:#0A0A0A;border:1px solid var(--card-border);border-radius:8px;padding:12px 14px;color:var(--text);font-size:15px;font-family:'Inter',sans-serif;font-weight:600;outline:none;transition:border-color .2s}
+    .input-group input:focus,.input-group select:focus{border-color:var(--lime)}
+    .input-group .hint{font-size:11px;color:var(--text-muted);margin-top:4px}
+    .range-row{display:flex;align-items:center;gap:12px}
+    .range-row input[type=range]{flex:1;accent-color:var(--lime);height:6px}
+    .range-val{font-size:18px;font-weight:800;color:var(--lime);min-width:70px;text-align:right}
+
+    /* KPI */
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}
+    .kpi{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px 16px;text-align:center}
+    .kpi-value{font-size:28px;font-weight:900;letter-spacing:-1px;line-height:1}
+    .kpi-label{font-size:11px;color:var(--text-dim);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+    .kpi-sub{font-size:12px;color:var(--text-muted);margin-top:4px}
+    @media(max-width:700px){.kpi-strip{grid-template-columns:1fr 1fr}}
+
+    /* COMPARISON TABLE */
+    .comp-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    .comp-table th{background:#111;color:var(--text-dim);padding:10px 8px;text-align:center;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--card-border)}
+    .comp-table th:first-child{text-align:left}
+    .comp-table td{padding:10px 8px;border-bottom:1px solid #1a1a1a;text-align:center;vertical-align:middle}
+    .comp-table td:first-child{text-align:left;font-weight:600}
+    .comp-table tr:hover{background:rgba(200,255,0,0.03)}
+    .comp-table tr.bonaship-row{background:rgba(200,255,0,0.08);border-left:3px solid var(--lime)}
+    .comp-table tr.bonaship-row td{font-weight:700}
+    .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}
+    .tag-green{background:rgba(0,230,118,0.15);color:var(--green)}
+    .tag-red{background:rgba(255,77,77,0.15);color:var(--red)}
+    .tag-amber{background:rgba(255,184,0,0.15);color:var(--amber)}
+    .tag-lime{background:rgba(200,255,0,0.15);color:var(--lime)}
+
+    /* CHART */
+    .chart-box{position:relative;height:320px;margin-top:16px}
+
+    /* SCENARIOS */
+    .scenario-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    .scenario-card{background:#111;border:1px solid var(--card-border);border-radius:10px;padding:18px;text-align:center}
+    .scenario-card.highlight{border-color:var(--lime);background:rgba(200,255,0,0.04)}
+    .scenario-card h4{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+    .scenario-card .val{font-size:24px;font-weight:900;color:var(--lime)}
+    .scenario-card .detail{font-size:12px;color:var(--text-muted);margin-top:6px}
+    @media(max-width:700px){.scenario-cards{grid-template-columns:1fr}}
+
+    /* BENEFIT STRIP */
+    .benefit-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+    .benefit{background:var(--card);border:1px solid var(--card-border);border-radius:10px;padding:18px;text-align:center}
+    .benefit .icon{font-size:28px;margin-bottom:8px}
+    .benefit h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+    .benefit p{font-size:12px;color:var(--text-dim);line-height:1.5}
+    @media(max-width:700px){.benefit-strip{grid-template-columns:1fr}}
+
+    /* SECTION INTRO */
+    .section-intro{font-size:14px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;max-width:800px}
+
+    /* CTA */
+    .cta-box{background:linear-gradient(135deg,#1a1a0a,#141414);border:1px solid var(--lime);border-radius:12px;padding:32px;text-align:center;margin-top:32px}
+    .cta-box h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+    .cta-box p{font-size:14px;color:var(--text-dim);margin-bottom:16px}
+    .cta-btn{display:inline-block;background:var(--lime);color:#000;font-weight:800;font-size:14px;padding:12px 32px;border-radius:8px;text-decoration:none;letter-spacing:0.5px;cursor:pointer;border:none}
+    .cta-btn:hover{background:#d4ff33}
+
+    .disclaimer{font-size:11px;color:var(--text-muted);margin-top:24px;padding-top:16px;border-top:1px solid var(--card-border);line-height:1.6}
+    .footer{text-align:center;font-size:11px;color:#333;margin-top:32px;padding:16px}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>Bonaship <span>Kalkulačka</span></h1>
+        <div class="header-sub">Porovnajte spolufinancovanie s klasickými úvermi — transparentne a na jednom mieste</div>
+      </div>
+      <div class="brand-tag">Kobi × Siriuzz</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- HERO BENEFITS -->
+    <div class="benefit-strip">
+      <div class="benefit"><div class="icon">🏠</div><h4>Bez mesačných splátok</h4><p>Neplatíte nám nič každý mesiac. Vysporiadate sa pri predaji alebo refinancovaní.</p></div>
+      <div class="benefit"><div class="icon">📋</div><h4>Bez záznamu v registri</h4><p>Žiadny záznam v úverovom registri. Vaša bonita zostáva čistá.</p></div>
+      <div class="benefit"><div class="icon">🔑</div><h4>Vy rozhodujete</h4><p>Kedy predáte alebo refinancujete je len na vás. Žiadne skryté termíny.</p></div>
+    </div>
+
+    <!-- CALCULATOR INPUTS -->
+    <div class="section-title"><span class="dot"></span>Kalkulačka</div>
+    <p class="section-intro">Zadajte parametre a okamžite uvidíte, koľko vás bude stáť Bonaship v porovnaní s bankovým úverom. Všetky scenáre sú orientačné — skutočné podmienky závisia od individuálneho posúdenia.</p>
+
+    <div class="card">
+      <div class="grid-2">
+        <div>
+          <div class="input-group">
+            <label>Hodnota nehnuteľnosti (€)</label>
+            <input type="number" id="homeValue" value="180000" min="50000" max="1000000" step="5000">
+            <div class="hint">Odhadovaná trhová cena nehnuteľnosti</div>
+          </div>
+          <div class="input-group">
+            <label>Vlastné zdroje (€)</label>
+            <input type="number" id="ownFunds" value="18000" min="0" max="500000" step="1000">
+            <div class="hint">Koľko viete dať z vlastného (banka chce min. 20%)</div>
+          </div>
+          <div class="input-group">
+            <label>Suma od Bonaship (€)</label>
+            <input type="number" id="bonashipAmount" value="18000" min="5000" max="200000" step="1000">
+            <div class="hint">Suma, ktorú Bonaship spolufinancuje (max 15% hodnoty)</div>
+          </div>
+        </div>
+        <div>
+          <div class="input-group">
+            <label>Horizont vysporiadania (roky)</label>
+            <div class="range-row">
+              <input type="range" id="yearsSlider" min="1" max="10" value="7">
+              <span class="range-val" id="yearsVal">7</span>
+            </div>
+            <div class="hint">Kedy plánujete predať alebo refinancovať</div>
+          </div>
+          <div class="input-group">
+            <label>Očakávané ročné zhodnotenie nehnuteľnosti (%)</label>
+            <div class="range-row">
+              <input type="range" id="appreciationSlider" min="0" max="8" value="3" step="0.5">
+              <span class="range-val" id="appreciationVal">3%</span>
+            </div>
+            <div class="hint">Priemerné zhodnotenie na Slovensku: 3–5% p.a.</div>
+          </div>
+          <div class="input-group">
+            <label>Porovnať s úverom na (roky)</label>
+            <select id="loanTerm">
+              <option value="3">3 roky</option>
+              <option value="5">5 rokov</option>
+              <option value="7" selected>7 rokov</option>
+              <option value="10">10 rokov</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI STRIP -->
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="kpi-value" id="kpiBonashipCost" style="color:var(--lime)">—</div>
+        <div class="kpi-label">Celkový náklad Bonaship</div>
+        <div class="kpi-sub" id="kpiBonashipDetail"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value" id="kpiMonthly" style="color:var(--green)">0 €</div>
+        <div class="kpi-label">Mesačná splátka Bonaship</div>
+        <div class="kpi-sub">Žiadna. Nulová. Nula.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value" id="kpiLoanCost" style="color:var(--red)">—</div>
+        <div class="kpi-label">Priemerný náklad úveru</div>
+        <div class="kpi-sub" id="kpiLoanDetail"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value" id="kpiSavings" style="color:var(--amber)">—</div>
+        <div class="kpi-label">Mesačný cashflow navyše</div>
+        <div class="kpi-sub" id="kpiSavingsDetail"></div>
+      </div>
+    </div>
+
+    <!-- APPRECIATION SCENARIOS -->
+    <div class="section-title"><span class="dot"></span>Scenáre zhodnotenia</div>
+    <p class="section-intro">Koľko zaplatíte Bonaship pri rôznom zhodnotení nehnuteľnosti? Čím viac rastie hodnota vášho bytu, tým viac zarobia obe strany.</p>
+    <div class="scenario-cards" id="scenarioCards"></div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="section-title" style="margin-top:32px"><span class="dot"></span>Porovnanie s bankovými a nebankovými úvermi</div>
+    <p class="section-intro">Reálne porovnanie na sumu <span id="compAmountLabel">10 000 €</span>. Dáta z bankových cenníkov k marcu 2026. Bonaship nemá mesačné splátky — náklad vzniká len pri vysporiadaní.</p>
+    <div class="card" style="overflow-x:auto">
+      <table class="comp-table" id="compTable">
+        <thead>
+          <tr>
+            <th>Poskytovateľ</th>
+            <th>Typ</th>
+            <th>Úrok p.a.</th>
+            <th>Splátka / mes.</th>
+            <th>Celkom zaplatíte</th>
+            <th>Preplatenie</th>
+            <th>V registri</th>
+          </tr>
+        </thead>
+        <tbody id="compBody"></tbody>
+      </table>
+    </div>
+
+    <!-- CHART: TOTAL COST -->
+    <div class="grid-2" style="margin-top:24px">
+      <div class="card">
+        <div class="section-title" style="font-size:13px"><span class="dot"></span>Celkový náklad porovnanie</div>
+        <div class="chart-box"><canvas id="chartCost"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="font-size:13px"><span class="dot"></span>Mesačná záťaž (cashflow)</div>
+        <div class="chart-box"><canvas id="chartMonthly"></canvas></div>
+      </div>
+    </div>
+
+    <!-- WHAT INVESTOR CANNOT DO -->
+    <div class="section-title" style="margin-top:32px"><span class="dot"></span>Čo investor NEMÔŽE</div>
+    <div class="grid-3">
+      <div class="benefit"><div class="icon">🚫</div><h4>Nemôže vás donútiť predať</h4><p>Nehnuteľnosť je vaša. Investor nemá právo rozhodovať o predaji ani o termíne vysporiadania.</p></div>
+      <div class="benefit"><div class="icon">🔐</div><h4>Nemá kľúče ani prístup</h4><p>Vy bývate, vy rozhodujete. Investor nemá žiadne užívacie právo k nehnuteľnosti.</p></div>
+      <div class="benefit"><div class="icon">📄</div><h4>100% na liste vlastníctva</h4><p>Ste jediný vlastník. Investor má len zmluvné právo na podiel zo zhodnotenia pri exit-e.</p></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Chcete vedieť presné podmienky pre vašu situáciu?</h3>
+      <p>Kalkulačka ukazuje orientačné scenáre. Pre individuálnu ponuku nás kontaktujte.</p>
+      <button class="cta-btn" onclick="alert('Kontaktujte nás na: info@bonaship.sk')">Mám záujem — kontaktujte ma</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Upozornenie:</strong> Kalkulačka slúži na orientačné porovnanie a nenahrádzajú individuálnu ponuku. Skutočné podmienky Bonaship závisí od posúdenia nehnuteľnosti, profilu klienta a aktuálneho sadzobníka. Údaje o bankových úveroch sú z verejne dostupných cenníkov k marcu 2026 a môžu sa líšiť. Zhodnotenie nehnuteľnosti je prognóza — skutočná hodnota sa môže odchýliť.
+      <br><br>
+      <strong>Podmienky Bonaship (aktuálne):</strong> Podiel na zhodnotení: 15% (1–3 r.), 17.5% (4–6 r.), 20% (7–10 r.). Minimálny výnos: 15% z predajnej ceny. Jednorazový poplatok: 5% z investície (max 20 000 €). Priebežné poplatky: odhad, právne, zápis.
+    </div>
+
+    <div class="footer">Bonaship × Kobi Ventures & Siriuzz — Dôverné</div>
+  </div>
+
+<script>
+// ============================================================
+// BONASHIP CALCULATOR ENGINE
+// ============================================================
+
+// Loan comparison data (March 2026, Slovak market, per €10,000)
+const LOAN_DATA = [
+  {name:"Slovenská sporiteľňa",product:"Spotrebný úver",type:"banka",rate:6.99,fee:0,terms:{3:{m:308.73,total:11114.11,over:1114.11},5:{m:197.96,total:11877.89,over:1877.89},7:{m:150.88,total:12673.75,over:2673.75},10:{m:116.06,total:13926.83,over:3926.83}}},
+  {name:"Prima banka",product:"Pôžička",type:"banka",rate:5.90,fee:5,terms:{3:{m:303.77,total:11435.59,over:1435.59},5:{m:192.86,total:12071.80,over:2071.80},7:{m:145.61,total:12730.96,over:2730.96},10:{m:110.52,total:13762.28,over:3762.28}}},
+  {name:"Tatra banka",product:"Bezúčelový úver",type:"banka",rate:6.49,fee:2,terms:{3:{m:306.44,total:11232.00,over:1232.00},5:{m:195.61,total:11936.88,over:1936.88},7:{m:148.45,total:12669.46,over:2669.46},10:{m:113.50,total:13819.65,over:3819.65}}},
+  {name:"365.bank",product:"Pôžička od 365",type:"banka",rate:6.00,fee:2,terms:{3:{m:304.22,total:11151.90,over:1151.90},5:{m:193.33,total:11799.68,over:1799.68},7:{m:146.09,total:12471.19,over:2471.19},10:{m:111.02,total:13522.46,over:3522.46}}},
+  {name:"mBank",product:"mPôžička Plus",type:"banka",rate:6.89,fee:1.5,terms:{3:{m:308.27,total:11247.66,over:1247.66},5:{m:197.49,total:11999.60,over:1999.60},7:{m:150.39,total:12782.73,over:2782.73},10:{m:115.54,total:14015.08,over:4015.08}}},
+  {name:"Cetelem",product:"Cetelem pôžička",type:"nebankovka",rate:4.90,fee:0,terms:{3:{m:299.26,total:10773.37,over:773.37},5:{m:188.25,total:11295.27,over:1295.27},7:{m:140.87,total:11833.05,over:1833.05},10:{m:105.58,total:12669.29,over:2669.29}}},
+  {name:"Home Credit",product:"Online pôžička",type:"nebankovka",rate:19.00,fee:0,terms:{3:{m:366.56,total:13196.17,over:3196.17},5:{m:259.41,total:15564.33,over:5564.33},7:{m:216.08,total:18150.74,over:8150.74},10:{m:186.67,total:22400.68,over:12400.68}}}
+];
+
+// Bonaship conditions
+const BONASHIP = {
+  equityShare: {3: 0.15, 6: 0.175, 10: 0.20}, // years → share
+  minReturn: 0.15, // 15% of sale price
+  upfrontFee: 0.05, // 5% of investment
+  maxFee: 20000
+};
+
+function getEquityShare(years) {
+  if (years <= 3) return 0.15;
+  if (years <= 6) return 0.175;
+  return 0.20;
+}
+
+function fmt(n) { return n.toLocaleString('sk-SK', {maximumFractionDigits:0}); }
+function fmtDec(n) { return n.toLocaleString('sk-SK', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+// Chart instances
+let chartCost = null;
+let chartMonthly = null;
+
+function calculate() {
+  const homeVal = parseFloat(document.getElementById('homeValue').value) || 180000;
+  const ownFunds = parseFloat(document.getElementById('ownFunds').value) || 18000;
+  const bonaAmt = parseFloat(document.getElementById('bonashipAmount').value) || 18000;
+  const years = parseInt(document.getElementById('yearsSlider').value) || 7;
+  const appr = parseFloat(document.getElementById('appreciationSlider').value) || 3;
+  const loanTermYears = parseInt(document.getElementById('loanTerm').value) || 7;
+
+  // Update slider displays
+  document.getElementById('yearsVal').textContent = years;
+  document.getElementById('appreciationVal').textContent = appr + '%';
+
+  // BONASHIP CALCULATION
+  const futureHomeVal = homeVal * Math.pow(1 + appr/100, years);
+  const appreciation = futureHomeVal - homeVal;
+  const equityShare = getEquityShare(years);
+  const investorReturn = appreciation * equityShare;
+  const upfrontFee = Math.min(bonaAmt * BONASHIP.upfrontFee, BONASHIP.maxFee);
+  const minReturnAmt = futureHomeVal * BONASHIP.minReturn;
+
+  // Bonaship total cost = upfront fee + investor return on appreciation (or minimum return if higher)
+  const investorPayout = Math.max(bonaAmt + investorReturn, minReturnAmt);
+  const bonashipTotalCost = upfrontFee + investorPayout - bonaAmt; // net cost above what they received
+  const bonashipTotalPaid = upfrontFee + investorPayout; // total paid out
+
+  // LOAN CALCULATIONS (scale from €10,000 base)
+  const scale = bonaAmt / 10000;
+  const loanTerm = String(loanTermYears);
+
+  // Build comparison table
+  const tbody = document.getElementById('compBody');
+  tbody.innerHTML = '';
+
+  let totalLoanCosts = [];
+  let monthlyPayments = [];
+  let providerNames = [];
+
+  LOAN_DATA.forEach(loan => {
+    const termData = loan.terms[loanTerm];
+    if (!termData) return;
+    const scaledMonthly = termData.m * scale;
+    const scaledTotal = termData.total * scale;
+    const scaledOver = termData.over * scale;
+
+    totalLoanCosts.push(scaledOver);
+    monthlyPayments.push(scaledMonthly);
+    providerNames.push(loan.name);
+
+    const typeTag = loan.type === 'banka'
+      ? '<span class="tag tag-amber">Banka</span>'
+      : '<span class="tag tag-red">Nebankovka</span>';
+
+    tbody.innerHTML += `<tr>
+      <td>${loan.name}</td>
+      <td>${typeTag}</td>
+      <td>${fmtDec(loan.rate)}%</td>
+      <td>${fmt(Math.round(scaledMonthly))} €</td>
+      <td>${fmt(Math.round(scaledTotal))} €</td>
+      <td style="color:var(--red)">${fmt(Math.round(scaledOver))} €</td>
+      <td><span class="tag tag-red">ÁNO</span></td>
+    </tr>`;
+  });
+
+  // Bonaship row
+  tbody.innerHTML += `<tr class="bonaship-row">
+    <td>🟢 Bonaship</td>
+    <td><span class="tag tag-lime">Spolufinancovanie</span></td>
+    <td>—</td>
+    <td style="color:var(--lime)">0 €</td>
+    <td>${fmt(Math.round(bonashipTotalPaid))} €</td>
+    <td style="color:var(--lime)">${fmt(Math.round(bonashipTotalCost))} €</td>
+    <td><span class="tag tag-green">NIE</span></td>
+  </tr>`;
+
+  // Update KPIs
+  document.getElementById('kpiBonashipCost').textContent = fmt(Math.round(bonashipTotalCost)) + ' €';
+  document.getElementById('kpiBonashipDetail').textContent = `Poplatok ${fmt(Math.round(upfrontFee))} € + podiel ${(equityShare*100)}% zo zhodnotenia`;
+
+  const avgLoanCost = totalLoanCosts.reduce((a,b) => a+b, 0) / totalLoanCosts.length;
+  const avgMonthly = monthlyPayments.reduce((a,b) => a+b, 0) / monthlyPayments.length;
+  document.getElementById('kpiLoanCost').textContent = fmt(Math.round(avgLoanCost)) + ' €';
+  document.getElementById('kpiLoanDetail').textContent = `Priemer ${providerNames.length} poskytovateľov na ${loanTerm} r.`;
+
+  document.getElementById('kpiSavings').textContent = fmt(Math.round(avgMonthly)) + ' €';
+  document.getElementById('kpiSavingsDetail').textContent = `Ø splátka, ktorú s Bonaship neplatíte`;
+
+  document.getElementById('compAmountLabel').textContent = fmt(Math.round(bonaAmt)) + ' €';
+
+  // SCENARIO CARDS (low / medium / high appreciation)
+  const scenarios = [
+    {label: 'Konzervatívny', appr: 1, icon: '🐢'},
+    {label: 'Stredný', appr: 3, icon: '📊'},
+    {label: 'Optimistický', appr: 5, icon: '🚀'}
+  ];
+  const scenarioDiv = document.getElementById('scenarioCards');
+  scenarioDiv.innerHTML = '';
+  scenarios.forEach((s, i) => {
+    const fv = homeVal * Math.pow(1 + s.appr/100, years);
+    const ap = fv - homeVal;
+    const es = getEquityShare(years);
+    const ir = ap * es;
+    const fee = Math.min(bonaAmt * BONASHIP.upfrontFee, BONASHIP.maxFee);
+    const payout = Math.max(bonaAmt + ir, fv * BONASHIP.minReturn);
+    const netCost = fee + payout - bonaAmt;
+    const yourGain = (fv - homeVal) - ir;
+    const highlight = i === 1 ? ' highlight' : '';
+    scenarioDiv.innerHTML += `
+      <div class="scenario-card${highlight}">
+        <h4>${s.icon} ${s.label} (${s.appr}% p.a.)</h4>
+        <div class="val">${fmt(Math.round(netCost))} €</div>
+        <div class="detail">Váš náklad za ${years} rokov</div>
+        <div class="detail" style="margin-top:8px;color:var(--green)">Vaše zhodnotenie: +${fmt(Math.round(yourGain))} €</div>
+        <div class="detail">Hodnota bytu: ${fmt(Math.round(fv))} €</div>
+      </div>`;
+  });
+
+  // CHARTS
+  // Chart 1: Total cost comparison (bar)
+  const ctx1 = document.getElementById('chartCost').getContext('2d');
+  if (chartCost) chartCost.destroy();
+
+  const chartLabels = [...providerNames, 'Bonaship'];
+  const chartData = [...totalLoanCosts.map(c => Math.round(c)), Math.round(bonashipTotalCost)];
+  const chartColors = [...totalLoanCosts.map(() => 'rgba(255,77,77,0.7)'), 'rgba(200,255,0,0.9)'];
+
+  chartCost = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Preplatenie (€)',
+        data: chartData,
+        backgroundColor: chartColors,
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {label: ctx => fmt(ctx.raw) + ' €'}}
+      },
+      scales: {
+        x: {grid:{color:'#1a1a1a'},ticks:{color:'#888',callback:v=>fmt(v)+' €'}},
+        y: {grid:{display:false},ticks:{color:'#ccc',font:{weight:600,size:11}}}
+      }
+    }
+  });
+
+  // Chart 2: Monthly payment comparison
+  const ctx2 = document.getElementById('chartMonthly').getContext('2d');
+  if (chartMonthly) chartMonthly.destroy();
+
+  const monthlyLabels = [...providerNames, 'Bonaship'];
+  const monthlyData = [...monthlyPayments.map(m => Math.round(m)), 0];
+  const monthlyColors = [...monthlyPayments.map(() => 'rgba(255,77,77,0.5)'), 'rgba(200,255,0,0.9)'];
+
+  chartMonthly = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: monthlyLabels,
+      datasets: [{
+        label: 'Mesačná splátka (€)',
+        data: monthlyData,
+        backgroundColor: monthlyColors,
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {label: ctx => fmt(ctx.raw) + ' €/mes.'}}
+      },
+      scales: {
+        x: {grid:{color:'#1a1a1a'},ticks:{color:'#888',callback:v=>fmt(v)+' €'}},
+        y: {grid:{display:false},ticks:{color:'#ccc',font:{weight:600,size:11}}}
+      }
+    }
+  });
+}
+
+// Event listeners
+['homeValue','ownFunds','bonashipAmount'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculate);
+});
+['yearsSlider','appreciationSlider'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calculate);
+});
+document.getElementById('loanTerm').addEventListener('change', calculate);
+
+// Initial calculation
+calculate();
+</script>
+</body>
+</html>

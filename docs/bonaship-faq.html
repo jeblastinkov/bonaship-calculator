@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonaship — Často kladené otázky (FAQ)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --lime:#C8FF00;--lime-dim:#9BBF00;--lime-glow:rgba(200,255,0,0.15);
+      --bg:#0A0A0A;--card:#141414;--card-border:#222;
+      --text:#E5E5E5;--text-dim:#888;--text-muted:#555;
+      --red:#FF4D4D;--amber:#FFB800;--green:#00E676;--blue:#4A9FE7;
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    .header{background:linear-gradient(135deg,#0A0A0A,#111);padding:36px 48px 28px;border-bottom:2px solid var(--lime);position:relative;overflow:hidden}
+    .header::after{content:'';position:absolute;top:0;right:0;bottom:0;width:40%;background:linear-gradient(135deg,transparent,var(--lime-glow));pointer-events:none}
+    .header h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.5px;position:relative;z-index:1}
+    .header h1 span{color:var(--lime)}
+    .header-sub{color:var(--text-dim);font-size:13px;margin-top:6px;font-weight:500;position:relative;z-index:1}
+    .header-top{display:flex;justify-content:space-between;align-items:flex-start}
+    .brand-tag{display:inline-flex;align-items:center;gap:8px;background:#1A1A1A;border:1px solid var(--card-border);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;color:var(--lime);letter-spacing:1px;text-transform:uppercase;position:relative;z-index:1}
+    .container{max-width:900px;margin:0 auto;padding:32px 24px}
+    .section-title{font-size:16px;font-weight:800;color:#fff;margin:36px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--card-border);display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:0.8px}
+    .section-title .dot{width:8px;height:8px;border-radius:50%;background:var(--lime);flex-shrink:0}
+    .section-intro{font-size:14px;color:var(--text-dim);margin-bottom:20px;line-height:1.7}
+
+    /* HERO */
+    .hero{text-align:center;padding:40px 20px 20px}
+    .hero h2{font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
+    .hero h2 span{color:var(--lime)}
+    .hero p{font-size:15px;color:var(--text-dim);max-width:600px;margin:0 auto}
+
+    /* QUICK FACTS */
+    .facts-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0}
+    .fact{background:var(--card);border:1px solid var(--card-border);border-radius:10px;padding:18px;text-align:center}
+    .fact .val{font-size:22px;font-weight:900;color:var(--lime)}
+    .fact .lbl{font-size:11px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+    @media(max-width:700px){.facts-strip{grid-template-columns:1fr 1fr}}
+
+    /* FAQ ACCORDION */
+    .faq-item{background:var(--card);border:1px solid var(--card-border);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:border-color .2s}
+    .faq-item:hover{border-color:#333}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;cursor:pointer;gap:12px}
+    .faq-q h3{font-size:14px;font-weight:700;color:#fff;flex:1}
+    .faq-q .arrow{color:var(--lime);font-size:18px;font-weight:900;transition:transform .2s;flex-shrink:0}
+    .faq-item.open .faq-q .arrow{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .faq-item.open .faq-a{max-height:800px}
+    .faq-a-inner{padding:0 20px 18px;font-size:13px;color:var(--text-dim);line-height:1.8}
+    .faq-a-inner strong{color:var(--text)}
+    .faq-a-inner .highlight{background:rgba(200,255,0,0.08);border-left:3px solid var(--lime);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+    .faq-a-inner .quote{background:#111;border-left:3px solid var(--blue);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-style:italic;color:#aaa}
+    .faq-a-inner .quote .attr{font-style:normal;font-size:11px;color:var(--text-muted);margin-top:4px}
+    .faq-a-inner ul{padding-left:16px;margin:8px 0}
+    .faq-a-inner li{margin-bottom:4px}
+
+    /* TAG */
+    .cat-tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-right:8px;vertical-align:middle}
+    .cat-základy{background:rgba(200,255,0,0.15);color:var(--lime)}
+    .cat-náklady{background:rgba(255,184,0,0.15);color:var(--amber)}
+    .cat-dôvera{background:rgba(74,159,231,0.15);color:var(--blue)}
+    .cat-právne{background:rgba(0,230,118,0.15);color:var(--green)}
+    .cat-porovnanie{background:rgba(255,77,77,0.15);color:var(--red)}
+
+    /* CTA */
+    .cta-box{background:linear-gradient(135deg,#1a1a0a,#141414);border:1px solid var(--lime);border-radius:12px;padding:32px;text-align:center;margin-top:32px}
+    .cta-box h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px}
+    .cta-box p{font-size:14px;color:var(--text-dim);margin-bottom:16px}
+    .cta-btn{display:inline-block;background:var(--lime);color:#000;font-weight:800;font-size:14px;padding:12px 32px;border-radius:8px;text-decoration:none;letter-spacing:0.5px;cursor:pointer;border:none}
+
+    .footer{text-align:center;font-size:11px;color:#333;margin-top:32px;padding:16px}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Bonaship <span>FAQ</span></h1>
+      <div class="header-sub">Odpovede na najčastejšie otázky o spolufinancovaní bývania</div>
+    </div>
+    <div class="brand-tag">Kobi × Siriuzz</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="hero">
+    <h2>Všetko, čo potrebujete <span>vedieť</span></h2>
+    <p>Spolufinancovanie bývania je nový model na Slovensku. Je normálne mať otázky. Tu sú odpovede — otvorene, bez marketingového jazyka.</p>
+  </div>
+
+  <!-- QUICK FACTS -->
+  <div class="facts-strip">
+    <div class="fact"><div class="val">0 €</div><div class="lbl">Mesačná splátka</div></div>
+    <div class="fact"><div class="val">0</div><div class="lbl">Záznam v registri</div></div>
+    <div class="fact"><div class="val">100%</div><div class="lbl">Vy na liste vlastníctva</div></div>
+    <div class="fact"><div class="val">10–15%</div><div class="lbl">Spolufinancovanie</div></div>
+  </div>
+
+  <!-- CATEGORY: ZÁKLADY -->
+  <div class="section-title"><span class="dot"></span>Ako to funguje</div>
+  <p class="section-intro">Základné otázky o tom, čo Bonaship robí, pre koho je to určené a ako celý proces prebieha.</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-základy">Základy</span> Čo je Bonaship spolufinancovanie?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Bonaship je <strong>spolufinancovanie akontácie na bývanie</strong>. Ak vám chýba časť vlastných zdrojov na to, aby vám banka schválila hypotéku, Bonaship investuje spolu s vami — zvyčajne 10–15% hodnoty nehnuteľnosti.
+      <div class="highlight">
+        <strong>Nie je to úver.</strong> Neplatíte mesačné splátky. Neobjavíte sa v úverovom registri. Bonaship je investičný partner — investuje do vášho bývania a zarába na zhodnotení nehnuteľnosti.
+      </div>
+      Vysporiadanie nastáva, keď sa vy rozhodnete — pri predaji, refinancovaní, alebo vyplatení z úspor. Žiadne fixné termíny.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-základy">Základy</span> Pre koho je Bonaship určený?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Primárne pre <strong>jednotlivcov a mladé páry (25–40 rokov)</strong>, ktorí:
+      <ul>
+        <li>Chcú vlastné bývanie, ale nemajú dosť na 20% akontáciu (NBS pravidlo)</li>
+        <li>Banka im schváli hypotéku, ale nie celú sumu</li>
+        <li>Nechcú si brať spotrebný úver navyše (ďalšia splátka + záznam v registri)</li>
+        <li>Nechcú alebo nemôžu požiadať rodinu o peniaze</li>
+      </ul>
+      <div class="quote">
+        „Chcem mať istotu, že bývam vo svojom. Nájom je vyhodené peniaze — ale na tú akontáciu jednoducho nemám."
+        <div class="attr">— Respondent, kvalitatívny výskum Bonaship (Marec 2026)</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-základy">Základy</span> Ako celý proces prebieha — krok za krokom?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      <strong>1. Konzultácia a posúdenie</strong> — Vyplníte krátky dotazník. Posúdime vašu situáciu, nehnuteľnosť a výšku spolufinancovania.<br><br>
+      <strong>2. Odhad a zmluva</strong> — Nezávislý znalec odhadne hodnotu nehnuteľnosti. Pripravíme jasnú zmluvu s presne definovanými podmienkami.<br><br>
+      <strong>3. Financovanie</strong> — Bonaship poskytne dohodnutú sumu. Vaša banka vidí, že máte dostatok vlastných zdrojov → schváli hypotéku.<br><br>
+      <strong>4. Bývate vo svojom</strong> — Sťahujete sa. Neplatíte Bonaship žiadne mesačné splátky. Žijete normálne.<br><br>
+      <strong>5. Vysporiadanie</strong> — Keď predáte, refinancujete alebo vyplatíte z úspor, vysporiadate podiel podľa zmluvy. Vy rozhodujete kedy.
+    </div></div>
+  </div>
+
+  <!-- CATEGORY: NÁKLADY -->
+  <div class="section-title"><span class="dot"></span>Koľko to stojí</div>
+  <p class="section-intro">Transparentnosť je základ. Tu sú presné podmienky — žiadne skryté poplatky, žiadne hviezdičky v malom písme.</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-náklady">Náklady</span> Koľko zaplatím za spolufinancovanie?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Náklady Bonaship sa skladajú z dvoch častí:
+      <div class="highlight">
+        <strong>1. Jednorazový poplatok:</strong> 5% z investovanej sumy (max. 20 000 €). Odpočíta sa pri poskytnutí, nie z vášho vrecka navyše.<br><br>
+        <strong>2. Podiel zo zhodnotenia:</strong><br>
+        • 1–3 roky: <strong>15%</strong> zo zhodnotenia nehnuteľnosti<br>
+        • 4–6 rokov: <strong>17,5%</strong> zo zhodnotenia<br>
+        • 7–10 rokov: <strong>20%</strong> zo zhodnotenia
+      </div>
+      <strong>Príklad:</strong> Byt za 180 000 €. Bonaship investuje 18 000 €. Za 7 rokov byt stojí ~221 000 € (3% p.a.). Zhodnotenie = 41 000 €. Podiel Bonaship = 20% zo zhodnotenia = 8 275 €. Zároveň platí minimálny výnos 15% z predajnej ceny (33 207 €) — v tomto prípade sa uplatní vyššia suma. Celkom vrátite: ~33 200 €. Poplatok na začiatku: 900 €.
+      <br><br>
+      <strong>Vaše zhodnotenie:</strong> Z celkového zhodnotenia 41 000 € vám zostáva ~33 100 €. Plus ste bývali 7 rokov vo vlastnom namiesto v nájme.
+      <br><br>
+      <strong>Tip:</strong> Pri vyššom zhodnotení (5%+) sa uplatňuje percentuálny podiel a minimálny výnos nehrá rolu. Použite <a href="bonaship-kalkulator.html" style="color:var(--lime)">kalkulačku</a> na presný výpočet pre vašu situáciu.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-náklady">Náklady</span> Čo ak hodnota nehnuteľnosti klesne?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Bonaship má nastavený <strong>minimálny výnos 15% z predajnej ceny</strong> (alebo aktuálnej trhovej hodnoty pri vysporiadaní). To znamená:
+      <ul>
+        <li>Ak byt kúpený za 180 000 € po 7 rokoch stojí 170 000 € (pokles), zaplatíte minimálne 15% z 170 000 € = <strong>25 500 €</strong></li>
+        <li>Bonaship zdieľa riziko — ak klesne hodnota, aj ich výnos je nižší</li>
+        <li>Na rozdiel od úveru: pri úvere platíte fixnú sumu bez ohľadu na to, čo sa deje s hodnotou bytu</li>
+      </ul>
+      Tento mechanizmus chráni obe strany a motivuje Bonaship pomôcť vám vybrať kvalitnú nehnuteľnosť.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-náklady">Náklady</span> Aké ďalšie poplatky môžem očakávať?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Okrem jednorazového poplatku (5%) a podielu zo zhodnotenia existujú <strong>štandardné priebežné náklady</strong>:
+      <ul>
+        <li><strong>Odhad nehnuteľnosti</strong> — znalecký posudok (cca 150–300 €)</li>
+        <li><strong>Právne služby</strong> — príprava zmluvy (zahrnuté v procese)</li>
+        <li><strong>Zápis do katastra</strong> — štandardné poplatky</li>
+      </ul>
+      Všetky tieto položky sú <strong>uvedené v odhade nákladov vopred</strong> — žiadne prekvapenia po podpise.
+      <br><br>
+      <strong>Voliteľné služby:</strong> Ak chcete predčasný exit, podporu pri refinancovaní alebo poistenie — tieto majú samostatný cenník, ale nie sú povinné.
+    </div></div>
+  </div>
+
+  <!-- CATEGORY: DÔVERA -->
+  <div class="section-title"><span class="dot"></span>Dôvera a bezpečnosť</div>
+  <p class="section-intro">Náš výskum ukázal, že koncept spolufinancovania sa ľuďom páči (7,1/10), ale dôvera v novú službu je nižšia (5,9/10). Rozumieme tomu — tu sú odpovede na obavy, ktoré sme reálne počuli od ľudí.</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-dôvera">Dôvera</span> Prečo by som mal veriť niečomu, čo na Slovensku ešte neexistuje?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Je to férová otázka. Spolufinancovanie bývania (Home Equity Investment) <strong>nie je nový model vo svete</strong> — funguje v USA, UK, Austrálii a Európe:
+      <ul>
+        <li><strong>Hometap</strong> (USA, od 2017) — $100M+ investícií, 4.8/5 hodnotenie</li>
+        <li><strong>Unlock</strong> (USA, od 2020) — A+ BBB rating, 4.7/5 Trustpilot</li>
+        <li><strong>Splitero</strong> (USA, od 2021) — $350M kapitálový záväzok od Blue Owl</li>
+      </ul>
+      Na Slovensku to Bonaship prináša ako <strong>prvý</strong> — ale s overenými princípmi, regulačným rámcom a transparentnými podmienkami.
+      <div class="quote">
+        „Keby som videl, že to funguje inde a mal by som kalkulačku, kde si to prepočítam, bol by som omnoho pokojnejší."
+        <div class="attr">— Respondent, kvalitatívny výskum Bonaship (Marec 2026)</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-dôvera">Dôvera</span> Kto je investor? Čo ak investor skrachuje?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Bonaship pracuje s <strong>inštitucionálnymi investormi</strong> (fondy, rodiny, kvalifikovaní investori), nie s anonymnými špekulantmi.
+      <br><br>
+      <strong>Čo ak investor skrachuje?</strong> Vaša nehnuteľnosť je vaša — ste na liste vlastníctva. Zmluva s Bonaship je zmluvné právo, nie vlastnícke. Ak by investor zanikol:
+      <ul>
+        <li>Vaše vlastníctvo je nedotknuteľné</li>
+        <li>Povinnosti zo zmluvy prechádzajú na právneho nástupcu</li>
+        <li>Vy ďalej bývate, nič sa pre vás nemení</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-dôvera">Dôvera</span> Môže ma investor donútiť predať byt?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      <div class="highlight">
+        <strong>Nie. Investor nemôže:</strong><br>
+        ❌ Donútiť vás predať nehnuteľnosť<br>
+        ❌ Vstúpiť do bytu bez vášho súhlasu<br>
+        ❌ Rozhodovať o rekonštrukciách alebo prenájme<br>
+        ❌ Predať svoj podiel tretej strane bez vášho vedomia
+      </div>
+      Vy ste <strong>100% na liste vlastníctva</strong>. Investor má len zmluvné právo na podiel zo zhodnotenia — nie vlastnícke právo k nehnuteľnosti. Je to zásadný rozdiel.
+      <div class="quote">
+        „Kľúčové pre mňa je, že nikto iný nebude rozhodovať o mojom byte. Ak je to naozaj tak, dáva mi to väčší kľud."
+        <div class="attr">— Respondent, kvalitatívny výskum Bonaship (Marec 2026)</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-dôvera">Dôvera</span> Čo je na liste vlastníctva? Ako je to právne zabezpečené?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Na <strong>liste vlastníctva ste len vy</strong> — ako jediný vlastník. Bonaship zaznamená vecné bremeno / záložné právo na katastri, čo zabezpečuje ich investíciu. Toto je štandardný mechanizmus — rovnaký, aký používa banka pri hypotéke.
+      <br><br>
+      <strong>Zmluva obsahuje:</strong>
+      <ul>
+        <li>Presnú výšku investície a podmienky vysporiadania</li>
+        <li>Jasne definované exit scenáre (predaj, refinancovanie, vyplatenie)</li>
+        <li>Práva a povinnosti oboch strán</li>
+        <li>Mechanizmus riešenia sporov</li>
+      </ul>
+      Všetko je <strong>overiteľné advokátom</strong> — a odporúčame to.
+    </div></div>
+  </div>
+
+  <!-- CATEGORY: POROVNANIE -->
+  <div class="section-title"><span class="dot"></span>Porovnanie s úvermi</div>
+  <p class="section-intro">Bonaship nie je úver — je to investičné partnerstvo. Porovnanie s bankovými produktmi ukazuje zásadné rozdiely.</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-porovnanie">Porovnanie</span> Prečo si radšej nevziať spotrebný úver?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Spotrebný úver je dostupný, ale má <strong>tri zásadné nevýhody</strong> oproti Bonaship:
+      <div class="highlight">
+        <strong>1. Mesačné splátky</strong> — pri 18 000 € na 7 rokov je to ~150–215 €/mes navyše k hypotéke. Bonaship = 0 €/mes.<br><br>
+        <strong>2. Záznam v úverovom registri</strong> — banka vidí ďalší záväzok, čo <strong>znižuje schválenú sumu hypotéky</strong> alebo vám hypotéku neschváli vôbec. Bonaship sa v registri neobjaví.<br><br>
+        <strong>3. Zvýšenie DTI</strong> — Debt-to-Income ratio sa zvyšuje, čím sa znižuje vaša finančná flexibilita na roky dopredu.
+      </div>
+      <strong>Kedy dáva zmysel úver?</strong> Ak vám chýba malá suma (do 5 000 €) a máte dostatok príjmu na ďalšiu splátku. Pre väčšie sumy (10 000–25 000 €) je Bonaship finančne aj strategicky výhodnejšia cesta.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-porovnanie">Porovnanie</span> Čo ak požiadam rodinu o peniaze?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Rodina je bežný zdroj akontácie — ale z výskumu vieme, že mnohí ľudia to <strong>nechcú alebo nemôžu</strong>:
+      <ul>
+        <li><strong>Emocionálne záväzky</strong> — „peniaze od rodičov" menia dynamiku vzťahov</li>
+        <li><strong>Rodina nemá</strong> — nie každý má rodičov, ktorí môžu poskytnúť 15–20 000 €</li>
+        <li><strong>Nechcú zaťažiť</strong> — rodičia sú v dôchodku, majú vlastné záväzky</li>
+      </ul>
+      <div class="quote">
+        „Nechcem, aby moji rodičia mali pocit, že mi musia pomáhať. Chcem to zvládnuť sám — ale systém mi to neumožňuje."
+        <div class="attr">— Respondent, kvalitatívny výskum Bonaship (Marec 2026)</div>
+      </div>
+      Bonaship je <strong>inštitucionálna alternatíva</strong> — profesionálne, bez emócií, s jasnými pravidlami.
+    </div></div>
+  </div>
+
+  <!-- CATEGORY: PRÁVNE -->
+  <div class="section-title"><span class="dot"></span>Vysporiadanie a exit</div>
+  <p class="section-intro">Najčastejšia obava z nášho výskumu: „Ako z toho vystúpim?" Tu je odpoveď — jednoducho a na vašich podmienkach.</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-právne">Exit</span> Ako a kedy sa vysporiadam s Bonaship?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Máte <strong>tri cesty</strong> na vysporiadanie — a vy si vyberáte kedy:
+      <div class="highlight">
+        <strong>🏠 Predaj nehnuteľnosti</strong> — Pri predaji sa z výnosu automaticky uhradí podiel Bonaship. Zvyšok je váš.<br><br>
+        <strong>🔄 Refinancovanie</strong> — Prehodnotíte hypotéku u banky, navýšite ju o podiel Bonaship a vyplatíte investora.<br><br>
+        <strong>💰 Vyplatenie z úspor</strong> — Ak máte prostriedky, môžete Bonaship vyplatiť kedykoľvek. Žiadne pokuty za predčasný exit.
+      </div>
+      <strong>Horizont:</strong> Zmluva je typicky na 1–10 rokov, ale <strong>nie je fixný termín predaja</strong>. Ak po 10 rokoch ešte nepredáte, podmienky sa upravia podľa zmluvy.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-právne">Exit</span> Ako a akým spôsobom sa Bonaship vypláca?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      Platba prebieha <strong>jednorazovo pri vysporiadaní</strong> — bežným bankovým prevodom na účet Bonaship. Žiadne mesačné splátky počas celého obdobia.
+      <div class="highlight">
+        <strong>V závislosti od zvolenej možnosti:</strong><br><br>
+        <strong>Refinancovanie</strong> — Banka pri prevode refinancovanej hypotéky priamo vyplatí Bonaship. Z vášho vrecka nedoplácate nič.<br><br>
+        <strong>Z vlastných úspor</strong> — Previediete dohodnutú sumu z vášho účtu na účet Bonaship. Môžete tak urobiť kedykoľvek.<br><br>
+        <strong>Predaj</strong> — Z výnosu predaja sa pri uzatvorení kúpy podiel Bonaship automaticky odpočíta a prevedie. Zvyšok vám zostane.
+      </div>
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-právne">Exit</span> Čo ak chcem predať skôr ako som plánoval?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      <strong>Nie je to problém.</strong> Môžete predať kedykoľvek. Podiel Bonaship sa vypočíta podľa aktuálnej trhovej hodnoty v čase predaja:
+      <ul>
+        <li>1–3 roky: 15% zo zhodnotenia</li>
+        <li>4–6 rokov: 17,5% zo zhodnotenia</li>
+        <li>7–10 rokov: 20% zo zhodnotenia</li>
+      </ul>
+      Čím skôr predáte, tým nižší percentuálny podiel. Nie sú žiadne pokuty za predčasné vysporiadanie.
+    </div></div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <h3><span class="cat-tag cat-právne">Exit</span> Čo ak chcem byt prenajať alebo rekonštruovať?</h3>
+      <span class="arrow">+</span>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">
+      <strong>Bývanie:</strong> Nehnuteľnosť je vaša — bývate v nej ako bežný vlastník.
+      <br><br>
+      <strong>Prenájom:</strong> Konzultujte s Bonaship — zmluva môže obsahovať podmienky ohľadne prenájmu, ale v princípe je to možné.
+      <br><br>
+      <strong>Rekonštrukcia:</strong> Môžete rekonštruovať. Zhodnotenie nehnuteľnosti rekonštrukciou je v záujme oboch strán — zvyšuje hodnotu pre vás aj pre Bonaship. Väčšie štrukturálne zmeny konzultujte vopred.
+    </div></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Máte ďalšie otázky?</h3>
+    <p>Neváhajte sa opýtať — odpovedáme otvorene, bez záväzkov.</p>
+    <button class="cta-btn" onclick="alert('Kontaktujte nás na: info@bonaship.sk')">Chcem sa opýtať</button>
+  </div>
+
+  <div class="footer">Bonaship × Kobi Ventures & Siriuzz — Dôverné</div>
+</div>
+
+<script>
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  item.classList.toggle('open');
+}
+// Open first item by default
+document.querySelector('.faq-item').classList.add('open');
+</script>
+
+</body>
+</html>
