@@ -619,7 +619,7 @@
       width: 46%;
       flex-shrink: 0;
       background: var(--navy);
-      padding: 40px 44px;
+      padding: 32px 36px;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -690,7 +690,7 @@
     }
     .zero-amount {
       font-family: 'Playfair Display', serif;
-      font-size: 52px;
+      font-size: 38px;
       font-weight: 900;
       color: var(--white);
       line-height: 1;
@@ -1272,56 +1272,58 @@
 
       <!-- RIGHT PANEL: Results -->
       <div class="panel-right">
-        <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;">
-          <div class="result-eyebrow">Váš výsledok</div>
+        <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;gap:0;">
 
           <!-- Dynamic summary sentence -->
-          <div class="result-dynamic">
+          <div class="result-dynamic" style="margin-bottom:16px;">
+            <div class="result-eyebrow" style="margin-bottom:6px;">Váš výsledok</div>
             <div class="result-dynamic-text">
               Ak získate <strong class="bona-amt" id="dynBonaAmt">18 000 €</strong> od Bonaship, kúpite nehnuteľnosť za <strong id="dynHomeVal">180 000 €</strong> s hypotékou len <strong id="dynMortgageAmt">144 000 €</strong> — a <strong style="color:var(--gold-light);">0 € mesačne navyše.</strong>
             </div>
           </div>
 
-          <!-- Zero monthly payment highlight -->
-          <div class="cf-badge">
-            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Sloboda pre váš cashflow
-          </div>
-          <div class="zero-payment">
-            <span class="zero-amount">0 €</span>
-            <span class="zero-label">mesačná splátka Bonaship</span>
-          </div>
-          <p class="cf-desc">
-            Počas <span id="cfYears">7</span> rokov neplatíte Bonaship nič mesačne. Platíte len bežnú hypotéku (~<span id="estMortgage">571</span> €/mes). Vysporiadanie nastáva až na konci.
-          </p>
-
-          <div class="savings-box">
-            <div class="savings-row">
-              <span class="savings-row-label">Oproti spotrebnému úveru máte k dispozícii</span>
-              <span class="savings-amount" id="cfSavedTotal">22 813 €</span>
+          <!-- Zero payment row + savings in one block -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
+            <div>
+              <div class="cf-badge" style="margin-bottom:8px;">
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Sloboda pre váš cashflow
+              </div>
+              <div class="zero-payment" style="margin-bottom:4px;">
+                <span class="zero-amount">0 €</span>
+                <span class="zero-label">/ mesiac</span>
+              </div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.5;">
+                Platíte len hypotéku<br>~<span id="estMortgage">571</span> €/mes · <span id="cfYears">7</span> rokov
+              </div>
             </div>
-            <div class="savings-items">
-              <span class="savings-item">Splatenie dlhov</span>
-              <span class="savings-item">Životné udalosti</span>
-              <span class="savings-item">Rekonštrukcia</span>
+            <div class="savings-box" style="margin-bottom:0;flex:1;min-width:0;">
+              <div class="savings-row" style="margin-bottom:6px;">
+                <span class="savings-row-label" style="font-size:10px;">Oproti spotrebnému úveru máte k dispozícii</span>
+              </div>
+              <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);" id="cfSavedTotal">22 813 €</div>
+              <div class="savings-items" style="margin-top:6px;">
+                <span class="savings-item">Splácanie dlhov</span>
+                <span class="savings-item">Rekonštrukcia</span>
+              </div>
+              <span class="hidden" id="compLoanMonthly"></span>
             </div>
-            <span class="hidden" id="compLoanMonthly"></span>
           </div>
 
-          <div class="r-divider"></div>
+          <div class="r-divider" style="margin:12px 0;"></div>
 
-          <!-- Projected value -->
-          <div class="result-eyebrow-2">Odhadovaná hodnota o <span id="resYearsViz">7</span> rokov</div>
-          <div class="proj-row">
-            <div class="proj-bar-wrap">
+          <!-- Projected value — compact 2-col layout -->
+          <div class="result-eyebrow-2" style="margin-bottom:10px;">Odhadovaná hodnota o <span id="resYearsViz">7</span> rokov</div>
+          <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:8px;">
+            <div class="proj-bar-wrap" style="height:96px;">
               <div id="vizUserBar" style="height:80%"></div>
               <div id="vizBonaBar" style="height:20%"></div>
             </div>
-            <div class="proj-data">
+            <div style="flex:1;min-width:0;">
               <div class="proj-total-label">Celková hodnota</div>
-              <div class="proj-total" id="resFutureVal">235 000 €</div>
+              <div class="proj-total" style="font-size:24px;margin-bottom:8px;" id="resFutureVal">235 000 €</div>
               <div class="proj-line">
                 <div class="proj-line-left">
                   <div class="proj-line-dot emerald"></div>
@@ -1344,10 +1346,10 @@
               </div>
             </div>
           </div>
-          <div class="proj-note">*Pri raste <span id="resAppreciation">3,9</span>% p.a. Podiel závisí od dĺžky obdobia.</div>
+          <div class="proj-note" style="margin-bottom:12px;">*Pri raste <span id="resAppreciation">3,9</span>% p.a. Podiel závisí od dĺžky obdobia.</div>
 
           <!-- Net Equity -->
-          <div class="equity-box">
+          <div class="equity-box" style="padding:12px 16px;margin-bottom:16px;">
             <div>
               <div class="equity-label">Váš čistý majetok</div>
               <div class="equity-sub">Po odpočítaní hypotéky a Bonaship</div>
@@ -1355,40 +1357,31 @@
             <span class="equity-val" id="resYourEquity">150 000 €</span>
           </div>
 
-          <!-- Settlement options -->
-          <div class="result-eyebrow-2" style="margin-bottom:10px;">Možnosti vysporiadania</div>
-          <div class="settle-options">
-            <div class="settle-card">
-              <div class="settle-tag">Najčastejšie</div>
-              <div class="settle-icon">🏦</div>
-              <div style="flex:1;">
-                <div class="settle-title">Refinancovanie hypotéky</div>
-                <div class="settle-desc">Navýšite existujúcu hypotéku — banka vyplatí Bonaship priamo. Z vlastného vrecka nedoplácate nič.</div>
-                <div class="ref-detail">
-                  <div class="ref-row"><span>Nová hypotéka (80% LTV)</span><span id="refNewMortgage">—</span></div>
-                  <div class="ref-row"><span>− Zostatok hypotéky</span><span id="refMortgageBalance">—</span></div>
-                  <div class="ref-row"><span>= Hotovosť na vyplatenie</span><span id="refCashExtracted">—</span></div>
-                  <div class="ref-row"><span>− Podiel Bonaship</span><span id="refBonashipPayout" style="color:var(--gold-light);">—</span></div>
-                  <div class="ref-row total"><span>Zostatok po vysporiadaní</span><span id="refRemainder">—</span></div>
-                  <div style="padding-top:6px; font-size:10px;" id="refCoversLabel"></div>
-                </div>
-              </div>
+          <!-- Settlement options — compact pill row -->
+          <div class="result-eyebrow-2" style="margin-bottom:8px;">Možnosti vysporiadania</div>
+          <div style="display:flex;gap:6px;margin-bottom:16px;">
+            <div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;position:relative;">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#5DCFB1;margin-bottom:4px;">Najčastejšie</div>
+              <div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:2px;">🏦 Refinancovanie</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.4;">Banka vyplatí priamo z navýšenej hypotéky.</div>
             </div>
-            <div class="settle-card">
-              <div class="settle-icon">💰</div>
-              <div>
-                <div class="settle-title">Z vlastných úspor</div>
-                <div class="settle-desc">Vyplatíte kedykoľvek, bez poplatkov za predčasné ukončenie.</div>
-              </div>
+            <div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:2px;margin-top:16px;">💰 Z úspor</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.4;">Kedykoľvek, bez poplatkov.</div>
             </div>
-            <div class="settle-card">
-              <div class="settle-icon">🏠</div>
-              <div>
-                <div class="settle-title">Predaj nehnuteľnosti</div>
-                <div class="settle-desc">Z výnosu predaja sa podiel Bonaship automaticky uhradí. Zvyšok zostáva vám.</div>
-              </div>
+            <div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:2px;margin-top:16px;">🏠 Predaj</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);line-height:1.4;">Z výnosu predaja automaticky.</div>
             </div>
           </div>
+
+          <!-- Hidden refinance data for JS -->
+          <span style="display:none" id="refNewMortgage"></span>
+          <span style="display:none" id="refMortgageBalance"></span>
+          <span style="display:none" id="refCashExtracted"></span>
+          <span style="display:none" id="refBonashipPayout"></span>
+          <span style="display:none" id="refRemainder"></span>
+          <span style="display:none" id="refCoversLabel"></span>
         </div>
 
         <!-- CTA -->
