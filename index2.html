@@ -749,12 +749,79 @@
     .settle-status.amber { color: #FBBF24; }
     .settle-other {
       margin-top: 14px;
-      font-size: 10px;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.02em;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .settle-other span { opacity: 0.9; }
-    .settle-other span + span::before { content: ' · '; opacity: 0.6; }
+    .settle-other-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .settle-other-pill {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* Own contribution selector */
+    .own-contrib-row {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .own-contrib-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .own-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .own-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 10px 20px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .own-tab:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .own-tab.active {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+      color: var(--teal);
+      font-weight: 600;
+    }
+    .own-tab-own {
+      font-size: 15px;
+      font-weight: 700;
+      color: inherit;
+    }
+    .own-tab-bona {
+      font-size: 10px;
+      color: var(--gray-400);
+      font-weight: 400;
+    }
+    .own-tab.active .own-tab-bona { color: var(--teal); opacity: 0.7; }
 
     /* ── VALUE PROPS ────────────────────────── */
     .value-section {
@@ -1032,9 +1099,27 @@
               <div class="field-hint">Pomáha odhadnúť prístup k&nbsp;financovaniu.</div>
             </div>
             <div class="output-preview">
-              <div class="output-preview-label">Typická suma Bonaship</div>
+              <div class="output-preview-label">Bonaship investícia</div>
               <div class="output-preview-value" id="bonaAmount">18 000 €</div>
-              <div class="output-preview-sub">10% z odhadovanej hodnoty vášho bývania</div>
+              <div class="output-preview-sub" id="bonaShareDesc">10% z hodnoty nehnuteľnosti · vaše zdroje: 18 000 €</div>
+            </div>
+          </div>
+
+          <div class="own-contrib-row">
+            <div class="own-contrib-label">Vaše vlastné zdroje</div>
+            <div class="own-tabs">
+              <button class="own-tab" data-own="0.05">
+                <span class="own-tab-own">5%</span>
+                <span class="own-tab-bona">Bonaship 15%</span>
+              </button>
+              <button class="own-tab active" data-own="0.10">
+                <span class="own-tab-own">10%</span>
+                <span class="own-tab-bona">Bonaship 10%</span>
+              </button>
+              <button class="own-tab" data-own="0.15">
+                <span class="own-tab-own">15%</span>
+                <span class="own-tab-bona">Bonaship 5%</span>
+              </button>
             </div>
           </div>
 
@@ -1165,7 +1250,11 @@
               <span id="refRemainder">50 962 €</span>
             </div>
             <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
-            <div class="settle-other"><span>Iné možnosti:</span><span>z vlastných úspor</span><span>predaj nehnuteľnosti</span></div>
+            <div class="settle-other">
+              <span class="settle-other-label">Iné možnosti:</span>
+              <span class="settle-other-pill">💰 Z vlastných úspor</span>
+              <span class="settle-other-pill">🏠 Predaj nehnuteľnosti</span>
+            </div>
           </div>
 
         </div>
@@ -1344,8 +1433,11 @@
       const apprSelect = document.getElementById('appreciationSelect');
       const appreciation = parseFloat(apprSelect.value) / 100;
 
-      const bonaAmt = Math.round(homeVal * CONFIG.bonaSharePct);
-      const savings = bonaAmt;
+      const activeOwnTab = document.querySelector('.own-tab.active');
+      const customerPct = parseFloat(activeOwnTab?.dataset.own) || 0.10;
+      const bonaPct = 0.20 - customerPct;
+      const savings = Math.round(homeVal * customerPct);
+      const bonaAmt = Math.round(homeVal * bonaPct);
       const upfrontFee = Math.min(bonaAmt * CONFIG.upfrontFee, CONFIG.maxFee);
       const cashReceived = bonaAmt - upfrontFee;
       const mortgageAmt = Math.max(0, homeVal - savings - bonaAmt);
@@ -1367,6 +1459,8 @@
 
       // Update DOM
       document.getElementById('bonaAmount').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('bonaShareDesc').textContent =
+        Math.round(bonaPct * 100) + '% z hodnoty nehnuteľnosti · vaše zdroje: ' + fmt(savings) + ' €';
       document.getElementById('futureValDisplay').textContent = fmt(futureVal) + ' €';
 
       document.getElementById('bonaAmountReceived').textContent = fmt(bonaAmt) + ' €';
@@ -1418,6 +1512,14 @@
     document.querySelectorAll('.pill-tab').forEach(tab => {
       tab.addEventListener('click', function() {
         document.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        calculate();
+      });
+    });
+
+    document.querySelectorAll('.own-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.own-tab').forEach(t => t.classList.remove('active'));
         this.classList.add('active');
         calculate();
       });
