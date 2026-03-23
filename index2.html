@@ -609,20 +609,6 @@
       color: rgba(255,255,255,0.3);
     }
     .compare-card.highlight .compare-card-sub { color: rgba(46,216,173,0.4); }
-    .compare-savings {
-      margin-top: 12px;
-      padding: 12px 16px;
-      background: rgba(200,147,58,0.08);
-      border: 1px solid rgba(200,147,58,0.15);
-      border-radius: 8px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.5;
-    }
-    .compare-savings strong {
-      color: var(--gold-light);
-      font-weight: 700;
-    }
 
     /* Share tiers */
     .share-grid {
@@ -631,7 +617,6 @@
       gap: 28px;
       align-items: start;
     }
-    .tier-list {}
     .tier-item {
       display: flex;
       align-items: center;
@@ -762,6 +747,14 @@
     }
     .settle-status.green { color: var(--teal-bright); }
     .settle-status.amber { color: #FBBF24; }
+    .settle-other {
+      margin-top: 14px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.02em;
+    }
+    .settle-other span { opacity: 0.9; }
+    .settle-other span + span::before { content: ' · '; opacity: 0.6; }
 
     /* ── VALUE PROPS ────────────────────────── */
     .value-section {
@@ -936,7 +929,6 @@
       .steps::before { display: none; }
       .step { text-align: left; display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 0; }
       .step-num { margin: 0; }
-      .step-content {}
       .input-row { grid-template-columns: 1fr; gap: 24px; }
       .calc-inputs { padding: 28px 24px; }
       .results-panel { padding: 28px 24px 36px; }
@@ -1074,11 +1066,10 @@
           <div class="r-label">Okamžitá hotovostná výhoda</div>
           <div class="result-hero">
             <div class="result-hero-main">
-              <div class="result-hero-title">Bývajte vo vlastnom ihneď, s 0 € mesačnou splátkou navyše.</div>
+              <div class="result-hero-title">Ušetríte na mesačných splátach oproti spotrebnému úveru</div>
               <div class="result-hero-amount result-hero-amount-gold" id="compSaved">25 068 €</div>
-              <div class="result-hero-desc">S Bonaship si necháte túto sumu v kapse počas celého obdobia namiesto mesačných splátok úveru. <strong>To je najväčší rozdiel oproti spotrebnému úveru.</strong></div>
               <div class="result-hero-sub">
-                Získate <strong id="bonaAmountReceived">18 000 €</strong> od Bonaship na váš účet. Jednorazový poplatok 5% (<span id="upfrontFeeDisplay">900</span> €) platíte zvlášť v hotovosti.
+                Dostanete <strong id="bonaAmountReceived">18 000 €</strong> na účet. Jednorazový poplatok 5% (<span id="upfrontFeeDisplay">900</span> €) platíte zvlášť.
               </div>
             </div>
             <div class="result-hero-badge">
@@ -1099,9 +1090,6 @@
               <div class="compare-card-value">0 €</div>
               <div class="compare-card-sub">mesačná splátka — vždy</div>
             </div>
-          </div>
-          <div class="compare-savings">
-            Pri spotrebnom úvere na <strong id="compBonaAmt">18 000 €</strong> by ste platili <strong id="compMonthlyAlt">~206 €</strong>/mesiac. S Bonaship platíte <strong>0 €</strong> — celých <strong id="compSavedAlt">25 068 €</strong> si necháte v kapse.
           </div>
 
           <div class="r-divider"></div>
@@ -1177,6 +1165,7 @@
               <span id="refRemainder">50 962 €</span>
             </div>
             <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
+            <div class="settle-other"><span>Iné možnosti:</span><span>z vlastných úspor</span><span>predaj nehnuteľnosti</span></div>
           </div>
 
         </div>
@@ -1394,10 +1383,7 @@
 
       document.getElementById('compYears').textContent = years;
       document.getElementById('compMonthly').textContent = '~' + fmt(compLoanMonthly) + ' €';
-      document.getElementById('compMonthlyAlt').textContent = '~' + fmt(compLoanMonthly) + ' €';
-      document.getElementById('compBonaAmt').textContent = fmt(bonaAmt) + ' €';
       document.getElementById('compSaved').textContent = fmt(totalSaved) + ' €';
-      document.getElementById('compSavedAlt').textContent = fmt(totalSaved) + ' €';
 
       document.getElementById('refNewMortgage').textContent = fmt(newMaxMortgage) + ' €';
       document.getElementById('refMortgageBalance').textContent = fmt(mortgageBalance) + ' €';
