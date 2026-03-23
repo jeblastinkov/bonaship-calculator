@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonaship — Zistite, koľko získate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=General+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0A1223;
+      --navy-mid:   #131E35;
+      --navy-soft:  #1C2A48;
+      --navy-light: #243352;
+      --gold:       #C8933A;
+      --gold-light: #E5B872;
+      --gold-pale:  #FBF3E3;
+      --gold-glow:  rgba(200,147,58,0.12);
+      --teal:       #0FA583;
+      --teal-bright:#2ED8AD;
+      --teal-pale:  #E8F8F3;
+      --cream:      #FAFAF7;
+      --white:      #FFFFFF;
+      --gray-50:    #F7F7F5;
+      --gray-100:   #EEEDE9;
+      --gray-200:   #E0DED8;
+      --gray-400:   #9E9A93;
+      --gray-500:   #7A756D;
+      --gray-600:   #5C574F;
+      --gray-800:   #2C2924;
+      --text:       #1A1714;
+      --radius:     20px;
+      --radius-sm:  12px;
+      --shadow:     0 1px 3px rgba(10,18,35,0.04), 0 8px 32px rgba(10,18,35,0.06);
+      --shadow-lg:  0 2px 8px rgba(10,18,35,0.04), 0 16px 56px rgba(10,18,35,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'General Sans', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 clamp(20px, 4vw, 56px);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid rgba(10,18,35,0.05);
+      transition: background 0.3s;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      color: var(--navy);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 30px; height: 30px;
+      background: var(--navy);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+    }
+    .logo-mark::after {
+      content: '';
+      width: 9px; height: 9px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-500);
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--navy); }
+    .btn-header {
+      padding: 9px 24px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-header:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+    /* ── HERO ───────────────────────────────── */
+    .hero {
+      padding: 140px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 60px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--teal-pale);
+      border: 1px solid rgba(15,165,131,0.15);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(34px, 5.5vw, 56px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--gray-500);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+    .hero-scroll {
+      margin-top: 36px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .hero-scroll:hover { gap: 12px; }
+    .hero-scroll svg { transition: transform 0.2s; }
+    .hero-scroll:hover svg { transform: translateY(3px); }
+
+    /* ── HOW IT WORKS ───────────────────────── */
+    .how-section {
+      padding: 40px 24px 80px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 400;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(16.66% + 12px);
+      right: calc(16.66% + 12px);
+      height: 2px;
+      background: var(--gray-200);
+    }
+    .step {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    .step-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 20px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--gray-400);
+      position: relative;
+      z-index: 2;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .step:hover .step-num {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: scale(1.08);
+      box-shadow: 0 0 0 6px rgba(15,165,131,0.08);
+    }
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-500);
+    }
+
+    /* ── CALCULATOR ─────────────────────────── */
+    .calc-section {
+      padding: 0 24px 80px;
+    }
+    .calc-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .calc-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-100);
+      overflow: hidden;
+    }
+
+    /* Input Area */
+    .calc-inputs {
+      padding: 40px 44px;
+    }
+    .calc-inputs-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .calc-inputs-sub {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-bottom: 32px;
+    }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .field-input-wrap {
+      position: relative;
+    }
+    .field-input {
+      width: 100%;
+      font-family: 'DM Serif Display', serif;
+      font-size: 34px;
+      font-weight: 400;
+      color: var(--navy);
+      border: none;
+      border-bottom: 2px solid var(--gray-200);
+      padding: 8px 40px 10px 0;
+      background: transparent;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .field-input:focus {
+      border-bottom-color: var(--teal);
+    }
+    .field-input::placeholder {
+      color: var(--gray-400);
+    }
+    .field-suffix {
+      position: absolute;
+      right: 0;
+      bottom: 14px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .field-clear {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px; height: 28px;
+      border: none;
+      background: var(--gray-100);
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      color: var(--gray-500);
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .field-input-wrap:hover .field-clear,
+    .field-input:focus ~ .field-clear { opacity: 0.7; }
+    .field-clear:hover { opacity: 1 !important; background: var(--gray-200); }
+    .field-hint {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 8px;
+    }
+
+    /* Output preview */
+    .output-preview {
+      padding: 24px 28px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .output-preview-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .output-preview-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px;
+      color: var(--teal);
+      margin-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .output-preview-sub {
+      font-size: 12px;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+
+    /* Controls Row */
+    .controls-row {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .control-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pill-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .pill-tab {
+      padding: 10px 20px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pill-tab:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .pill-tab.active {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+      color: var(--teal);
+      font-weight: 600;
+    }
+    .styled-select {
+      padding: 10px 18px;
+      min-width: 230px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--navy);
+      background: var(--white);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E9A93' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+    .styled-select:focus,
+    .styled-select:hover { border-color: var(--teal); }
+
+    /* ── RESULTS PANEL ──────────────────────── */
+    .results-panel {
+      background: linear-gradient(172deg, #0F1D35 0%, #080E1C 100%);
+      padding: 44px 44px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .results-panel::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(15,165,131,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .results-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(200,147,58,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .r-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 16px;
+    }
+    .r-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(200,147,58,0.45) 0%, rgba(200,147,58,0.1) 50%, transparent 100%);
+      margin: 28px 0;
+    }
+
+    /* Hero result - the big cashout number */
+    .result-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+    .result-hero-main {}
+    .result-hero-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal-bright);
+      margin-bottom: 6px;
+    }
+    .result-hero-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .result-hero-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+    .result-hero-amount-gold {
+      color: var(--gold-light) !important;
+      text-shadow: 0 0 32px rgba(232,184,82,0.3);
+    }
+    .result-hero-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+    .result-hero-sub strong { color: rgba(255,255,255,0.7); }
+    .result-hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(15,165,131,0.12);
+      border: 1px solid rgba(46,216,173,0.2);
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+    .result-hero-badge-zero {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--teal-bright);
+    }
+    .result-hero-badge-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Comparison strip */
+    .compare-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .compare-card {
+      padding: 18px 20px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .compare-card.highlight {
+      background: rgba(15,165,131,0.08);
+      border-color: rgba(46,216,173,0.15);
+    }
+    .compare-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+    .compare-card.highlight .compare-card-label { color: rgba(46,216,173,0.6); }
+    .compare-card-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2px;
+    }
+    .compare-card.highlight .compare-card-value { color: var(--teal-bright); }
+    .compare-card-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+    .compare-card.highlight .compare-card-sub { color: rgba(46,216,173,0.4); }
+    .compare-savings {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(200,147,58,0.08);
+      border: 1px solid rgba(200,147,58,0.15);
+      border-radius: 8px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+    }
+    .compare-savings strong {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    /* Share tiers */
+    .share-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .tier-list {}
+    .tier-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s;
+    }
+    .tier-item:last-child { border-bottom: none; }
+    .tier-pct {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.3);
+      min-width: 52px;
+      transition: color 0.3s;
+    }
+    .tier-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.3s;
+    }
+    .tier-item.active .tier-pct { color: var(--gold-light); }
+    .tier-item.active .tier-text { color: rgba(255,255,255,0.7); font-weight: 600; }
+    .tier-item.active {
+      padding-left: 12px;
+      border-left: 2px solid var(--gold);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+
+    /* Projection viz */
+    .proj-card {
+      background: rgba(0,0,0,0.22);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .proj-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 10px;
+    }
+    .proj-card-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .proj-bar-container {
+      display: flex;
+      gap: 4px;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 16px;
+    }
+    #vizUserBar {
+      background: linear-gradient(90deg, #0FA583, #2ED8AD);
+      border-radius: 5px 0 0 5px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #vizBonaBar {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 0 5px 5px 0;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .proj-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proj-legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+    .proj-legend-row .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .dot-teal { background: var(--teal-bright); }
+    .dot-gold { background: var(--gold-light); }
+    .proj-legend-row .val { font-weight: 700; }
+    .proj-legend-row .val.teal { color: var(--teal-bright); }
+    .proj-legend-row .val.gold { color: var(--gold-light); }
+    .proj-note {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      margin-top: 12px;
+    }
+
+    /* Settlement */
+    .settle-card {
+      padding: 20px 24px;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .settle-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .settle-row + .settle-row { border-top: 1px solid rgba(255,255,255,0.05); }
+    .settle-row span:last-child { color: rgba(255,255,255,0.65); font-weight: 600; }
+    .settle-row.total {
+      border-top: 1px solid rgba(255,255,255,0.1) !important;
+      padding-top: 12px;
+      margin-top: 6px;
+    }
+    .settle-row.total span { font-weight: 700; color: rgba(255,255,255,0.85); font-size: 14px; }
+    .settle-status {
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .settle-status.green { color: var(--teal-bright); }
+    .settle-status.amber { color: #FBBF24; }
+
+    /* ── VALUE PROPS ────────────────────────── */
+    .value-section {
+      padding: 80px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .value-card {
+      padding: 32px 28px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-100);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--gray-200);
+    }
+    .value-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .value-icon.teal { background: var(--teal-pale); color: var(--teal); }
+    .value-icon.gold { background: var(--gold-pale); color: var(--gold); }
+    .value-icon.navy { background: rgba(10,18,35,0.06); color: var(--navy); }
+    .value-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .value-card-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--gray-500);
+    }
+
+    /* ── FAQ ─────────────────────────────────── */
+    .faq-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .faq-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .faq-head h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .faq-head p {
+      font-size: 15px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    .faq-list { display: flex; flex-direction: column; gap: 4px; }
+    .faq-item { border-radius: var(--radius-sm); overflow: hidden; }
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+    .faq-btn:hover { background: var(--white); }
+    .faq-item.open .faq-btn { background: var(--white); border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+    .faq-q {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      flex: 1;
+    }
+    .faq-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.3s;
+    }
+    .faq-arrow svg { width: 14px; height: 14px; stroke: var(--gray-500); }
+    .faq-item.open .faq-arrow { background: var(--teal-pale); transform: rotate(180deg); }
+    .faq-item.open .faq-arrow svg { stroke: var(--teal); }
+    .faq-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
+    }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-answer > div { overflow: hidden; background: var(--white); border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+    .faq-body {
+      padding: 0 24px 20px;
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.75;
+    }
+    .faq-body strong { color: var(--navy); font-weight: 600; }
+    .faq-body ol, .faq-body ul {
+      margin-top: 10px;
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* ── FOOTER ─────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 48px 24px;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    footer p + p { margin-top: 6px; }
+    footer .footer-logo {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .fade-up.visible {
+      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .fade-up.d1.visible { animation-delay: 0.1s; }
+    .fade-up.d2.visible { animation-delay: 0.2s; }
+    .fade-up.d3.visible { animation-delay: 0.3s; }
+
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .hero { padding: 120px 20px 40px; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .steps::before { display: none; }
+      .step { text-align: left; display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 0; }
+      .step-num { margin: 0; }
+      .step-content {}
+      .input-row { grid-template-columns: 1fr; gap: 24px; }
+      .calc-inputs { padding: 28px 24px; }
+      .results-panel { padding: 28px 24px 36px; }
+      .result-hero { grid-template-columns: 1fr; gap: 16px; }
+      .compare-strip { grid-template-columns: 1fr; }
+      .share-grid { grid-template-columns: 1fr; }
+      .controls-row { flex-direction: column; gap: 20px; }
+      .field-input { font-size: 28px; }
+      .output-preview-value { font-size: 30px; }
+      .result-hero-amount { font-size: 36px; }
+      .value-grid { grid-template-columns: 1fr; }
+      .faq-section { padding: 56px 20px; }
+      .faq-head h2 { font-size: 28px; }
+      .pill-tabs { flex-wrap: wrap; }
+      .styled-select { min-width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .calc-section { padding: 0 16px 48px; }
+      .calc-inputs, .results-panel { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADER ──────────────────────────── -->
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-mark"></div>
+      BONASHIP
+    </a>
+    <nav>
+      <a href="#how-it-works">Ako to funguje</a>
+      <a href="#calculator">Kalkulačka</a>
+      <a href="docs/bonaship-faq.html">FAQ</a>
+    </nav>
+    <button class="btn-header" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">Vypočítať</button>
+  </header>
+
+  <!-- ─── HERO ────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge fade-up">
+        <span class="hero-badge-dot"></span>
+        Žiadne mesačné splátky
+      </div>
+      <h1 class="fade-up d1">Získajte hotovosť z&nbsp;vlastného bývania — <em>bez splácania</em></h1>
+      <p class="hero-sub fade-up d2">Bonaship vám vyplatí peniaze na účet <strong>hneď</strong>. Žiadne mesačné splátky, žiadne úroky. Vysporiadate až pri predaji alebo refinancovaní.</p>
+      <a href="#how-it-works" class="hero-scroll fade-up d3">
+        Ako to funguje
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ────────────────────── -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-eyebrow fade-up">Ako to funguje</div>
+    <h2 class="section-title fade-up d1">Tri jednoduché kroky</h2>
+    <div class="steps">
+      <div class="step fade-up d1">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Zadajte hodnotu nehnuteľnosti</div>
+          <div class="step-desc">Bonaship vám ponúkne sumu na základe odhadovanej trhovej hodnoty vášho bývania — zvyčajne 10%.</div>
+        </div>
+      </div>
+      <div class="step fade-up d2">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Dostanete peniaze na účet</div>
+          <div class="step-desc">Po odsúhlasení podmienok sa hotovosť priamo pripíše na váš bankový účet. Bez čakania, bez splátok.</div>
+        </div>
+      </div>
+      <div class="step fade-up d3">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Vysporiadajte, keď sa vám hodí</div>
+          <div class="step-desc">Pri predaji alebo refinancovaní zaplatíte dohodnutý podiel z hodnoty. Žiadne mesačné platby medzitým.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CALCULATOR ──────────────────────── -->
+  <section class="calc-section" id="calculator">
+    <div class="calc-container">
+      <div class="section-eyebrow fade-up">Kalkulačka</div>
+      <h2 class="section-title fade-up d1" style="margin-bottom:36px;">Koľko získate s&nbsp;Bonaship?</h2>
+
+      <div class="calc-card fade-up d2">
+        <!-- Inputs -->
+        <div class="calc-inputs">
+          <div class="input-row">
+            <div>
+              <div class="field-label">Odhadovaná hodnota nehnuteľnosti</div>
+              <div class="field-input-wrap">
+                <input type="text" id="propertyValue" class="field-input" placeholder="180 000" inputmode="numeric">
+                <span class="field-suffix">€</span>
+                <button type="button" class="field-clear" id="clearBtn" title="Vymazať">×</button>
+              </div>
+              <div class="field-hint">Pomáha odhadnúť prístup k&nbsp;financovaniu.</div>
+            </div>
+            <div class="output-preview">
+              <div class="output-preview-label">Typická suma Bonaship</div>
+              <div class="output-preview-value" id="bonaAmount">18 000 €</div>
+              <div class="output-preview-sub">10% z odhadovanej hodnoty vášho bývania</div>
+            </div>
+          </div>
+
+          <div class="controls-row">
+            <div class="control-group">
+              <label>Dĺžka investície</label>
+              <div class="pill-tabs">
+                <button class="pill-tab" data-years="3">3 roky</button>
+                <button class="pill-tab" data-years="5">5 rokov</button>
+                <button class="pill-tab" data-years="7">7 rokov</button>
+                <button class="pill-tab active" data-years="10">10 rokov</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <label>Očakávané zhodnotenie</label>
+              <select id="appreciationSelect" class="styled-select">
+                <option value="2">Konzervatívne +2% p.a.</option>
+                <option value="3.91" selected>Stredné +3,91% p.a.</option>
+                <option value="6">Optimistické +6% p.a.</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-panel">
+
+          <!-- Hero Result: 0 € monthly = biggest differentiator -->
+          <div class="r-label">Okamžitá hotovostná výhoda</div>
+          <div class="result-hero">
+            <div class="result-hero-main">
+              <div class="result-hero-title">Bývajte vo vlastnom ihneď, s 0 € mesačnou splátkou navyše.</div>
+              <div class="result-hero-amount result-hero-amount-gold" id="compSaved">25 068 €</div>
+              <div class="result-hero-desc">S Bonaship si necháte túto sumu v kapse počas celého obdobia namiesto mesačných splátok úveru. <strong>To je najväčší rozdiel oproti spotrebnému úveru.</strong></div>
+              <div class="result-hero-sub">
+                Získate <strong id="bonaAmountReceived">18 000 €</strong> od Bonaship na váš účet. Jednorazový poplatok 5% (<span id="upfrontFeeDisplay">900</span> €) platíte zvlášť v hotovosti.
+              </div>
+            </div>
+            <div class="result-hero-badge">
+              <div class="result-hero-badge-zero">0 €</div>
+              <div class="result-hero-badge-text">mesačná<br>splátka</div>
+            </div>
+          </div>
+
+          <!-- Comparison -->
+          <div class="compare-strip">
+            <div class="compare-card">
+              <div class="compare-card-label">Spotrebný úver</div>
+              <div class="compare-card-value" id="compMonthly">~206 €</div>
+              <div class="compare-card-sub">mesačná splátka počas <span id="compYears">10</span> rokov</div>
+            </div>
+            <div class="compare-card highlight">
+              <div class="compare-card-label">Bonaship</div>
+              <div class="compare-card-value">0 €</div>
+              <div class="compare-card-sub">mesačná splátka — vždy</div>
+            </div>
+          </div>
+          <div class="compare-savings">
+            Pri spotrebnom úvere na <strong id="compBonaAmt">18 000 €</strong> by ste platili <strong id="compMonthlyAlt">~206 €</strong>/mesiac. S Bonaship platíte <strong>0 €</strong> — celých <strong id="compSavedAlt">25 068 €</strong> si necháte v kapse.
+          </div>
+
+          <div class="r-divider"></div>
+
+          <!-- Share Tiers + Projection -->
+          <div class="r-label">Podiel z hodnoty nehnuteľnosti</div>
+          <div class="share-grid">
+            <div class="tier-list">
+              <div class="tier-item" data-tier="1">
+                <span class="tier-pct">15%</span>
+                <span class="tier-text">ak vysporiadate za 0–3 roky</span>
+              </div>
+              <div class="tier-item" data-tier="2">
+                <span class="tier-pct">17,5%</span>
+                <span class="tier-text">ak vysporiadate za 4–6 rokov</span>
+              </div>
+              <div class="tier-item active" data-tier="3">
+                <span class="tier-pct">20%</span>
+                <span class="tier-text">ak vysporiadate za 7–10 rokov</span>
+              </div>
+              <div class="tier-item" data-tier="down">
+                <span class="tier-pct">15%</span>
+                <span class="tier-text">pri poklese hodnoty (min. podiel)</span>
+              </div>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-card-label">Projekcia hodnoty</div>
+              <div class="proj-card-value" id="futureValDisplay">263 893 €</div>
+              <div class="proj-bar-container">
+                <div id="vizUserBar" style="width:80%"></div>
+                <div id="vizBonaBar" style="width:20%"></div>
+              </div>
+              <div class="proj-legend">
+                <div class="proj-legend-row">
+                  <span><span class="dot dot-teal"></span>Váš podiel</span>
+                  <span class="val teal" id="vizUserAmount">211 114 €</span>
+                  <span id="vizUserPct">80%</span>
+                </div>
+                <div class="proj-legend-row">
+                  <span><span class="dot dot-gold"></span>Bonaship</span>
+                  <span class="val gold" id="vizBonaAmount">52 779 €</span>
+                  <span id="vizBonaPct">20%</span>
+                </div>
+              </div>
+              <div class="proj-note">*Pri raste <span id="apprDisplay">3,9</span>% p.a. Podiel závisí od dĺžky obdobia.</div>
+            </div>
+          </div>
+
+          <div class="r-divider"></div>
+
+          <!-- Settlement -->
+          <div class="r-label">Vysporiadanie refinancovaním</div>
+          <div class="settle-card">
+            <div class="settle-row">
+              <span>Nová hypotéka (80% LTV)</span>
+              <span id="refNewMortgage">211 114 €</span>
+            </div>
+            <div class="settle-row">
+              <span>− Zostatok hypotéky</span>
+              <span id="refMortgageBalance">107 373 €</span>
+            </div>
+            <div class="settle-row">
+              <span>= Hotovosť na vyplatenie</span>
+              <span id="refCashExtracted">103 741 €</span>
+            </div>
+            <div class="settle-row">
+              <span>− Podiel Bonaship</span>
+              <span id="refBonashipPayout">52 779 €</span>
+            </div>
+            <div class="settle-row total">
+              <span>Zostatok po vysporiadaní</span>
+              <span id="refRemainder">50 962 €</span>
+            </div>
+            <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VALUE PROPS ─────────────────────── -->
+  <section class="value-section">
+    <div class="section-eyebrow fade-up">Prečo Bonaship</div>
+    <h2 class="section-title fade-up d1">Peniaze k dispozícii, keď ich potrebujete</h2>
+    <div class="value-grid">
+      <div class="value-card fade-up d1">
+        <div class="value-icon teal">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="value-card-title">Žiadne mesačné splátky</div>
+        <div class="value-card-desc">Na rozdiel od úveru alebo hypotéky, s Bonaship neplatíte žiadne mesačné splátky. Peniaze si jednoducho necháte.</div>
+      </div>
+      <div class="value-card fade-up d2">
+        <div class="value-icon gold">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="value-card-title">Vysporiadanie podľa vás</div>
+        <div class="value-card-desc">Vysporiadajte kedykoľvek počas dohodnutého obdobia — pri predaji nehnuteľnosti alebo refinancovaní hypotéky.</div>
+      </div>
+      <div class="value-card fade-up d3">
+        <div class="value-icon navy">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="13" width="6" height="8" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div class="value-card-title">Bývanie ostáva vaše</div>
+        <div class="value-card-desc">Zostávate vlastníkom nehnuteľnosti. Bonaship investuje do hodnoty vášho bývania, nie do vášho života.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ───────────────────────────────── -->
+  <section class="faq-section">
+    <div class="faq-head">
+      <h2>Často kladené otázky</h2>
+      <p>Všetko, čo potrebujete vedieť o spolufinancovaní s Bonaship.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Čo presne Bonaship robí?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body">Bonaship vám dá <strong>hotovosť na akontáciu</strong> — výmenou za podiel na budúcej predajnej cene. Nie je to úver. Neplatíte mesačné splátky. Neobjavíte sa v úverovom registri. Vysporiadanie nastáva pri <strong>refinancovaní hypotéky</strong>, <strong>vyplatení z vlastných úspor</strong> alebo <strong>predaji nehnuteľnosti</strong>.</div></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Aký je rozdiel medzi Bonaship a hypotékou?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body"><strong>Bonaship:</strong> Žiadne mesačné splátky (až 10 rokov). Žiadne požiadavky na príjem. Žiadny záznam v registri. Splácate percento z predajnej ceny.<br><br><strong>Hypotéka / spotrebný úver:</strong> Mesačné splátky. Záznam v registri. Zvyšuje DTI — môže znížiť sumu hypotéky. S Bonaship platíte iba hypotéku, nič navyše.</div></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Má Bonaship právo rozhodovať o mojom byte?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body"><strong>Nie.</strong> Investor nemôže donútiť vás predať, vstúpiť do bytu, rozhodovať o rekonštrukciách alebo prenájme. Ste 100% na liste vlastníctva. Bonaship má len zmluvné právo na podiel pri vysporiadaní.</div></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Aké mám možnosti vysporiadania s Bonaship?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body">Máte tri možnosti:<ol><li><strong>Refinancovanie hypotéky</strong> — navýšite hypotéku, banka vyplatí Bonaship priamo.</li><li><strong>Vyplatenie z vlastných úspor</strong> — kedykoľvek, bez poplatkov za predčasné ukončenie.</li><li><strong>Predaj nehnuteľnosti</strong> — z výnosu predaja sa podiel automaticky odpočíta.</li></ol></div></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Ako dlho mám na vysporiadanie a môžem predať skôr?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body">Máte na to do 10 rokov. Môžete sa vysporiadať kedykoľvek skôr — <strong>bez pokuty za predčasné ukončenie.</strong> Čím skôr sa vysporiadate, tým nižší je podiel Bonaship (napr. 15% pri exite do 3 rokov).</div></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Čo ak hodnota nehnuteľnosti klesne?</span>
+          <div class="faq-arrow">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </button>
+        <div class="faq-answer">
+          <div><div class="faq-body">Zaplatíte percento z aktuálnej hodnoty — takže menej. Bonaship zdieľa riziko s vami. Na rozdiel od úveru, kde platíte fixnú sumu bez ohľadu na trhovú hodnotu bytu.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ──────────────────────────── -->
+  <footer>
+    <div class="footer-logo">BONASHIP</div>
+    <p>© 2026 BONASHIP Financial. Všetky práva vyhradené.</p>
+    <p style="margin-top:10px;max-width:600px;margin-inline:auto;">Kalkulačka slúži na orientačný odhad. Skutočné podmienky závisia od individuálneho posúdenia.</p>
+  </footer>
+
+  <script>
+    /* ── CONFIG ── */
+    const CONFIG = {
+      upfrontFee: 0.05,
+      maxFee: 20000,
+      bonaSharePct: 0.10,
+      maxLTV: 0.80,
+      mortgageRate: 0.025,
+      mortgageYears: 30,
+      consumerLoanRate: 0.0699
+    };
+
+    /* ── HELPERS ── */
+    function fmt(n) {
+      return Math.round(n).toLocaleString('sk-SK');
+    }
+    function monthlyPayment(principal, annualRate, years) {
+      const r = annualRate / 12;
+      const n = years * 12;
+      if (r === 0 || principal <= 0) return 0;
+      return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+    function remainingBalance(principal, annualRate, totalYears, elapsedYears) {
+      const r = annualRate / 12;
+      const n = totalYears * 12;
+      const p = elapsedYears * 12;
+      const mp = monthlyPayment(principal, annualRate, totalYears);
+      return principal * Math.pow(1 + r, p) - mp * (Math.pow(1 + r, p) - 1) / r;
+    }
+    function getEquityShare(years) {
+      if (years <= 3) return 0.15;
+      if (years <= 6) return 0.175;
+      return 0.20;
+    }
+    function getActiveTier(years) {
+      if (years <= 3) return 1;
+      if (years <= 6) return 2;
+      return 3;
+    }
+    function parseValue(str) {
+      const cleaned = String(str).replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? 180000 : Math.max(50000, Math.min(2000000, num));
+    }
+    function formatInput(val) {
+      return Math.round(val).toLocaleString('sk-SK');
+    }
+
+    /* ── CALCULATE ── */
+    function calculate() {
+      const valInput = document.getElementById('propertyValue');
+      const homeVal = parseValue(valInput.value) || 180000;
+
+      const activeTab = document.querySelector('.pill-tab.active');
+      const years = parseInt(activeTab?.dataset.years) || 10;
+
+      const apprSelect = document.getElementById('appreciationSelect');
+      const appreciation = parseFloat(apprSelect.value) / 100;
+
+      const bonaAmt = Math.round(homeVal * CONFIG.bonaSharePct);
+      const savings = bonaAmt;
+      const upfrontFee = Math.min(bonaAmt * CONFIG.upfrontFee, CONFIG.maxFee);
+      const cashReceived = bonaAmt - upfrontFee;
+      const mortgageAmt = Math.max(0, homeVal - savings - bonaAmt);
+      const futureVal = homeVal * Math.pow(1 + appreciation, years);
+      const equityShare = getEquityShare(years);
+      const investorPayout = futureVal * equityShare;
+      const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, CONFIG.mortgageRate, CONFIG.mortgageYears, years) : 0;
+      const newMaxMortgage = futureVal * CONFIG.maxLTV;
+      const cashExtracted = newMaxMortgage - mortgageBalance;
+      const refRemainder = cashExtracted - investorPayout;
+      const refCoversBonaship = cashExtracted >= investorPayout;
+
+      const compLoanMonthly = monthlyPayment(bonaAmt, CONFIG.consumerLoanRate, years);
+      const totalSaved = compLoanMonthly * 12 * years;
+
+      const userShareVal = futureVal - investorPayout;
+      const userSharePct = ((futureVal - investorPayout) / futureVal) * 100;
+      const bonaSharePct = (investorPayout / futureVal) * 100;
+
+      // Update DOM
+      document.getElementById('bonaAmount').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('futureValDisplay').textContent = fmt(futureVal) + ' €';
+
+      document.getElementById('bonaAmountReceived').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('upfrontFeeDisplay').textContent = fmt(upfrontFee);
+
+      document.getElementById('vizUserBar').style.width = userSharePct + '%';
+      document.getElementById('vizBonaBar').style.width = bonaSharePct + '%';
+      document.getElementById('vizUserAmount').textContent = fmt(userShareVal) + ' €';
+      document.getElementById('vizUserPct').textContent = userSharePct.toFixed(1) + '%';
+      document.getElementById('vizBonaAmount').textContent = fmt(investorPayout) + ' €';
+      document.getElementById('vizBonaPct').textContent = bonaSharePct.toFixed(1) + '%';
+
+      document.getElementById('apprDisplay').textContent = parseFloat(apprSelect.value).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+      document.getElementById('compYears').textContent = years;
+      document.getElementById('compMonthly').textContent = '~' + fmt(compLoanMonthly) + ' €';
+      document.getElementById('compMonthlyAlt').textContent = '~' + fmt(compLoanMonthly) + ' €';
+      document.getElementById('compBonaAmt').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('compSaved').textContent = fmt(totalSaved) + ' €';
+      document.getElementById('compSavedAlt').textContent = fmt(totalSaved) + ' €';
+
+      document.getElementById('refNewMortgage').textContent = fmt(newMaxMortgage) + ' €';
+      document.getElementById('refMortgageBalance').textContent = fmt(mortgageBalance) + ' €';
+      document.getElementById('refCashExtracted').textContent = fmt(Math.max(0, cashExtracted)) + ' €';
+      document.getElementById('refBonashipPayout').textContent = fmt(investorPayout) + ' €';
+      document.getElementById('refRemainder').textContent = fmt(refRemainder) + ' €';
+      document.getElementById('refRemainder').style.color = refRemainder >= 0 ? '#2ED8AD' : '#F87171';
+
+      const refLabel = document.getElementById('refCoversLabel');
+      refLabel.textContent = refCoversBonaship ? '✓ Refinancovanie pokryje celý podiel Bonaship' : '⚠ Rozdiel: ' + fmt(Math.abs(refRemainder)) + ' €';
+      refLabel.className = 'settle-status ' + (refCoversBonaship ? 'green' : 'amber');
+
+      const tier = getActiveTier(years);
+      document.querySelectorAll('.tier-item').forEach(el => {
+        el.classList.toggle('active', parseInt(el.dataset.tier) === tier);
+      });
+    }
+
+    /* ── EVENT LISTENERS ── */
+    document.getElementById('propertyValue').addEventListener('input', calculate);
+    document.getElementById('propertyValue').addEventListener('blur', function() {
+      const val = parseValue(this.value);
+      this.value = formatInput(val);
+    });
+    document.getElementById('clearBtn').addEventListener('click', function() {
+      document.getElementById('propertyValue').value = '';
+      document.getElementById('propertyValue').focus();
+      calculate();
+    });
+    document.getElementById('appreciationSelect').addEventListener('change', calculate);
+
+    document.querySelectorAll('.pill-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        calculate();
+      });
+    });
+
+    /* ── SCROLL ANIMATIONS ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger above-fold elements immediately
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
+    });
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+
+    /* ── INIT ── */
+    document.getElementById('propertyValue').value = '180 000';
+    calculate();
+  </script>
+</body>
+</html>
