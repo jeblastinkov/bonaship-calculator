@@ -1687,8 +1687,8 @@
       const savingsInput = document.getElementById('savings');
       const appreciationInput = document.getElementById('appreciationRate');
 
-      const homeVal = parseInt(priceInput.value) || 180000;
-      let savings = parseInt(savingsInput.value) || 0;
+      const homeVal = parseFloat(priceInput.value) || 180000;
+      let savings = parseFloat(savingsInput.value) || 0;
       const apprRaw = parseFloat(appreciationInput?.value);
       const appreciation = (isNaN(apprRaw) ? 3.91 : apprRaw) / 100;
 
