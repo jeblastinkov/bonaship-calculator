@@ -1116,10 +1116,6 @@
                 <span class="own-tab-own">10%</span>
                 <span class="own-tab-bona">Bonaship 10%</span>
               </button>
-              <button class="own-tab" data-own="0.15">
-                <span class="own-tab-own">15%</span>
-                <span class="own-tab-bona">Bonaship 5%</span>
-              </button>
             </div>
           </div>
 
@@ -1183,21 +1179,21 @@
           <div class="r-label">Podiel z hodnoty nehnuteľnosti</div>
           <div class="share-grid">
             <div class="tier-list">
-              <div class="tier-item" data-tier="1">
-                <span class="tier-pct">15%</span>
-                <span class="tier-text">ak vysporiadate za 0–3 roky</span>
+              <div class="tier-item" data-year="3">
+                <span class="tier-pct">10,5%</span>
+                <span class="tier-text">vyplatenie za 3 roky</span>
               </div>
-              <div class="tier-item" data-tier="2">
+              <div class="tier-item" data-year="5">
+                <span class="tier-pct">15,0%</span>
+                <span class="tier-text">vyplatenie za 5 rokov</span>
+              </div>
+              <div class="tier-item" data-year="7">
                 <span class="tier-pct">17,5%</span>
-                <span class="tier-text">ak vysporiadate za 4–6 rokov</span>
+                <span class="tier-text">vyplatenie za 7 rokov</span>
               </div>
-              <div class="tier-item active" data-tier="3">
-                <span class="tier-pct">20%</span>
-                <span class="tier-text">ak vysporiadate za 7–10 rokov</span>
-              </div>
-              <div class="tier-item" data-tier="down">
-                <span class="tier-pct">15%</span>
-                <span class="tier-text">pri poklese hodnoty (min. podiel)</span>
+              <div class="tier-item active" data-year="10">
+                <span class="tier-pct">23,5%</span>
+                <span class="tier-text">vyplatenie za 10 rokov</span>
               </div>
             </div>
 
@@ -1376,7 +1372,6 @@
       <span style="font-size:11px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;">Kalkulačky:</span>
       <a href="index.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">← Pre obchodníkov</a>
       <span style="font-size:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:20px;font-weight:600;">Pre zákazníkov</span>
-      <a href="index3.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">Pre zákazníkov dynamic (alt2) →</a>
     </div>
   </footer>
 
@@ -1409,15 +1404,25 @@
       const mp = monthlyPayment(principal, annualRate, totalYears);
       return principal * Math.pow(1 + r, p) - mp * (Math.pow(1 + r, p) - 1) / r;
     }
-    function getEquityShare(years) {
-      if (years <= 3) return 0.15;
-      if (years <= 6) return 0.175;
-      return 0.20;
+    const SHARE_MATRIX = {
+      10:   { 3: 0.105, 4: 0.13,  5: 0.15,  6: 0.165, 7: 0.175, 8: 0.195, 9: 0.215, 10: 0.235, 15: 0.315 },
+      12.5: { 3: 0.13,  4: 0.15,  5: 0.17,  6: 0.185, 7: 0.19,  8: 0.215, 9: 0.235, 10: 0.255, 15: 0.34 },
+      15:   { 3: 0.15,  4: 0.175, 5: 0.19,  6: 0.205, 7: 0.21,  8: 0.235, 9: 0.255, 10: 0.275, 15: 0.36 },
+      17.5: { 3: 0.175, 4: 0.195, 5: 0.215, 6: 0.225, 7: 0.23,  8: 0.255, 9: 0.275, 10: 0.295, 15: 0.385 },
+      20:   { 3: 0.2,   4: 0.22,  5: 0.235, 6: 0.245, 7: 0.255, 8: 0.275, 9: 0.295, 10: 0.315, 15: 0.405 },
+      22.5: { 3: 0.225, 4: 0.245, 5: 0.26,  6: 0.27,  7: 0.275, 8: 0.3,   9: 0.32,  10: 0.34,  15: 0.43 },
+      25:   { 3: 0.255, 4: 0.27,  5: 0.285, 6: 0.295, 7: 0.3,   8: 0.32,  9: 0.345, 10: 0.365, 15: 0.45 }
+    };
+    function normalizePct(pct) {
+      return Math.round(pct * 10) / 10;
     }
-    function getActiveTier(years) {
-      if (years <= 3) return 1;
-      if (years <= 6) return 2;
-      return 3;
+    function getMatrixShare(downpaymentPct, years) {
+      const row = SHARE_MATRIX[normalizePct(downpaymentPct)];
+      if (!row) return 0;
+      return row[years] ?? 0;
+    }
+    function formatPct(pct) {
+      return (pct * 100).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
     }
     function parseValue(str) {
       const cleaned = String(str).replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
@@ -1442,13 +1447,14 @@
       const activeOwnTab = document.querySelector('.own-tab.active');
       const customerPct = parseFloat(activeOwnTab?.dataset.own) || 0.10;
       const bonaPct = 0.20 - customerPct;
+      const bonashipDownpaymentPct = bonaPct * 100;
       const savings = Math.round(homeVal * customerPct);
       const bonaAmt = Math.round(homeVal * bonaPct);
       const upfrontFee = Math.min(bonaAmt * CONFIG.upfrontFee, CONFIG.maxFee);
       const cashReceived = bonaAmt - upfrontFee;
       const mortgageAmt = Math.max(0, homeVal - savings - bonaAmt);
       const futureVal = homeVal * Math.pow(1 + appreciation, years);
-      const equityShare = getEquityShare(years);
+      const equityShare = getMatrixShare(bonashipDownpaymentPct, years);
       const investorPayout = futureVal * equityShare;
       const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, CONFIG.mortgageRate, CONFIG.mortgageYears, years) : 0;
       const newMaxMortgage = futureVal * CONFIG.maxLTV;
@@ -1496,9 +1502,14 @@
       refLabel.textContent = refCoversBonaship ? '✓ Refinancovanie pokryje celý podiel Bonaship' : '⚠ Rozdiel: ' + fmt(Math.abs(refRemainder)) + ' €';
       refLabel.className = 'settle-status ' + (refCoversBonaship ? 'green' : 'amber');
 
-      const tier = getActiveTier(years);
-      document.querySelectorAll('.tier-item').forEach(el => {
-        el.classList.toggle('active', parseInt(el.dataset.tier) === tier);
+      document.querySelectorAll('.tier-item[data-year]').forEach(el => {
+        const tierYear = parseInt(el.dataset.year, 10);
+        const tierShare = getMatrixShare(bonashipDownpaymentPct, tierYear);
+        const pctNode = el.querySelector('.tier-pct');
+        const textNode = el.querySelector('.tier-text');
+        if (pctNode) pctNode.textContent = formatPct(tierShare);
+        if (textNode) textNode.textContent = 'vyplatenie za ' + tierYear + ' ' + (tierYear === 1 ? 'rok' : (tierYear >= 2 && tierYear <= 4 ? 'roky' : 'rokov'));
+        el.classList.toggle('active', tierYear === years);
       });
     }
 
