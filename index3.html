@@ -408,6 +408,20 @@
       align-items: flex-start;
       flex-wrap: wrap;
     }
+    .primary-controls-grid {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px 24px;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .primary-controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     .control-group {
       display: flex;
       flex-direction: column;
@@ -446,6 +460,130 @@
       color: var(--teal);
       font-weight: 600;
     }
+    /* Mortgage advanced (collapsed disclosure) */
+    .mortgage-advanced {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .mortgage-advanced > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      user-select: none;
+      transition: color 0.2s;
+    }
+    .mortgage-advanced > summary::-webkit-details-marker { display: none; }
+    .mortgage-advanced > summary::marker { content: ''; }
+    .mortgage-advanced > summary:hover { color: var(--gray-500); }
+    .mortgage-advanced[open] > summary { color: var(--gray-500); margin-bottom: 10px; }
+    .mortgage-advanced-chev {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .mortgage-advanced[open] .mortgage-advanced-chev {
+      transform: rotate(180deg);
+      background: var(--teal-pale);
+      border-color: rgba(15,165,131,0.2);
+    }
+    .mortgage-advanced-chev svg {
+      width: 10px; height: 10px;
+      color: var(--gray-500);
+    }
+    .advanced-sections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 10px;
+    }
+    .advanced-section.hypoteka { grid-column: 1 / -1; }
+    .advanced-section {
+      background: transparent;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .advanced-section-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 7px;
+    }
+    .advanced-section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px 10px;
+      align-items: end;
+    }
+    .advanced-section-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 960px) {
+      .advanced-sections { grid-template-columns: 1fr; }
+      .advanced-section.hypoteka { grid-column: auto; }
+      .advanced-section-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .advanced-section-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .advanced-section-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    .mortgage-field label {
+      display: block;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .mortgage-field input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--navy);
+      padding: 8px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .mortgage-field input:focus {
+      border-color: var(--teal);
+      background: var(--white);
+    }
+    .mortgage-field .styled-select {
+      width: 100%;
+      min-width: 0;
+      background-color: var(--white);
+      padding: 8px 30px 8px 10px;
+      font-size: 14px;
+      background-position: right 10px center;
+    }
+    .mortgage-advanced-hint {
+      font-size: 10px;
+      line-height: 1.45;
+      color: var(--gray-400);
+      margin-top: 6px;
+    }
+    .mortgage-advanced-hint strong {
+      color: var(--gray-600);
+      font-weight: 600;
+    }
+
     .styled-select {
       padding: 10px 18px;
       min-width: 230px;
@@ -514,7 +652,6 @@
       align-items: start;
       margin-bottom: 8px;
     }
-    .result-hero-main {}
     .result-hero-title {
       font-size: 11px;
       font-weight: 700;
@@ -574,7 +711,7 @@
     /* Comparison strip */
     .compare-strip {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 16px;
       margin-top: 20px;
     }
@@ -771,9 +908,9 @@
 
     /* Own contribution selector */
     .own-contrib-row {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray-100);
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
     }
     .own-contrib-label {
       font-size: 12px;
@@ -1105,39 +1242,80 @@
             </div>
           </div>
 
-          <div class="own-contrib-row">
-            <div class="own-contrib-label">Vaše vlastné zdroje</div>
-            <div class="own-tabs">
-              <button class="own-tab" data-own="0.05">
-                <span class="own-tab-own">5%</span>
-                <span class="own-tab-bona">Bonaship 15%</span>
-              </button>
-              <button class="own-tab active" data-own="0.10">
-                <span class="own-tab-own">10%</span>
-                <span class="own-tab-bona">Bonaship 10%</span>
-              </button>
+          <div class="primary-controls-grid">
+            <div class="own-contrib-row">
+              <div class="own-contrib-label">Vaše vlastné zdroje</div>
+              <div class="own-tabs" id="ownTabs"></div>
+            </div>
+
+            <div class="controls-row">
+              <div class="control-group">
+                <label>Dĺžka investície</label>
+                <div class="pill-tabs">
+                  <button class="pill-tab" data-years="3">3 roky</button>
+                  <button class="pill-tab" data-years="5">5 rokov</button>
+                  <button class="pill-tab" data-years="7">7 rokov</button>
+                  <button class="pill-tab active" data-years="10">10 rokov</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="controls-row">
-            <div class="control-group">
-              <label>Dĺžka investície</label>
-              <div class="pill-tabs">
-                <button class="pill-tab" data-years="3">3 roky</button>
-                <button class="pill-tab" data-years="5">5 rokov</button>
-                <button class="pill-tab" data-years="7">7 rokov</button>
-                <button class="pill-tab active" data-years="10">10 rokov</button>
+          <details class="mortgage-advanced" id="mortgageAdvanced">
+            <summary>
+              <span class="mortgage-advanced-chev" aria-hidden="true">
+                <svg fill="none" viewBox="0 0 12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5l5 5 5-5"/></svg>
+              </span>
+              Nastavenia hypotéky a porovnania (voliteľné)
+            </summary>
+            <div class="advanced-sections">
+              <div class="advanced-section">
+                <div class="advanced-section-title">Spotrebný úver</div>
+                <div class="advanced-section-grid cols-1">
+                  <div class="mortgage-field">
+                    <label for="consumerLoanRatePct">Sadzba spotrebného úveru (%)</label>
+                    <input type="text" id="consumerLoanRatePct" value="8" inputmode="decimal" placeholder="8" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver“">
+                  </div>
+                </div>
+              </div>
+
+              <div class="advanced-section">
+                <div class="advanced-section-title">Nárast hodnoty nehnuteľnosti</div>
+                <div class="advanced-section-grid cols-1">
+                  <div class="mortgage-field">
+                    <label for="appreciationSelect">Ročné očakávané zhodnotenie (%)</label>
+                    <select id="appreciationSelect" class="styled-select">
+                      <option value="2">Konzervatívne +2% p.a.</option>
+                      <option value="3.91" selected>Stredné +3,91% p.a.</option>
+                      <option value="6">Optimistické +6% p.a.</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="advanced-section hypoteka">
+                <div class="advanced-section-title">Hypotéka</div>
+                <div class="advanced-section-grid">
+                  <div class="mortgage-field">
+                    <label for="mortgageTermYears">Dĺžka hypotéky (roky)</label>
+                    <input type="number" id="mortgageTermYears" min="5" max="40" step="1" value="30" inputmode="numeric" aria-describedby="mortgageHint">
+                  </div>
+                  <div class="mortgage-field">
+                    <label for="mortgageLtvPct">Max. LTV banky (%)</label>
+                    <input type="number" id="mortgageLtvPct" min="70" max="95" step="1" value="80" inputmode="numeric" title="Percento hodnoty nehnuteľnosti, ktoré banka môže financovať">
+                  </div>
+                  <div class="mortgage-field">
+                    <label for="mortgageRatePct">Úrok hypotéky p.a. (%)</label>
+                    <input type="text" id="mortgageRatePct" value="2,5" inputmode="decimal" placeholder="2,5" title="Nom. ročná úroková sadzba (anuitná splácanie)">
+                  </div>
+                </div>
+                <p class="mortgage-advanced-hint" id="mortgageHint">
+                  Zostatok hypotéky sa počíta ako zostatok istiny pri <strong>rovnakých mesačných splátkach</strong> (štandardná anuita).
+                  Orientačná splátka pri aktuálnej istine: <strong id="mortgageMonthlyDisplay">—</strong>.
+                </p>
               </div>
             </div>
-            <div class="control-group">
-              <label>Očakávané zhodnotenie</label>
-              <select id="appreciationSelect" class="styled-select">
-                <option value="2">Konzervatívne +2% p.a.</option>
-                <option value="3.91" selected>Stredné +3,91% p.a.</option>
-                <option value="6">Optimistické +6% p.a.</option>
-              </select>
-            </div>
-          </div>
+          </details>
         </div>
 
         <!-- Results -->
@@ -1164,12 +1342,7 @@
             <div class="compare-card">
               <div class="compare-card-label">Spotrebný úver</div>
               <div class="compare-card-value" id="compMonthly">~206 €</div>
-              <div class="compare-card-sub">mesačná splátka počas <span id="compYears">10</span> rokov</div>
-            </div>
-            <div class="compare-card highlight">
-              <div class="compare-card-label">Bonaship</div>
-              <div class="compare-card-value">0 €</div>
-              <div class="compare-card-sub">mesačná splátka — vždy</div>
+              <div class="compare-card-sub">mesačná splátka pri <span id="compRateDisplay">8</span>&nbsp;% p.a. · <span id="compYears">10</span> rokov</div>
             </div>
           </div>
 
@@ -1226,7 +1399,7 @@
           <div class="r-label">Vysporiadanie refinancovaním</div>
           <div class="settle-card">
             <div class="settle-row">
-              <span>Nová hypotéka (80% LTV)</span>
+              <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
               <span id="refNewMortgage">211 114 €</span>
             </div>
             <div class="settle-row">
@@ -1384,8 +1557,13 @@
       maxLTV: 0.80,
       mortgageRate: 0.025,
       mortgageYears: 30,
-      consumerLoanRate: 0.0699
+      consumerLoanRate: 0.08
     };
+    const OWN_OPTIONS_PCT = [0.05, 0.10, 0.15];
+    const MIN_OWN_PCT = 0.05;
+    const MAX_BONASHIP_PCT = 0.25;
+    const PCT_EPS = 1e-6;
+    let selectedOwnPct = 0.10;
 
     /* ── HELPERS ── */
     function fmt(n) {
@@ -1394,30 +1572,60 @@
     function monthlyPayment(principal, annualRate, years) {
       const r = annualRate / 12;
       const n = years * 12;
-      if (r === 0 || principal <= 0) return 0;
+      if (principal <= 0 || years <= 0) return 0;
+      if (r === 0) return principal / n;
       return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     }
     function remainingBalance(principal, annualRate, totalYears, elapsedYears) {
+      if (principal <= 0 || totalYears <= 0) return 0;
       const r = annualRate / 12;
-      const n = totalYears * 12;
-      const p = elapsedYears * 12;
+      const n = Math.round(totalYears * 12);
+      const p = Math.min(Math.round(elapsedYears * 12), n);
+      if (r === 0) return principal * (1 - p / n);
       const mp = monthlyPayment(principal, annualRate, totalYears);
       return principal * Math.pow(1 + r, p) - mp * (Math.pow(1 + r, p) - 1) / r;
     }
+    function parsePercentInput(str, fallback) {
+      const cleaned = String(str ?? '').replace(/\s/g, '').replace(',', '.');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? fallback : num;
+    }
+    function readMortgageSettings() {
+      const termRaw = parseInt(document.getElementById('mortgageTermYears')?.value, 10);
+      const termYears = Math.max(5, Math.min(40, isNaN(termRaw) ? CONFIG.mortgageYears : termRaw));
+      const ltvPct = parsePercentInput(document.getElementById('mortgageLtvPct')?.value, CONFIG.maxLTV * 100);
+      const maxLTV = Math.max(0.7, Math.min(0.95, ltvPct / 100));
+      const ratePct = parsePercentInput(document.getElementById('mortgageRatePct')?.value, CONFIG.mortgageRate * 100);
+      const annualRate = Math.max(0, Math.min(0.20, ratePct / 100));
+      return { termYears, maxLTV, annualRate };
+    }
+    function readConsumerLoanRate() {
+      const ratePct = parsePercentInput(document.getElementById('consumerLoanRatePct')?.value, CONFIG.consumerLoanRate * 100);
+      return Math.max(0, Math.min(25, ratePct)) / 100;
+    }
     const SHARE_MATRIX = {
-      10:   { 3: 0.105, 4: 0.13,  5: 0.15,  6: 0.165, 7: 0.175, 8: 0.195, 9: 0.215, 10: 0.235, 15: 0.315 },
-      12.5: { 3: 0.13,  4: 0.15,  5: 0.17,  6: 0.185, 7: 0.19,  8: 0.215, 9: 0.235, 10: 0.255, 15: 0.34 },
-      15:   { 3: 0.15,  4: 0.175, 5: 0.19,  6: 0.205, 7: 0.21,  8: 0.235, 9: 0.255, 10: 0.275, 15: 0.36 },
-      17.5: { 3: 0.175, 4: 0.195, 5: 0.215, 6: 0.225, 7: 0.23,  8: 0.255, 9: 0.275, 10: 0.295, 15: 0.385 },
-      20:   { 3: 0.2,   4: 0.22,  5: 0.235, 6: 0.245, 7: 0.255, 8: 0.275, 9: 0.295, 10: 0.315, 15: 0.405 },
-      22.5: { 3: 0.225, 4: 0.245, 5: 0.26,  6: 0.27,  7: 0.275, 8: 0.3,   9: 0.32,  10: 0.34,  15: 0.43 },
-      25:   { 3: 0.255, 4: 0.27,  5: 0.285, 6: 0.295, 7: 0.3,   8: 0.32,  9: 0.345, 10: 0.365, 15: 0.45 }
+      10:   { 3: 0.125, 4: 0.16,  5: 0.185, 6: 0.165, 7: 0.175, 8: 0.21,  9: 0.23,  10: 0.255, 15: 0.345 },
+      12.5: { 3: 0.15,  4: 0.18,  5: 0.205, 6: 0.18,  7: 0.19,  8: 0.23,  9: 0.25,  10: 0.27,  15: 0.365 },
+      15:   { 3: 0.175, 4: 0.205, 5: 0.225, 6: 0.2,   7: 0.21,  8: 0.25,  9: 0.27,  10: 0.29,  15: 0.385 },
+      17.5: { 3: 0.2,   4: 0.23,  5: 0.25,  6: 0.22,  7: 0.225, 8: 0.265, 9: 0.29,  10: 0.31,  15: 0.405 },
+      20:   { 3: 0.23,  4: 0.255, 5: 0.275, 6: 0.24,  7: 0.245, 8: 0.29,  9: 0.31,  10: 0.33,  15: 0.425 },
+      22.5: { 3: 0.255, 4: 0.28,  5: 0.3,   6: 0.26,  7: 0.265, 8: 0.31,  9: 0.33,  10: 0.35,  15: 0.445 },
+      25:   { 3: 0.285, 4: 0.305, 5: 0.325, 6: 0.285, 7: 0.29,  8: 0.33,  9: 0.35,  10: 0.375, 15: 0.465 }
     };
     function normalizePct(pct) {
       return Math.round(pct * 10) / 10;
     }
     function getMatrixShare(downpaymentPct, years) {
-      const row = SHARE_MATRIX[normalizePct(downpaymentPct)];
+      const normalized = normalizePct(downpaymentPct);
+      let row = SHARE_MATRIX[normalized];
+      if (!row) {
+        const availableRows = Object.keys(SHARE_MATRIX).map(Number).sort((a, b) => a - b);
+        if (!availableRows.length) return 0;
+        const fallbackKey = availableRows.reduce((closest, current) => (
+          Math.abs(current - normalized) < Math.abs(closest - normalized) ? current : closest
+        ), availableRows[0]);
+        row = SHARE_MATRIX[fallbackKey];
+      }
       if (!row) return 0;
       return row[years] ?? 0;
     }
@@ -1432,6 +1640,46 @@
     function formatInput(val) {
       return Math.round(val).toLocaleString('sk-SK');
     }
+    function getRequiredDownpaymentPct(maxLTV) {
+      return Math.max(0, Math.round((1 - maxLTV) * 10000) / 10000);
+    }
+    function getValidOwnOptions(maxLTV) {
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      return OWN_OPTIONS_PCT
+        .filter((ownPct) => {
+          const bonashipPct = requiredDownpaymentPct - ownPct;
+          return ownPct >= (MIN_OWN_PCT - PCT_EPS)
+            && bonashipPct >= -PCT_EPS
+            && bonashipPct <= (MAX_BONASHIP_PCT + PCT_EPS);
+        })
+        .sort((a, b) => a - b);
+    }
+    function renderOwnTabs(maxLTV, preferredOwnPct) {
+      const ownTabsContainer = document.getElementById('ownTabs');
+      if (!ownTabsContainer) return MIN_OWN_PCT;
+      const validOwnOptions = getValidOwnOptions(maxLTV);
+      if (!validOwnOptions.length) return MIN_OWN_PCT;
+
+      let resolvedOwnPct = validOwnOptions.includes(preferredOwnPct) ? preferredOwnPct : validOwnOptions[0];
+      if (!validOwnOptions.includes(resolvedOwnPct)) {
+        resolvedOwnPct = validOwnOptions.reduce((closest, current) => (
+          Math.abs(current - preferredOwnPct) < Math.abs(closest - preferredOwnPct) ? current : closest
+        ), validOwnOptions[0]);
+      }
+
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      ownTabsContainer.innerHTML = validOwnOptions.map((ownPct) => {
+        const bonashipPct = Math.max(0, requiredDownpaymentPct - ownPct);
+        const ownLabel = (ownPct * 100).toLocaleString('sk-SK', { maximumFractionDigits: 0 });
+        const bonaLabel = (bonashipPct * 100).toLocaleString('sk-SK', { minimumFractionDigits: 0, maximumFractionDigits: 1 });
+        const isActive = ownPct === resolvedOwnPct;
+        return '<button class="own-tab' + (isActive ? ' active' : '') + '" data-own="' + ownPct + '">' +
+          '<span class="own-tab-own">' + ownLabel + '%</span>' +
+          '<span class="own-tab-bona">Bonaship ' + bonaLabel + '%</span>' +
+          '</button>';
+      }).join('');
+      return resolvedOwnPct;
+    }
 
     /* ── CALCULATE ── */
     function calculate() {
@@ -1444,9 +1692,12 @@
       const apprSelect = document.getElementById('appreciationSelect');
       const appreciation = parseFloat(apprSelect.value) / 100;
 
+      const { termYears: mortgageTermYears, maxLTV, annualRate: mortgageAnnualRate } = readMortgageSettings();
+      selectedOwnPct = renderOwnTabs(maxLTV, selectedOwnPct);
       const activeOwnTab = document.querySelector('.own-tab.active');
-      const customerPct = parseFloat(activeOwnTab?.dataset.own) || 0.10;
-      const bonaPct = 0.20 - customerPct;
+      const customerPct = parseFloat(activeOwnTab?.dataset.own) || selectedOwnPct || MIN_OWN_PCT;
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      const bonaPct = Math.max(0, requiredDownpaymentPct - customerPct);
       const bonashipDownpaymentPct = bonaPct * 100;
       const savings = Math.round(homeVal * customerPct);
       const bonaAmt = Math.round(homeVal * bonaPct);
@@ -1456,13 +1707,15 @@
       const futureVal = homeVal * Math.pow(1 + appreciation, years);
       const equityShare = getMatrixShare(bonashipDownpaymentPct, years);
       const investorPayout = futureVal * equityShare;
-      const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, CONFIG.mortgageRate, CONFIG.mortgageYears, years) : 0;
-      const newMaxMortgage = futureVal * CONFIG.maxLTV;
+      const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, mortgageAnnualRate, mortgageTermYears, years) : 0;
+      const newMaxMortgage = futureVal * maxLTV;
+      const mortgageMonthly = mortgageAmt > 0 ? monthlyPayment(mortgageAmt, mortgageAnnualRate, mortgageTermYears) : 0;
       const cashExtracted = newMaxMortgage - mortgageBalance;
       const refRemainder = cashExtracted - investorPayout;
       const refCoversBonaship = cashExtracted >= investorPayout;
 
-      const compLoanMonthly = monthlyPayment(bonaAmt, CONFIG.consumerLoanRate, years);
+      const consumerLoanAnnual = readConsumerLoanRate();
+      const compLoanMonthly = monthlyPayment(bonaAmt, consumerLoanAnnual, years);
       const totalSaved = compLoanMonthly * 12 * years;
 
       const userShareVal = futureVal - investorPayout;
@@ -1488,11 +1741,18 @@
       document.getElementById('apprDisplay').textContent = parseFloat(apprSelect.value).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
       document.getElementById('compYears').textContent = years;
+      document.getElementById('compRateDisplay').textContent = (consumerLoanAnnual * 100).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
       document.getElementById('compMonthly').textContent = '~' + fmt(compLoanMonthly) + ' €';
       document.getElementById('compSaved').textContent = fmt(totalSaved) + ' €';
 
+      const ltvLabelPct = (maxLTV * 100).toLocaleString('sk-SK', { maximumFractionDigits: 2 });
+      document.getElementById('refNewMortgageLabel').textContent = 'Nová hypotéka (' + ltvLabelPct + ' % LTV)';
       document.getElementById('refNewMortgage').textContent = fmt(newMaxMortgage) + ' €';
       document.getElementById('refMortgageBalance').textContent = fmt(mortgageBalance) + ' €';
+      const mmEl = document.getElementById('mortgageMonthlyDisplay');
+      if (mmEl) {
+        mmEl.textContent = mortgageAmt > 0 ? '~' + fmt(mortgageMonthly) + ' € / mesiac' : '— (bez hypotéky)';
+      }
       document.getElementById('refCashExtracted').textContent = fmt(Math.max(0, cashExtracted)) + ' €';
       document.getElementById('refBonashipPayout').textContent = fmt(investorPayout) + ' €';
       document.getElementById('refRemainder').textContent = fmt(refRemainder) + ' €';
@@ -1526,6 +1786,31 @@
     });
     document.getElementById('appreciationSelect').addEventListener('change', calculate);
 
+    ['mortgageTermYears', 'mortgageLtvPct', 'mortgageRatePct', 'consumerLoanRatePct'].forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', calculate);
+    });
+    document.getElementById('mortgageTermYears')?.addEventListener('blur', function() {
+      const t = Math.max(5, Math.min(40, parseInt(this.value, 10) || CONFIG.mortgageYears));
+      this.value = String(t);
+      calculate();
+    });
+    document.getElementById('mortgageLtvPct')?.addEventListener('blur', function() {
+      const p = Math.max(70, Math.min(95, Math.round(parsePercentInput(this.value, CONFIG.maxLTV * 100))));
+      this.value = String(p);
+      calculate();
+    });
+    document.getElementById('mortgageRatePct')?.addEventListener('blur', function() {
+      const v = Math.max(0, Math.min(20, parsePercentInput(this.value, CONFIG.mortgageRate * 100)));
+      this.value = v.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      calculate();
+    });
+    document.getElementById('consumerLoanRatePct')?.addEventListener('blur', function() {
+      const v = Math.max(0, Math.min(25, parsePercentInput(this.value, CONFIG.consumerLoanRate * 100)));
+      this.value = v.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      calculate();
+    });
+
     document.querySelectorAll('.pill-tab').forEach(tab => {
       tab.addEventListener('click', function() {
         document.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
@@ -1534,12 +1819,12 @@
       });
     });
 
-    document.querySelectorAll('.own-tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.own-tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        calculate();
-      });
+    document.getElementById('ownTabs')?.addEventListener('click', function(event) {
+      const btn = event.target.closest('.own-tab');
+      if (!btn) return;
+      const ownPct = parseFloat(btn.dataset.own);
+      if (!isNaN(ownPct)) selectedOwnPct = ownPct;
+      calculate();
     });
 
     /* ── SCROLL ANIMATIONS ── */
