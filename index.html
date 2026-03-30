@@ -3,1101 +3,1022 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bonaship — Získajte prístup k vlastnému bývaniu</title>
+  <title>Bonaship — Zistite, koľko získate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=General+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:       #0B1628;
-      --navy-mid:   #162038;
-      --navy-soft:  #1F2E4A;
+      --navy:       #0A1223;
+      --navy-mid:   #131E35;
+      --navy-soft:  #1C2A48;
+      --navy-light: #243352;
       --gold:       #C8933A;
       --gold-light: #E5B872;
       --gold-pale:  #FBF3E3;
-      --emerald:    #0D6B52;
-      --emerald-mid:#0F8266;
-      --emerald-pale:#E8F5F1;
-      --cream:      #FAF8F5;
+      --gold-glow:  rgba(200,147,58,0.12);
+      --teal:       #0FA583;
+      --teal-bright:#2ED8AD;
+      --teal-pale:  #E8F8F3;
+      --cream:      #FAFAF7;
       --white:      #FFFFFF;
-      --slate-100:  #F1F0EE;
-      --slate-200:  #E4E2DE;
-      --slate-400:  #9A9590;
-      --slate-500:  #7A746E;
-      --slate-600:  #5C574F;
-      --text:       #0B1628;
-      --radius-card: 24px;
-      --shadow-soft: 0 4px 32px rgba(11,22,40,0.07), 0 1px 4px rgba(11,22,40,0.05);
-      --shadow-gold: 0 8px 32px rgba(200,147,58,0.25);
+      --gray-50:    #F7F7F5;
+      --gray-100:   #EEEDE9;
+      --gray-200:   #E0DED8;
+      --gray-400:   #9E9A93;
+      --gray-500:   #7A756D;
+      --gray-600:   #5C574F;
+      --gray-800:   #2C2924;
+      --text:       #1A1714;
+      --radius:     20px;
+      --radius-sm:  12px;
+      --shadow:     0 1px 3px rgba(10,18,35,0.04), 0 8px 32px rgba(10,18,35,0.06);
+      --shadow-lg:  0 2px 8px rgba(10,18,35,0.04), 0 16px 56px rgba(10,18,35,0.10);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Sora', sans-serif;
+      font-family: 'General Sans', -apple-system, sans-serif;
       background: var(--cream);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ── HEADER ── */
+    /* ── HEADER ─────────────────────────────── */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 0 48px;
-      height: 68px;
+      padding: 0 clamp(20px, 4vw, 56px);
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(250,248,245,0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(11,22,40,0.06);
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid rgba(10,18,35,0.05);
+      transition: background 0.3s;
     }
-
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: 'Sora', sans-serif;
       font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.15em;
+      font-size: 14px;
+      letter-spacing: 0.18em;
       color: var(--navy);
       text-decoration: none;
     }
     .logo-mark {
-      width: 32px;
-      height: 32px;
+      width: 30px; height: 30px;
       background: var(--navy);
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      display: grid;
+      place-items: center;
     }
     .logo-mark::after {
       content: '';
-      width: 10px;
-      height: 10px;
+      width: 9px; height: 9px;
       background: var(--gold);
       border-radius: 2px;
     }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-    }
+    nav { display: flex; align-items: center; gap: 32px; }
     nav a {
       text-decoration: none;
       font-size: 13px;
       font-weight: 500;
-      color: var(--slate-500);
-      letter-spacing: 0.01em;
+      color: var(--gray-500);
       transition: color 0.2s;
     }
     nav a:hover { color: var(--navy); }
-
-    .btn-nav {
-      padding: 9px 22px;
+    .btn-header {
+      padding: 9px 24px;
       background: var(--navy);
       color: var(--white);
-      font-family: 'Sora', sans-serif;
+      font-family: inherit;
       font-size: 13px;
       font-weight: 600;
       border: none;
       border-radius: 100px;
       cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: background 0.2s, transform 0.15s;
+      transition: all 0.2s;
     }
-    .btn-nav:hover { background: var(--navy-mid); transform: translateY(-1px); }
+    .btn-header:hover { background: var(--navy-mid); transform: translateY(-1px); }
 
-    /* ── HERO ── */
+    /* ── HERO ───────────────────────────────── */
     .hero {
-      padding-top: 148px;
-      padding-bottom: 64px;
+      padding: 140px 24px 60px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-
-    /* Subtle dot-grid background */
     .hero::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(11,22,40,0.065) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
-      z-index: 0;
+      top: 60px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+      pointer-events: none;
     }
-
     .hero-inner {
       position: relative;
-      z-index: 1;
-      max-width: 800px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 0 24px;
     }
-
-    .badge {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 6px 14px;
-      background: var(--emerald-pale);
-      border: 1px solid rgba(13,107,82,0.15);
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--teal-pale);
+      border: 1px solid rgba(15,165,131,0.15);
       border-radius: 100px;
       font-size: 11px;
       font-weight: 600;
-      color: var(--emerald);
-      letter-spacing: 0.08em;
+      color: var(--teal);
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
-    .badge-dot {
-      width: 6px;
-      height: 6px;
+    .hero-badge-dot {
+      width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--emerald-mid);
+      background: var(--teal);
       animation: pulse 2s ease-in-out infinite;
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.8); }
+      50% { opacity: 0.5; transform: scale(0.7); }
     }
-
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(36px, 6vw, 68px);
-      font-weight: 900;
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(34px, 5.5vw, 56px);
+      font-weight: 400;
       color: var(--navy);
-      line-height: 1.1;
+      line-height: 1.15;
       letter-spacing: -0.02em;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     h1 em {
       font-style: italic;
-      color: var(--emerald);
+      color: var(--teal);
     }
-    h1 .highlight {
-      position: relative;
-      display: inline-block;
-    }
-    h1 .highlight::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gold);
-      border-radius: 2px;
-      opacity: 0.6;
-    }
-
     .hero-sub {
       font-size: 17px;
-      line-height: 1.7;
-      color: var(--slate-500);
-      max-width: 580px;
+      line-height: 1.65;
+      color: var(--gray-500);
+      max-width: 520px;
       margin: 0 auto;
     }
-    .hero-sub strong {
-      color: var(--navy);
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+    .hero-scroll {
+      margin-top: 36px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
       font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap 0.2s;
     }
+    .hero-scroll:hover { gap: 12px; }
+    .hero-scroll svg { transition: transform 0.2s; }
+    .hero-scroll:hover svg { transform: translateY(3px); }
 
-    /* ── HOW IT WORKS STEPS ── */
-    .steps-section {
-      max-width: 1120px;
+    /* ── HOW IT WORKS ───────────────────────── */
+    .how-section {
+      padding: 40px 24px 80px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 0 24px 80px;
     }
-    .steps-eyebrow {
-      text-align: center;
+    .section-eyebrow {
       font-size: 11px;
       font-weight: 700;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--slate-400);
-      margin-bottom: 48px;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 12px;
     }
-    .steps-grid {
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 400;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .steps {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 0;
       position: relative;
     }
-    .steps-grid::before {
+    .steps::before {
       content: '';
       position: absolute;
-      top: 20px;
-      left: calc(10% + 10px);
-      right: calc(10% + 10px);
-      height: 1px;
-      background: var(--slate-200);
-      z-index: 0;
+      top: 28px;
+      left: calc(16.66% + 12px);
+      right: calc(16.66% + 12px);
+      height: 2px;
+      background: var(--gray-200);
     }
     .step {
       text-align: center;
-      padding: 0 12px;
+      padding: 0 20px;
       position: relative;
-      z-index: 1;
     }
     .step-num {
-      width: 40px;
-      height: 40px;
+      width: 56px; height: 56px;
       border-radius: 50%;
       background: var(--white);
-      border: 1.5px solid var(--slate-200);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--slate-400);
-      transition: all 0.2s;
+      border: 2px solid var(--gray-200);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 20px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--gray-400);
+      position: relative;
+      z-index: 2;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .step:hover .step-num {
-      background: var(--navy);
-      border-color: var(--navy);
-      color: var(--white);
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: scale(1.08);
+      box-shadow: 0 0 0 6px rgba(15,165,131,0.08);
     }
     .step-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-    .step-desc {
-      font-size: 11.5px;
-      color: var(--slate-400);
-      line-height: 1.6;
-    }
-    @media (max-width: 768px) {
-      .steps-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
-      .steps-grid::before { display: none; }
-    }
-
-    /* ── APPRECIATION PRESETS ── */
-    .appr-presets {
-      display: flex;
-      gap: 8px;
-    }
-    .appr-btn {
-      flex: 1;
-      padding: 10px 8px;
-      border: 1.5px solid var(--slate-200);
-      background: transparent;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'Sora', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--slate-500);
-      transition: all 0.2s;
-      line-height: 1.2;
-    }
-    .appr-btn span {
-      display: block;
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--slate-400);
-      margin-top: 3px;
-    }
-    .appr-btn:hover { border-color: var(--emerald-mid); color: var(--emerald); }
-    .appr-btn.active {
-      border-color: var(--emerald);
-      background: var(--emerald-pale);
-      color: var(--emerald);
-    }
-    .appr-btn.active span { color: var(--emerald); }
-
-    /* ── DYNAMIC RESULT HEADLINE ── */
-    .result-dynamic {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-bottom: 28px;
-    }
-    .result-dynamic-text {
-      font-size: 13px;
-      color: rgba(255,255,255,0.48);
-      line-height: 1.72;
-    }
-    .result-dynamic-text strong {
-      color: rgba(255,255,255,0.88);
-      font-weight: 600;
-    }
-    .result-dynamic-text .bona-amt {
-      color: var(--gold-light);
-    }
-
-    /* ── CALCULATOR ── */
-    .calc-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-      margin-top: -8px;
-      margin-bottom: 96px;
-    }
-
-    .calc-card {
-      background: var(--white);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(11,22,40,0.06);
-      display: flex;
-      overflow: hidden;
-    }
-
-    /* LEFT PANEL */
-    .panel-left {
-      flex: 1;
-      padding: 40px 44px;
-      min-width: 0;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-    .panel-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: var(--emerald-pale);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .panel-icon svg { width: 18px; height: 18px; color: var(--emerald); stroke: var(--emerald); }
-
-    .panel-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: -0.01em;
-    }
-
-    /* SLIDER SECTION */
-    .input-block { margin-bottom: 28px; }
-    .input-block:last-child { margin-bottom: 0; }
-
-    .input-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 12px;
-    }
-    .input-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--slate-400);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    .input-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: -0.02em;
-    }
-
-    .custom-slider {
-      width: 100%;
-      height: 3px;
-      border-radius: 2px;
-      background: var(--slate-200);
-      outline: none;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    .custom-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--navy);
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 1px var(--navy), 0 2px 8px rgba(11,22,40,0.2);
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .custom-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-      box-shadow: 0 0 0 1px var(--navy), 0 4px 16px rgba(11,22,40,0.3);
-    }
-    .custom-slider::-moz-range-thumb {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--navy);
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 1px var(--navy);
-      cursor: pointer;
-    }
-
-    .slider-range {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--slate-400);
-      font-weight: 500;
-    }
-
-    .warning-box {
-      margin-top: 10px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 10px 14px;
-      background: #FEF9EC;
-      border: 1px solid #F3D887;
-      border-radius: 10px;
-      font-size: 12px;
-      color: #8A6C1A;
-      line-height: 1.5;
-    }
-    .warning-box.hidden { display: none; }
-    .warning-box svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: 1px; }
-
-    /* FINANCING BAR */
-    .divider {
-      height: 1px;
-      background: var(--slate-100);
-      margin: 28px 0;
-    }
-
-    .section-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--slate-400);
-      margin-bottom: 16px;
-    }
-
-    .fin-bar {
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      background: var(--slate-100);
-      display: flex;
-      margin-bottom: 16px;
-    }
-    .fin-bar-seg {
-      transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-      height: 100%;
-    }
-    #barSavings  { background: var(--navy); }
-    #barBonaship { background: var(--emerald-mid); }
-    #barMortgage { background: var(--gold); }
-
-    .leg-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .leg-card {
-      padding: 14px;
-      border-radius: 12px;
-      background: var(--cream);
-    }
-    .leg-card.accent-emerald {
-      background: var(--emerald-pale);
-      border: 1px solid rgba(13,107,82,0.12);
-    }
-    .leg-card.accent-gold {
-      background: var(--gold-pale);
-      border: 1px solid rgba(200,147,58,0.15);
-    }
-    .leg-dot-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-    .leg-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .leg-dot.navy    { background: var(--navy); }
-    .leg-dot.emerald { background: var(--emerald-mid); }
-    .leg-dot.gold    { background: var(--gold); }
-    .leg-name {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--slate-500);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-    .leg-amount {
-      font-family: 'Playfair Display', serif;
       font-size: 16px;
       font-weight: 700;
       color: var(--navy);
-    }
-    .leg-pct {
-      font-size: 10px;
-      color: var(--slate-400);
-      font-weight: 500;
-      margin-top: 2px;
-    }
-    .leg-sub {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(13,107,82,0.1);
-      font-size: 10px;
-      color: var(--emerald);
-      line-height: 1.6;
-    }
-    .leg-sub span {
-      font-weight: 700;
-    }
-
-    /* TERM TABS */
-    .term-tabs {
-      display: flex;
-      gap: 8px;
-    }
-    .year-tab {
-      flex: 1;
-      padding: 12px 8px;
-      border: 1.5px solid var(--slate-200);
-      background: transparent;
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: 'Sora', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--slate-500);
-      transition: all 0.2s;
-      line-height: 1;
-    }
-    .year-tab span {
-      display: block;
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--slate-400);
-      margin-top: 4px;
-    }
-    .year-tab:hover {
-      border-color: var(--emerald-mid);
-      color: var(--emerald);
-    }
-    .year-tab.active {
-      border-color: var(--emerald);
-      background: var(--emerald-pale);
-      color: var(--emerald);
-    }
-    .year-tab.active span { color: var(--emerald); }
-
-    /* RIGHT PANEL */
-    .panel-right {
-      width: 46%;
-      flex-shrink: 0;
-      background: linear-gradient(168deg, #192c45 0%, #091320 100%);
-      padding: 32px 36px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-    .panel-right::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(13,107,82,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .panel-right::after {
-      content: '';
-      position: absolute;
-      bottom: 60px;
-      left: -60px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200,147,58,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    /* ── PREMIUM PANEL COMPONENTS ── */
-    .r-gold-rule {
-      height: 1px;
-      background: linear-gradient(90deg, rgba(200,147,58,0.55) 0%, rgba(200,147,58,0.15) 55%, transparent 100%);
-      margin: 13px 0;
-      flex-shrink: 0;
-    }
-    .r-sec-label {
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.17);
-      margin-bottom: 9px;
-    }
-    .r-sentence-box {
-      padding-left: 13px;
-      border-left: 2px solid rgba(200,147,58,0.55);
-    }
-    .m-label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.28);
-      margin-bottom: 5px;
-    }
-    .m-gold {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: var(--gold-light);
-    }
-    .m-white {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: var(--white);
-    }
-    .m-sub {
-      font-size: 10px;
-      color: rgba(255,255,255,0.28);
-      margin-top: 4px;
-      line-height: 1.45;
-    }
-    .r-savings-checks {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      text-align: right;
-    }
-    .r-savings-checks span {
-      font-size: 9.5px;
-      color: rgba(255,255,255,0.4);
-      font-weight: 500;
-    }
-    .r-savings-checks span::before {
-      content: '✓ ';
-      color: #5DCFB1;
-      font-weight: 700;
-    }
-    .r-ref-card {
-      border-left: 2px solid rgba(200,147,58,0.5);
-      padding-left: 12px;
       margin-bottom: 8px;
     }
-    .r-ref-breakdown {
-      background: rgba(0,0,0,0.22);
-      border-radius: 8px;
-      padding: 9px 11px;
-      font-size: 10.5px;
-    }
-    .r-ref-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 3px 0;
-      color: rgba(255,255,255,0.38);
-    }
-    .r-ref-row + .r-ref-row { border-top: 1px solid rgba(255,255,255,0.055); }
-    .r-ref-row span:last-child { color: rgba(255,255,255,0.65); font-weight: 600; }
-    .r-ref-row.bona span:last-child { color: var(--gold-light); }
-    .r-ref-row.total { border-top: 1px solid rgba(255,255,255,0.12) !important; padding-top: 7px; }
-    .r-ref-row.total span { color: rgba(255,255,255,0.72); font-weight: 700; font-size: 11px; }
-    .r-pill {
-      flex: 1;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 9px;
-      padding: 9px 10px;
-    }
-    .r-pill-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 2px;
-    }
-    .r-pill-desc {
-      font-size: 9.5px;
-      color: rgba(255,255,255,0.33);
-      line-height: 1.4;
-    }
-    .equity-hero-wrap {
-      background: rgba(13,107,82,0.1);
-      border: 1px solid rgba(13,130,102,0.22);
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+    .step-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-500);
     }
 
-    .result-eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--emerald-mid);
-      margin-bottom: 4px;
+    /* ── CALCULATOR ─────────────────────────── */
+    .calc-section {
+      padding: 0 24px 80px;
     }
-    .result-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      margin-bottom: 32px;
+    .calc-container {
+      max-width: 960px;
+      margin: 0 auto;
     }
-
-    /* CASHFLOW */
-    .cf-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      background: rgba(13,107,82,0.2);
-      border: 1px solid rgba(13,130,102,0.3);
-      border-radius: 100px;
-      font-size: 10px;
-      font-weight: 700;
-      color: #5DCFB1;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
+    .calc-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-100);
+      overflow: hidden;
     }
 
-    .zero-payment {
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
+    /* Input Area */
+    .calc-inputs {
+      padding: 40px 44px;
+    }
+    .calc-inputs-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--navy);
       margin-bottom: 6px;
     }
-    .zero-amount {
-      font-family: 'Playfair Display', serif;
-      font-size: 38px;
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-    .zero-label {
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      font-weight: 400;
-      padding-bottom: 8px;
-    }
-
-    .cf-desc {
-      font-size: 13px;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 16px;
-    }
-    .cf-desc span { color: rgba(255,255,255,0.75); }
-
-    .savings-box {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 16px 20px;
+    .calc-inputs-sub {
+      font-size: 14px;
+      color: var(--gray-500);
       margin-bottom: 32px;
     }
-    .savings-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       margin-bottom: 10px;
     }
-    .savings-row-label { font-size: 12px; color: rgba(255,255,255,0.45); }
-    .savings-amount {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold-light);
-    }
-    .savings-items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-    .savings-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.5);
-      font-weight: 500;
-    }
-    .savings-item::before {
-      content: '✓';
-      color: #5DCFB1;
-      font-size: 10px;
-    }
-
-    /* DIVIDER */
-    .r-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      margin-bottom: 24px;
-    }
-
-    .result-eyebrow-2 {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 16px;
-    }
-
-    /* Projected value area */
-    .proj-row {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .proj-bar-wrap {
-      width: 10px;
-      height: 120px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.08);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-    }
-    #vizUserBar { background: #5DCFB1; transition: height 0.5s cubic-bezier(0.4,0,0.2,1); }
-    #vizBonaBar { background: var(--gold); transition: height 0.5s cubic-bezier(0.4,0,0.2,1); }
-
-    .proj-data { flex: 1; }
-    .proj-total-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-bottom: 4px; }
-    .proj-total {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-    }
-    .proj-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 0;
-    }
-    .proj-line + .proj-line { border-top: 1px solid rgba(255,255,255,0.06); }
-    .proj-line-left { display: flex; align-items: center; gap: 8px; }
-    .proj-line-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .proj-line-dot.emerald { background: #5DCFB1; }
-    .proj-line-dot.gold    { background: var(--gold); }
-    .proj-line-name { font-size: 12px; color: rgba(255,255,255,0.5); }
-    .proj-line-val { font-size: 14px; font-weight: 700; }
-    .proj-line-val.emerald { color: #5DCFB1; }
-    .proj-line-val.gold    { color: var(--gold-light); }
-    .proj-line-pct { font-size: 11px; color: rgba(255,255,255,0.25); margin-left: 6px; }
-
-    .proj-note { font-size: 10px; color: rgba(255,255,255,0.25); line-height: 1.5; margin-top: 10px; }
-
-    /* Equity row */
-    .equity-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      margin-bottom: 24px;
-    }
-    .equity-label { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 500; }
-    .equity-sub   { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 2px; }
-    .equity-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 40px;
-      font-weight: 900;
-      color: #5DCFB1;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      text-shadow: 0 0 28px rgba(93,207,177,0.35);
-    }
-
-    /* Settlement options */
-    .settle-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
-    .settle-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      transition: background 0.2s;
-      cursor: default;
+    .field-input-wrap {
       position: relative;
     }
-    .settle-card:hover { background: rgba(255,255,255,0.07); }
-    .settle-tag {
-      position: absolute;
-      top: 0; right: 14px;
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      padding: 3px 8px;
-      background: rgba(13,107,82,0.3);
-      color: #5DCFB1;
-      border-radius: 0 0 6px 6px;
-    }
-    .settle-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .settle-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
-    .settle-desc  { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.55; }
-
-    /* Refinance detail box */
-    .ref-detail {
-      background: rgba(11,22,40,0.5);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-top: 8px;
-      font-size: 11px;
-    }
-    .ref-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      color: rgba(255,255,255,0.4);
-    }
-    .ref-row + .ref-row { border-top: 1px solid rgba(255,255,255,0.05); }
-    .ref-row span:last-child { color: rgba(255,255,255,0.75); font-weight: 600; }
-    .ref-row.total { border-top: 1px solid rgba(255,255,255,0.12) !important; padding-top: 8px; }
-    .ref-row.total span:first-child { color: rgba(255,255,255,0.6); font-weight: 600; }
-
-    /* CTA BUTTON */
-    .btn-cta {
+    .field-input {
       width: 100%;
-      padding: 17px 28px;
-      background: var(--gold);
+      font-family: 'DM Serif Display', serif;
+      font-size: 34px;
+      font-weight: 400;
       color: var(--navy);
-      font-family: 'Sora', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
       border: none;
-      border-radius: 14px;
+      border-bottom: 2px solid var(--gray-200);
+      padding: 8px 40px 10px 0;
+      background: transparent;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .field-input:focus {
+      border-bottom-color: var(--teal);
+    }
+    .field-input::placeholder {
+      color: var(--gray-400);
+    }
+    .field-suffix {
+      position: absolute;
+      right: 0;
+      bottom: 14px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .field-clear {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px; height: 28px;
+      border: none;
+      background: var(--gray-100);
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      color: var(--gray-500);
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .field-input-wrap:hover .field-clear,
+    .field-input:focus ~ .field-clear { opacity: 0.7; }
+    .field-clear:hover { opacity: 1 !important; background: var(--gray-200); }
+    .field-hint {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 8px;
+    }
+
+    /* Output preview */
+    .output-preview {
+      padding: 24px 28px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .output-preview-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .output-preview-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px;
+      color: var(--teal);
+      margin-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .output-preview-sub {
+      font-size: 12px;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+
+    /* Controls Row */
+    .controls-row {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .primary-controls-grid {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px 24px;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .primary-controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .control-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pill-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .pill-tab {
+      padding: 10px 20px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pill-tab:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .pill-tab.active {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+      color: var(--teal);
+      font-weight: 600;
+    }
+    /* Mortgage advanced (collapsed disclosure) */
+    .mortgage-advanced {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .mortgage-advanced > summary {
+      list-style: none;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      letter-spacing: 0.01em;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      position: relative;
-      z-index: 1;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      user-select: none;
+      transition: color 0.2s;
     }
-    .btn-cta:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-gold);
+    .mortgage-advanced > summary::-webkit-details-marker { display: none; }
+    .mortgage-advanced > summary::marker { content: ''; }
+    .mortgage-advanced > summary:hover { color: var(--gray-500); }
+    .mortgage-advanced[open] > summary { color: var(--gray-500); margin-bottom: 10px; }
+    .mortgage-advanced-chev {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
     }
-    .btn-cta svg { width: 18px; height: 18px; transition: transform 0.2s; }
-    .btn-cta:hover svg { transform: translateX(3px); }
+    .mortgage-advanced[open] .mortgage-advanced-chev {
+      transform: rotate(180deg);
+      background: var(--teal-pale);
+      border-color: rgba(15,165,131,0.2);
+    }
+    .mortgage-advanced-chev svg {
+      width: 10px; height: 10px;
+      color: var(--gray-500);
+    }
+    .advanced-sections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 10px;
+    }
+    .advanced-section.hypoteka { grid-column: 1 / -1; }
+    .advanced-section {
+      background: transparent;
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .advanced-section-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 7px;
+    }
+    .advanced-section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px 10px;
+      align-items: end;
+    }
+    .advanced-section-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 960px) {
+      .advanced-sections { grid-template-columns: 1fr; }
+      .advanced-section.hypoteka { grid-column: auto; }
+      .advanced-section-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .advanced-section-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .advanced-section-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    .mortgage-field label {
+      display: block;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .mortgage-field input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--navy);
+      padding: 8px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .mortgage-field input:focus {
+      border-color: var(--teal);
+      background: var(--white);
+    }
+    .mortgage-field .styled-select {
+      width: 100%;
+      min-width: 0;
+      background-color: var(--white);
+      padding: 8px 30px 8px 10px;
+      font-size: 14px;
+      background-position: right 10px center;
+    }
+    .mortgage-advanced-hint {
+      font-size: 10px;
+      line-height: 1.45;
+      color: var(--gray-400);
+      margin-top: 6px;
+    }
+    .mortgage-advanced-hint strong {
+      color: var(--gray-600);
+      font-weight: 600;
+    }
 
-    .cta-note {
-      text-align: center;
+    .styled-select {
+      padding: 10px 18px;
+      min-width: 230px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--navy);
+      background: var(--white);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E9A93' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+    .styled-select:focus,
+    .styled-select:hover { border-color: var(--teal); }
+
+    /* ── RESULTS PANEL ──────────────────────── */
+    .results-panel {
+      background: linear-gradient(172deg, #0F1D35 0%, #080E1C 100%);
+      padding: 44px 44px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .results-panel::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(15,165,131,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .results-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(200,147,58,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .r-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 16px;
+    }
+    .r-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(200,147,58,0.45) 0%, rgba(200,147,58,0.1) 50%, transparent 100%);
+      margin: 28px 0;
+    }
+
+    /* Hero result - the big cashout number */
+    .result-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+    .result-hero-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal-bright);
+      margin-bottom: 6px;
+    }
+    .result-hero-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .result-hero-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+    .result-hero-amount-gold {
+      color: var(--gold-light) !important;
+      text-shadow: 0 0 32px rgba(232,184,82,0.3);
+    }
+    .result-hero-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+    .result-hero-sub strong { color: rgba(255,255,255,0.7); }
+    .result-hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(15,165,131,0.12);
+      border: 1px solid rgba(46,216,173,0.2);
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+    .result-hero-badge-zero {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--teal-bright);
+    }
+    .result-hero-badge-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Comparison strip */
+    .compare-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .compare-card {
+      padding: 18px 20px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .compare-card.highlight {
+      background: rgba(15,165,131,0.08);
+      border-color: rgba(46,216,173,0.15);
+    }
+    .compare-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+    .compare-card.highlight .compare-card-label { color: rgba(46,216,173,0.6); }
+    .compare-card-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2px;
+    }
+    .compare-card.highlight .compare-card-value { color: var(--teal-bright); }
+    .compare-card-sub {
       font-size: 11px;
       color: rgba(255,255,255,0.3);
+    }
+    .compare-card.highlight .compare-card-sub { color: rgba(46,216,173,0.4); }
+
+    /* Share tiers */
+    .share-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .tier-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s;
+    }
+    .tier-item:last-child { border-bottom: none; }
+    .tier-pct {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.3);
+      min-width: 52px;
+      transition: color 0.3s;
+    }
+    .tier-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.3s;
+    }
+    .tier-item.active .tier-pct { color: var(--gold-light); }
+    .tier-item.active .tier-text { color: rgba(255,255,255,0.7); font-weight: 600; }
+    .tier-item.active {
+      padding-left: 12px;
+      border-left: 2px solid var(--gold);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+
+    /* Projection viz */
+    .proj-card {
+      background: rgba(0,0,0,0.22);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .proj-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 10px;
+    }
+    .proj-card-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .proj-bar-container {
+      display: flex;
+      gap: 4px;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 16px;
+    }
+    #vizUserBar {
+      background: linear-gradient(90deg, #0FA583, #2ED8AD);
+      border-radius: 5px 0 0 5px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #vizBonaBar {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 0 5px 5px 0;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .proj-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proj-legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+    .proj-legend-row .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .dot-teal { background: var(--teal-bright); }
+    .dot-gold { background: var(--gold-light); }
+    .proj-legend-row .val { font-weight: 700; }
+    .proj-legend-row .val.teal { color: var(--teal-bright); }
+    .proj-legend-row .val.gold { color: var(--gold-light); }
+    .proj-note {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
       margin-top: 12px;
     }
 
-    /* ── FEATURES ── */
-    .features {
-      background: var(--white);
-      border-top: 1px solid var(--slate-100);
-      border-bottom: 1px solid var(--slate-100);
-      padding: 80px 24px;
+    /* Settlement */
+    .settle-card {
+      padding: 20px 24px;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.06);
     }
-    .features-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 56px;
-      text-align: center;
+    .settle-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
     }
-    .feat-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      margin: 0 auto 20px;
+    .settle-row + .settle-row { border-top: 1px solid rgba(255,255,255,0.05); }
+    .settle-row span:last-child { color: rgba(255,255,255,0.65); font-weight: 600; }
+    .settle-row.total {
+      border-top: 1px solid rgba(255,255,255,0.1) !important;
+      padding-top: 12px;
+      margin-top: 6px;
+    }
+    .settle-row.total span { font-weight: 700; color: rgba(255,255,255,0.85); font-size: 14px; }
+    .settle-status {
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
     }
-    .feat-icon.emerald { background: var(--emerald-pale); color: var(--emerald); }
-    .feat-icon.gold    { background: var(--gold-pale); color: var(--gold); }
-    .feat-icon.navy    { background: var(--slate-100); color: var(--navy); }
-    .feat-icon svg { width: 26px; height: 26px; stroke: currentColor; }
-    .feat-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 10px;
-      letter-spacing: -0.01em;
+    .settle-status.green { color: var(--teal-bright); }
+    .settle-status.amber { color: #FBBF24; }
+    .settle-other {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .feat-desc {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--slate-500);
+    .settle-other-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .settle-other-pill {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 3px 10px;
     }
 
-    /* ── FAQ ── */
+    /* Own contribution selector */
+    .own-contrib-row {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .own-contrib-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .own-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .own-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 10px 20px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .own-tab:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .own-tab.active {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+      color: var(--teal);
+      font-weight: 600;
+    }
+    .own-tab-own {
+      font-size: 15px;
+      font-weight: 700;
+      color: inherit;
+    }
+    .own-tab-bona {
+      font-size: 10px;
+      color: var(--gray-400);
+      font-weight: 400;
+    }
+    .own-tab.active .own-tab-bona { color: var(--teal); opacity: 0.7; }
+
+    /* ── VALUE PROPS ────────────────────────── */
+    .value-section {
+      padding: 80px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .value-card {
+      padding: 32px 28px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-100);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--gray-200);
+    }
+    .value-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .value-icon.teal { background: var(--teal-pale); color: var(--teal); }
+    .value-icon.gold { background: var(--gold-pale); color: var(--gold); }
+    .value-icon.navy { background: rgba(10,18,35,0.06); color: var(--navy); }
+    .value-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .value-card-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--gray-500);
+    }
+
+    /* ── FAQ ─────────────────────────────────── */
     .faq-section {
       max-width: 720px;
       margin: 0 auto;
-      padding: 88px 24px;
+      padding: 80px 24px;
     }
     .faq-head {
       text-align: center;
       margin-bottom: 48px;
     }
     .faq-head h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'DM Serif Display', serif;
       font-size: 38px;
       font-weight: 700;
       color: var(--navy);
@@ -1106,12 +1027,11 @@
     }
     .faq-head p {
       font-size: 15px;
-      color: var(--slate-500);
+      color: var(--gray-500);
       line-height: 1.6;
     }
-
     .faq-list { display: flex; flex-direction: column; gap: 4px; }
-    .faq-item { border-radius: 14px; overflow: hidden; }
+    .faq-item { border-radius: var(--radius-sm); overflow: hidden; }
     .faq-btn {
       width: 100%;
       display: flex;
@@ -1126,7 +1046,7 @@
       transition: background 0.2s;
     }
     .faq-btn:hover { background: var(--white); }
-    .faq-item.open .faq-btn { background: var(--white); border-radius: 14px 14px 0 0; }
+    .faq-item.open .faq-btn { background: var(--white); border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
     .faq-q {
       font-size: 15px;
       font-weight: 600;
@@ -1138,28 +1058,27 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: var(--slate-100);
+      background: var(--gray-100);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       transition: background 0.2s, transform 0.3s;
     }
-    .faq-arrow svg { width: 14px; height: 14px; stroke: var(--slate-500); }
-    .faq-item.open .faq-arrow { background: var(--emerald-pale); transform: rotate(180deg); }
-    .faq-item.open .faq-arrow svg { stroke: var(--emerald); }
-
+    .faq-arrow svg { width: 14px; height: 14px; stroke: var(--gray-500); }
+    .faq-item.open .faq-arrow { background: var(--teal-pale); transform: rotate(180deg); }
+    .faq-item.open .faq-arrow svg { stroke: var(--teal); }
     .faq-answer {
       display: grid;
       grid-template-rows: 0fr;
       transition: grid-template-rows 0.3s ease;
     }
     .faq-item.open .faq-answer { grid-template-rows: 1fr; }
-    .faq-answer > div { overflow: hidden; background: var(--white); border-radius: 0 0 14px 14px; }
+    .faq-answer > div { overflow: hidden; background: var(--white); border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
     .faq-body {
       padding: 0 24px 20px;
       font-size: 14px;
-      color: var(--slate-600);
+      color: var(--gray-600);
       line-height: 1.75;
     }
     .faq-body strong { color: var(--navy); font-weight: 600; }
@@ -1171,393 +1090,383 @@
       gap: 6px;
     }
 
-    /* ── FOOTER ── */
+    /* ── FOOTER ─────────────────────────────── */
     footer {
       background: var(--navy);
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.3);
       text-align: center;
-      padding: 40px 24px;
+      padding: 48px 24px;
       font-size: 12px;
       line-height: 1.7;
     }
     footer p + p { margin-top: 6px; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .calc-card { flex-direction: column; }
-      .panel-right { width: 100%; }
-      .leg-grid { grid-template-columns: repeat(3, 1fr); }
+    footer .footer-logo {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
     }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .fade-up.visible {
+      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .fade-up.d1.visible { animation-delay: 0.1s; }
+    .fade-up.d2.visible { animation-delay: 0.2s; }
+    .fade-up.d3.visible { animation-delay: 0.3s; }
+
+    /* ── RESPONSIVE ─────────────────────────── */
     @media (max-width: 768px) {
       header { padding: 0 20px; }
       nav { display: none; }
-      .panel-left, .panel-right { padding: 28px 24px; }
-      .leg-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .leg-grid > :first-child { grid-column: span 2; }
-      .features-inner { grid-template-columns: 1fr; gap: 40px; }
-      .term-tabs { flex-wrap: wrap; }
+      .hero { padding: 120px 20px 40px; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .steps::before { display: none; }
+      .step { text-align: left; display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 0; }
+      .step-num { margin: 0; }
+      .input-row { grid-template-columns: 1fr; gap: 24px; }
+      .calc-inputs { padding: 28px 24px; }
+      .results-panel { padding: 28px 24px 36px; }
+      .result-hero { grid-template-columns: 1fr; gap: 16px; }
+      .compare-strip { grid-template-columns: 1fr; }
+      .share-grid { grid-template-columns: 1fr; }
+      .controls-row { flex-direction: column; gap: 20px; }
+      .field-input { font-size: 28px; }
+      .output-preview-value { font-size: 30px; }
+      .result-hero-amount { font-size: 36px; }
+      .value-grid { grid-template-columns: 1fr; }
+      .faq-section { padding: 56px 20px; }
+      .faq-head h2 { font-size: 28px; }
+      .pill-tabs { flex-wrap: wrap; }
+      .styled-select { min-width: 100%; }
     }
-
-    /* Hidden comparison span */
-    #compLoanMonthly { display: none; }
-
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    @media (max-width: 480px) {
+      .calc-section { padding: 0 16px 48px; }
+      .calc-inputs, .results-panel { padding: 20px 16px; }
     }
-    .hero-inner > * {
-      animation: fadeUp 0.6s ease both;
-    }
-    .hero-inner > *:nth-child(1) { animation-delay: 0.05s; }
-    .hero-inner > *:nth-child(2) { animation-delay: 0.15s; }
-    .hero-inner > *:nth-child(3) { animation-delay: 0.25s; }
   </style>
 </head>
 <body>
 
-  <!-- ── HEADER ── -->
+  <!-- ─── HEADER ──────────────────────────── -->
   <header>
-    <a href="#" class="logo">
+    <a href="index.html" class="logo">
       <div class="logo-mark"></div>
       BONASHIP
     </a>
     <nav>
-      <a href="#">Ako to funguje</a>
-      <a href="#">Kalkulačka</a>
-      <a href="#">O nás</a>
+      <a href="#how-it-works">Ako to funguje</a>
+      <a href="#calculator">Kalkulačka</a>
+      <a href="docs/bonaship-faq.html">FAQ</a>
     </nav>
-    <button class="btn-nav">Kontakt</button>
+    <button class="btn-header" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">Vypočítať</button>
   </header>
 
-  <!-- ── HERO ── -->
+  <!-- ─── HERO ────────────────────────────── -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Kalkulačka spolufinancovania
+      <div class="hero-badge fade-up">
+        <span class="hero-badge-dot"></span>
+        Žiadne mesačné splátky
       </div>
-      <h1>Bývajte vo vlastnom ihneď,<br>s <span class="highlight">0 €</span> mesačnou<br><em>splátkou navyše.</em></h1>
-      <p class="hero-sub" style="margin-top:22px;">
-        Banka vyžaduje 20% vlastných zdrojov. My pokrývame až <strong>50% z povinnosti vlastnej hotovosti</strong> — bez navýšenia splátky hypotéky. <strong>Žiadny záznam v úverovom registri.</strong> Zistite, koľko môžete získať.
-      </p>
+      <h1 class="fade-up d1">Bývajte vo vlastnom ihneď,<br>s&nbsp;<span style="position:relative;display:inline-block;">0&nbsp;€<span style="position:absolute;bottom:2px;left:0;right:0;height:4px;background:var(--gold);border-radius:2px;opacity:0.6;"></span></span> mesačnou<br><em>splátkou navyše.</em></h1>
+      <p class="hero-sub fade-up d2">Bonaship vám vyplatí peniaze na účet <strong>hneď</strong>. Žiadne mesačné splátky, žiadne úroky. Vysporiadate až pri predaji alebo refinancovaní.</p>
+      <a href="#how-it-works" class="hero-scroll fade-up d3">
+        Ako to funguje
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </section>
 
-  <!-- ── HOW IT WORKS ── -->
-  <section class="steps-section">
-    <div class="steps-eyebrow">Ako to funguje</div>
-    <div class="steps-grid">
-      <div class="step">
+  <!-- ─── HOW IT WORKS ────────────────────── -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-eyebrow fade-up">Ako to funguje</div>
+    <h2 class="section-title fade-up d1">Tri jednoduché kroky</h2>
+    <div class="steps">
+      <div class="step fade-up d1">
         <div class="step-num">01</div>
-        <div class="step-title">Nakonfigurujte plán</div>
-        <div class="step-desc">Zadajte cenu nehnuteľnosti a vaše úspory do kalkulačky.</div>
+        <div class="step-content">
+          <div class="step-title">Zadajte hodnotu nehnuteľnosti</div>
+          <div class="step-desc">Bonaship vám ponúkne sumu na základe odhadovanej trhovej hodnoty vášho bývania — zvyčajne 10%.</div>
+        </div>
       </div>
-      <div class="step">
+      <div class="step fade-up d2">
         <div class="step-num">02</div>
-        <div class="step-title">Zistite výšku príspevku</div>
-        <div class="step-desc">Bonaship pokryje chýbajúcu časť akontácie — až do 15% hodnoty.</div>
+        <div class="step-content">
+          <div class="step-title">Dostanete peniaze na účet</div>
+          <div class="step-desc">Po odsúhlasení podmienok sa hotovosť priamo pripíše na váš bankový účet. Bez čakania, bez splátok.</div>
+        </div>
       </div>
-      <div class="step">
+      <div class="step fade-up d3">
         <div class="step-num">03</div>
-        <div class="step-title">Peniaze na účet</div>
-        <div class="step-desc">Jednorazový poplatok 5%. Zvyšok dostanete priamo na bankový účet.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div class="step-title">Bývajte, plaťte len hypotéku</div>
-        <div class="step-desc">Žiadne mesačné splátky Bonaship. Ste 100% vlastníkom nehnuteľnosti.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">05</div>
-        <div class="step-title">Vysporiadajte pri exite</div>
-        <div class="step-desc">Do 10 rokov — refinancovaním, predajom alebo z úspor.</div>
+        <div class="step-content">
+          <div class="step-title">Vysporiadajte, keď sa vám hodí</div>
+          <div class="step-desc">Pri predaji alebo refinancovaní zaplatíte dohodnutý podiel z hodnoty. Žiadne mesačné platby medzitým.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── CALCULATOR ── -->
-  <div class="calc-wrap">
-    <div class="calc-card">
+  <!-- ─── CALCULATOR ──────────────────────── -->
+  <section class="calc-section" id="calculator">
+    <div class="calc-container">
+      <div class="section-eyebrow fade-up">Kalkulačka</div>
+      <h2 class="section-title fade-up d1" style="margin-bottom:36px;">Koľko získate s&nbsp;Bonaship?</h2>
 
-      <!-- LEFT PANEL: Inputs -->
-      <div class="panel-left">
-        <div class="panel-header">
-          <div class="panel-icon">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <span class="panel-title">Nakonfigurujte si plán</span>
-        </div>
-
-        <!-- Property Price -->
-        <div class="input-block">
+      <div class="calc-card fade-up d2">
+        <!-- Inputs -->
+        <div class="calc-inputs">
           <div class="input-row">
-            <span class="input-label">Cena nehnuteľnosti</span>
-            <span class="input-value" id="propertyPriceDisplay">180 000 €</span>
-          </div>
-          <input type="range" id="propertyPrice" class="custom-slider" min="50000" max="700000" step="5000" value="180000">
-          <div class="slider-range"><span>50 000 €</span><span>700 000 €</span></div>
-        </div>
-
-        <!-- Savings -->
-        <div class="input-block">
-          <div class="input-row">
-            <span class="input-label">Vaše úspory</span>
-            <span class="input-value" id="savingsDisplay">18 000 €</span>
-          </div>
-          <input type="range" id="savings" class="custom-slider" min="0" max="100000" step="1000" value="18000">
-          <div class="slider-range"><span>0 €</span><span id="savingsMaxDisplay">100 000 €</span></div>
-          <div id="savingsWarning" class="warning-box hidden">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Vaše úspory pokrývajú celých 20% akontácie. Bonaship nepotrebujete, ale môžete ho využiť na zníženie hypotéky.
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Financing Breakdown -->
-        <div>
-          <div class="section-label">Rozloženie financovania</div>
-          <div class="fin-bar">
-            <div id="barSavings"  class="fin-bar-seg" style="width:10%"></div>
-            <div id="barBonaship" class="fin-bar-seg" style="width:10%"></div>
-            <div id="barMortgage" class="fin-bar-seg" style="width:80%"></div>
-          </div>
-          <div class="leg-grid">
-            <div class="leg-card">
-              <div class="leg-dot-row">
-                <div class="leg-dot navy"></div>
-                <span class="leg-name">Vaše úspory</span>
-              </div>
-              <div class="leg-amount" id="legSavings">18 000 €</div>
-              <div class="leg-pct" id="legSavingsPct">10%</div>
-            </div>
-            <div class="leg-card accent-emerald">
-              <div class="leg-dot-row">
-                <div class="leg-dot emerald"></div>
-                <span class="leg-name">BONASHIP</span>
-              </div>
-              <div class="leg-amount" id="legBonaship">18 000 €</div>
-              <div class="leg-pct" id="legBonashipPct">10%</div>
-              <div class="leg-sub">
-                Poplatok 5%: <span id="legFee">900 €</span><br>
-                Na účet: <span id="legCash">17 100 €</span>
-              </div>
-            </div>
-            <div class="leg-card accent-gold">
-              <div class="leg-dot-row">
-                <div class="leg-dot gold"></div>
-                <span class="leg-name">Hypotéka</span>
-              </div>
-              <div class="leg-amount" id="legMortgage">144 000 €</div>
-              <div class="leg-pct" id="legMortgagePct">80%</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Appreciation Slider -->
-        <div class="input-block">
-          <div class="input-row">
-            <span class="input-label">Očakávaný ročný rast ceny nehnuteľnosti</span>
-            <span class="input-value" style="font-size:22px;" id="appreciationDisplay">3,9 %</span>
-          </div>
-          <input type="range" id="appreciationRate" class="custom-slider" min="0" max="10" step="0.1" value="3.91">
-          <div class="slider-range"><span>0 %</span><span>10 %</span></div>
-          <div style="margin-top:7px; font-size:11px; color:var(--slate-400);">Historický priemer NBS: ~3,91 % p.a.</div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Term Tabs -->
-        <div>
-          <div class="section-label" style="margin-bottom:12px;">Horizont vysporiadania</div>
-          <div class="term-tabs">
-            <button class="year-tab" data-years="3">3 roky<span>Podiel 15%</span></button>
-            <button class="year-tab" data-years="5">5 rokov<span>Podiel 17.5%</span></button>
-            <button class="year-tab active" data-years="7">7 rokov<span>Podiel 20%</span></button>
-            <button class="year-tab" data-years="10">10 rokov<span>Podiel 20%</span></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT PANEL: Results -->
-      <div class="panel-right">
-        <div style="position:relative;z-index:1;flex:1;display:flex;flex-direction:column;">
-
-          <!-- Panel header -->
-          <div class="result-eyebrow" style="margin-bottom:10px;">Váš výsledok</div>
-
-          <!-- ─── 01: The Deal ─── -->
-          <div class="r-sec-label">01 — Ponuka</div>
-          <div class="r-sentence-box">
-            <div class="result-dynamic-text">
-              Ak získate <strong class="bona-amt" id="dynBonaAmt">18 000 €</strong> od Bonaship, kúpite nehnuteľnosť za <strong id="dynHomeVal">180 000 €</strong> s hypotékou len <strong id="dynMortgageAmt">144 000 €</strong> — a <strong style="color:var(--gold-light);">0 € mesačne navyše.</strong>
-            </div>
-          </div>
-
-          <div class="r-gold-rule"></div>
-
-          <!-- ─── 02: Cashflow Advantage ─── -->
-          <div class="r-sec-label">02 — Cashflow výhoda</div>
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
             <div>
-              <div class="m-label">Oproti spotrebnému úveru máte k dispozícii</div>
-              <div class="m-gold" id="cfSavedTotal">22 813 €</div>
-              <div class="m-sub">Platíte len hypotéku ~<span id="estMortgage">571</span> €/mes<br>počas <span id="cfYears">7</span> rokov</div>
+              <div class="field-label">Odhadovaná hodnota nehnuteľnosti</div>
+              <div class="field-input-wrap">
+                <input type="text" id="propertyValue" class="field-input" placeholder="180 000" inputmode="numeric">
+                <span class="field-suffix">€</span>
+                <button type="button" class="field-clear" id="clearBtn" title="Vymazať">×</button>
+              </div>
+              <div class="field-hint">Pomáha odhadnúť prístup k&nbsp;financovaniu.</div>
             </div>
-            <div class="r-savings-checks" style="padding-top:2px;">
-              <span>Splácanie dlhov</span>
-              <span>Životné udalosti</span>
-              <span>Rekonštrukcia</span>
+            <div class="output-preview">
+              <div class="output-preview-label">Bonaship investícia</div>
+              <div class="output-preview-value" id="bonaAmount">18 000 €</div>
+              <div class="output-preview-sub" id="bonaShareDesc">10% z hodnoty nehnuteľnosti · vaše zdroje: 18 000 €</div>
             </div>
           </div>
-          <span class="hidden" id="compLoanMonthly"></span>
 
-          <div class="r-gold-rule"></div>
-
-          <!-- ─── 03: Property Growth + Net Profit ─── -->
-          <div class="r-sec-label">03 — Rast hodnoty</div>
-          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:9px;">
-            <div class="proj-bar-wrap" style="height:72px;">
-              <div id="vizUserBar" style="height:80%"></div>
-              <div id="vizBonaBar" style="height:20%"></div>
+          <div class="primary-controls-grid">
+            <div class="own-contrib-row">
+              <div class="own-contrib-label">Vaše vlastné zdroje</div>
+              <div class="own-tabs" id="ownTabs"></div>
             </div>
-            <div style="flex:1;min-width:0;">
-              <div class="m-label">Hodnota o <span id="resYearsViz">7</span> rokov</div>
-              <div class="m-white" id="resFutureVal">235 000 €</div>
-              <div style="margin-top:8px;">
-                <div class="proj-line">
-                  <div class="proj-line-left"><div class="proj-line-dot emerald"></div><span class="proj-line-name">Váš podiel</span></div>
-                  <div><span class="proj-line-val emerald" id="vizUserAmount">188 000 €</span><span class="proj-line-pct" id="vizUserPct">80%</span></div>
-                </div>
-                <div class="proj-line">
-                  <div class="proj-line-left"><div class="proj-line-dot gold"></div><span class="proj-line-name">Bonaship</span></div>
-                  <div><span class="proj-line-val gold" id="vizBonaAmount">47 000 €</span><span class="proj-line-pct" id="vizBonaPct">20%</span></div>
+
+            <div class="controls-row">
+              <div class="control-group">
+                <label>Dĺžka investície</label>
+                <div class="pill-tabs">
+                  <button class="pill-tab" data-years="3">3 roky</button>
+                  <button class="pill-tab" data-years="5">5 rokov</button>
+                  <button class="pill-tab" data-years="7">7 rokov</button>
+                  <button class="pill-tab active" data-years="10">10 rokov</button>
                 </div>
               </div>
             </div>
           </div>
-          <div class="proj-note" style="margin-bottom:9px;">*Pri raste <span id="resAppreciation">3,9</span>% p.a. Podiel závisí od dĺžky obdobia.</div>
 
-          <!-- Net equity hero -->
-          <div class="equity-hero-wrap">
-            <div>
-              <div class="equity-label">Váš čistý zisk</div>
-              <div class="equity-sub">Po odpočítaní hypotéky a Bonaship</div>
+          <details class="mortgage-advanced" id="mortgageAdvanced">
+            <summary>
+              <span class="mortgage-advanced-chev" aria-hidden="true">
+                <svg fill="none" viewBox="0 0 12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5l5 5 5-5"/></svg>
+              </span>
+              Nastavenia hypotéky a porovnania (voliteľné)
+            </summary>
+            <div class="advanced-sections">
+              <div class="advanced-section">
+                <div class="advanced-section-title">Spotrebný úver</div>
+                <div class="advanced-section-grid cols-1">
+                  <div class="mortgage-field">
+                    <label for="consumerLoanRatePct">Sadzba spotrebného úveru (%)</label>
+                    <input type="text" id="consumerLoanRatePct" value="8" inputmode="decimal" placeholder="8" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver“">
+                  </div>
+                </div>
+              </div>
+
+              <div class="advanced-section">
+                <div class="advanced-section-title">Nárast hodnoty nehnuteľnosti</div>
+                <div class="advanced-section-grid cols-1">
+                  <div class="mortgage-field">
+                    <label for="appreciationSelect">Ročné očakávané zhodnotenie (%)</label>
+                    <select id="appreciationSelect" class="styled-select">
+                      <option value="2">Konzervatívne +2% p.a.</option>
+                      <option value="3.91" selected>Stredné +3,91% p.a.</option>
+                      <option value="6">Optimistické +6% p.a.</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="advanced-section hypoteka">
+                <div class="advanced-section-title">Hypotéka</div>
+                <div class="advanced-section-grid">
+                  <div class="mortgage-field">
+                    <label for="mortgageTermYears">Dĺžka hypotéky (roky)</label>
+                    <input type="number" id="mortgageTermYears" min="5" max="40" step="1" value="30" inputmode="numeric" aria-describedby="mortgageHint">
+                  </div>
+                  <div class="mortgage-field">
+                    <label for="mortgageLtvPct">Max. LTV banky (%)</label>
+                    <input type="number" id="mortgageLtvPct" min="70" max="95" step="1" value="80" inputmode="numeric" title="Percento hodnoty nehnuteľnosti, ktoré banka môže financovať">
+                  </div>
+                  <div class="mortgage-field">
+                    <label for="mortgageRatePct">Úrok hypotéky p.a. (%)</label>
+                    <input type="text" id="mortgageRatePct" value="2,5" inputmode="decimal" placeholder="2,5" title="Nom. ročná úroková sadzba (anuitná splácanie)">
+                  </div>
+                </div>
+                <p class="mortgage-advanced-hint" id="mortgageHint">
+                  Zostatok hypotéky sa počíta ako zostatok istiny pri <strong>rovnakých mesačných splátkach</strong> (štandardná anuita).
+                  Orientačná splátka pri aktuálnej istine: <strong id="mortgageMonthlyDisplay">—</strong>.
+                </p>
+              </div>
             </div>
-            <span class="equity-val" id="resYourEquity">150 000 €</span>
+          </details>
+        </div>
+
+        <!-- Results -->
+        <div class="results-panel">
+
+          <!-- Hero Result: 0 € monthly = biggest differentiator -->
+          <div class="r-label">Okamžitá hotovostná výhoda</div>
+          <div class="result-hero">
+            <div class="result-hero-main">
+              <div class="result-hero-title">Ušetríte na mesačných splátach oproti spotrebnému úveru</div>
+              <div class="result-hero-amount result-hero-amount-gold" id="compSaved">25 068 €</div>
+              <div class="result-hero-sub">
+                Dostanete <strong id="bonaAmountReceived">18 000 €</strong> na účet. Jednorazový poplatok 5% (<span id="upfrontFeeDisplay">900</span> €) platíte zvlášť.
+              </div>
+            </div>
+            <div class="result-hero-badge">
+              <div class="result-hero-badge-zero">0 €</div>
+              <div class="result-hero-badge-text">mesačná<br>splátka</div>
+            </div>
           </div>
 
-          <div class="r-gold-rule"></div>
-
-          <!-- ─── 04: Exit Options ─── -->
-          <div class="r-sec-label">04 — Možnosti vysporiadania</div>
-
-          <!-- Refinancovanie with gold left border -->
-          <div class="r-ref-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <div style="display:flex;align-items:center;gap:7px;">
-                <span style="font-size:14px;">🏦</span>
-                <span style="font-size:12.5px;font-weight:700;color:var(--white);">Refinancovanie hypotéky</span>
-              </div>
-              <span style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:2px 8px;background:rgba(13,107,82,0.3);color:#5DCFB1;border-radius:100px;">Najčastejšie</span>
-            </div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.33);margin-bottom:7px;line-height:1.4;">Navýšite hypotéku — banka vyplatí Bonaship priamo. Z vrecka nedoplácate nič.</div>
-            <div class="r-ref-breakdown">
-              <div class="r-ref-row">
-                <span>Nová hypotéka (80% LTV)</span><span id="refNewMortgage">—</span>
-              </div>
-              <div class="r-ref-row">
-                <span>− Zostatok hypotéky</span><span id="refMortgageBalance">—</span>
-              </div>
-              <div class="r-ref-row">
-                <span>= Hotovosť na vyplatenie</span><span id="refCashExtracted">—</span>
-              </div>
-              <div class="r-ref-row bona">
-                <span>− Podiel Bonaship</span><span id="refBonashipPayout">—</span>
-              </div>
-              <div class="r-ref-row total">
-                <span>Zostatok po vysporiadaní</span><span id="refRemainder">—</span>
-              </div>
-              <div style="padding-top:3px;font-size:9.5px;color:rgba(255,255,255,0.3);" id="refCoversLabel"></div>
+          <!-- Comparison -->
+          <div class="compare-strip">
+            <div class="compare-card">
+              <div class="compare-card-label">Spotrebný úver</div>
+              <div class="compare-card-value" id="compMonthly">~206 €</div>
+              <div class="compare-card-sub">mesačná splátka pri <span id="compRateDisplay">8</span>&nbsp;% p.a. · <span id="compYears">10</span> rokov</div>
             </div>
           </div>
 
-          <!-- Secondary pills -->
-          <div style="display:flex;gap:6px;">
-            <div class="r-pill">
-              <div class="r-pill-title">💰 Z vlastných úspor</div>
-              <div class="r-pill-desc">Kedykoľvek, bez poplatkov za predčasné ukončenie.</div>
+          <div class="r-divider"></div>
+
+          <!-- Share Tiers + Projection -->
+          <div class="r-label">Podiel z hodnoty nehnuteľnosti</div>
+          <div class="share-grid">
+            <div class="tier-list">
+              <div class="tier-item" data-year="3">
+                <span class="tier-pct">12,8%</span>
+                <span class="tier-text">vyplatenie za 3 roky</span>
+              </div>
+              <div class="tier-item" data-year="5">
+                <span class="tier-pct">15,9%</span>
+                <span class="tier-text">vyplatenie za 5 rokov</span>
+              </div>
+              <div class="tier-item" data-year="7">
+                <span class="tier-pct">19,0%</span>
+                <span class="tier-text">vyplatenie za 7 rokov</span>
+              </div>
+              <div class="tier-item active" data-year="10">
+                <span class="tier-pct">24,3%</span>
+                <span class="tier-text">vyplatenie za 10 rokov</span>
+              </div>
             </div>
-            <div class="r-pill">
-              <div class="r-pill-title">🏠 Predaj nehnuteľnosti</div>
-              <div class="r-pill-desc">Z výnosu predaja sa podiel odpočíta automaticky.</div>
+
+            <div class="proj-card">
+              <div class="proj-card-label">Projekcia hodnoty</div>
+              <div class="proj-card-value" id="futureValDisplay">263 893 €</div>
+              <div class="proj-bar-container">
+                <div id="vizUserBar" style="width:80%"></div>
+                <div id="vizBonaBar" style="width:20%"></div>
+              </div>
+              <div class="proj-legend">
+                <div class="proj-legend-row">
+                  <span><span class="dot dot-teal"></span>Váš podiel</span>
+                  <span class="val teal" id="vizUserAmount">211 114 €</span>
+                  <span id="vizUserPct">80%</span>
+                </div>
+                <div class="proj-legend-row">
+                  <span><span class="dot dot-gold"></span>Bonaship</span>
+                  <span class="val gold" id="vizBonaAmount">52 779 €</span>
+                  <span id="vizBonaPct">20%</span>
+                </div>
+              </div>
+              <div class="proj-note">*Pri raste <span id="apprDisplay">3,9</span>% p.a. Podiel závisí od dĺžky obdobia.</div>
+            </div>
+          </div>
+
+          <div class="r-divider"></div>
+
+          <!-- Settlement -->
+          <div class="r-label">Vysporiadanie refinancovaním</div>
+          <div class="settle-card">
+            <div class="settle-row">
+              <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
+              <span id="refNewMortgage">211 114 €</span>
+            </div>
+            <div class="settle-row">
+              <span>− Zostatok hypotéky</span>
+              <span id="refMortgageBalance">107 373 €</span>
+            </div>
+            <div class="settle-row">
+              <span>= Hotovosť na vyplatenie</span>
+              <span id="refCashExtracted">103 741 €</span>
+            </div>
+            <div class="settle-row">
+              <span>− Podiel Bonaship</span>
+              <span id="refBonashipPayout">52 779 €</span>
+            </div>
+            <div class="settle-row total">
+              <span>Zostatok po vysporiadaní</span>
+              <span id="refRemainder">50 962 €</span>
+            </div>
+            <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
+            <div class="settle-other">
+              <span class="settle-other-label">Iné možnosti:</span>
+              <span class="settle-other-pill">💰 Z vlastných úspor</span>
+              <span class="settle-other-pill">🏠 Predaj nehnuteľnosti</span>
             </div>
           </div>
 
         </div>
-
-        <!-- CTA -->
-        <div style="position:relative;z-index:1;margin-top:16px;">
-          <button class="btn-cta">
-            Mám záujem
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-          <p class="cta-note">Nezáväzne a bez vplyvu na úverový register.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── FEATURES ── -->
-  <section class="features">
-    <div class="features-inner">
-      <div>
-        <div class="feat-icon emerald">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
-        <div class="feat-title">0 € mesačne navyše</div>
-        <p class="feat-desc">Peniaze získate ihneď, bez mesačných splátok. Počas celej doby platíte len hypotéku — žiadne navýšenie. V peňaženke vám zostane viac na život.</p>
-      </div>
-      <div>
-        <div class="feat-icon gold">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        </div>
-        <div class="feat-title">Ste 100% vlastník</div>
-        <p class="feat-desc">Byt je napísaný iba na vás. Zdieľame s vami iba zisk (alebo stratu) pri budúcom predaji — nič viac.</p>
-      </div>
-      <div>
-        <div class="feat-icon navy">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-        </div>
-        <div class="feat-title">Flexibilné splatenie</div>
-        <p class="feat-desc">Vyberte si kedykoľvek do 10 rokov. Pri refinancovaní hypotéky, predaji alebo vyplatení z vlastných úspor.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── FAQ ── -->
+  <!-- ─── VALUE PROPS ─────────────────────── -->
+  <section class="value-section">
+    <div class="section-eyebrow fade-up">Prečo Bonaship</div>
+    <h2 class="section-title fade-up d1">Peniaze k dispozícii, keď ich potrebujete</h2>
+    <div class="value-grid">
+      <div class="value-card fade-up d1">
+        <div class="value-icon teal">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="value-card-title">Žiadne mesačné splátky</div>
+        <div class="value-card-desc">Na rozdiel od úveru alebo hypotéky, s Bonaship neplatíte žiadne mesačné splátky. Peniaze si jednoducho necháte.</div>
+      </div>
+      <div class="value-card fade-up d2">
+        <div class="value-icon gold">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="value-card-title">Vysporiadanie podľa vás</div>
+        <div class="value-card-desc">Vysporiadajte kedykoľvek počas dohodnutého obdobia — pri predaji nehnuteľnosti alebo refinancovaní hypotéky.</div>
+      </div>
+      <div class="value-card fade-up d3">
+        <div class="value-icon navy">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="13" width="6" height="8" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <div class="value-card-title">Bývanie ostáva vaše</div>
+        <div class="value-card-desc">Zostávate vlastníkom nehnuteľnosti. Bonaship investuje do hodnoty vášho bývania, nie do vášho života.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ───────────────────────────────── -->
   <section class="faq-section">
     <div class="faq-head">
       <h2>Často kladené otázky</h2>
-      <p>Všetko, čo potrebujete vedieť o spolufinancovaní.</p>
+      <p>Všetko, čo potrebujete vedieť o spolufinancovaní s Bonaship.</p>
     </div>
     <div class="faq-list">
-
       <div class="faq-item open">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Čo presne Bonaship robí?</span>
@@ -1569,7 +1478,6 @@
           <div><div class="faq-body">Bonaship vám dá <strong>hotovosť na akontáciu</strong> — výmenou za podiel na budúcej predajnej cene. Nie je to úver. Neplatíte mesačné splátky. Neobjavíte sa v úverovom registri. Vysporiadanie nastáva pri <strong>refinancovaní hypotéky</strong>, <strong>vyplatení z vlastných úspor</strong> alebo <strong>predaji nehnuteľnosti</strong>.</div></div>
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Aký je rozdiel medzi Bonaship a hypotékou?</span>
@@ -1581,7 +1489,6 @@
           <div><div class="faq-body"><strong>Bonaship:</strong> Žiadne mesačné splátky (až 10 rokov). Žiadne požiadavky na príjem. Žiadny záznam v registri. Splácate percento z predajnej ceny.<br><br><strong>Hypotéka / spotrebný úver:</strong> Mesačné splátky. Záznam v registri. Zvyšuje DTI — môže znížiť sumu hypotéky. S Bonaship platíte iba hypotéku, nič navyše.</div></div>
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Má Bonaship právo rozhodovať o mojom byte?</span>
@@ -1593,7 +1500,6 @@
           <div><div class="faq-body"><strong>Nie.</strong> Investor nemôže donútiť vás predať, vstúpiť do bytu, rozhodovať o rekonštrukciách alebo prenájme. Ste 100% na liste vlastníctva. Bonaship má len zmluvné právo na podiel pri vysporiadaní.</div></div>
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Aké mám možnosti vysporiadania s Bonaship?</span>
@@ -1605,7 +1511,6 @@
           <div><div class="faq-body">Máte tri možnosti:<ol><li><strong>Refinancovanie hypotéky</strong> — navýšite hypotéku, banka vyplatí Bonaship priamo.</li><li><strong>Vyplatenie z vlastných úspor</strong> — kedykoľvek, bez poplatkov za predčasné ukončenie.</li><li><strong>Predaj nehnuteľnosti</strong> — z výnosu predaja sa podiel automaticky odpočíta.</li></ol></div></div>
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Ako dlho mám na vysporiadanie a môžem predať skôr?</span>
@@ -1617,7 +1522,6 @@
           <div><div class="faq-body">Máte na to do 10 rokov. Môžete sa vysporiadať kedykoľvek skôr — <strong>bez pokuty za predčasné ukončenie.</strong> Čím skôr sa vysporiadate, tým nižší je podiel Bonaship (napr. 15% pri exite do 3 rokov).</div></div>
         </div>
       </div>
-
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Čo ak hodnota nehnuteľnosti klesne?</span>
@@ -1629,203 +1533,316 @@
           <div><div class="faq-body">Zaplatíte percento z aktuálnej hodnoty — takže menej. Bonaship zdieľa riziko s vami. Na rozdiel od úveru, kde platíte fixnú sumu bez ohľadu na trhovú hodnotu bytu.</div></div>
         </div>
       </div>
-
     </div>
   </section>
 
-  <!-- ── FOOTER ── -->
+  <!-- ─── FOOTER ──────────────────────────── -->
   <footer>
+    <div class="footer-logo">BONASHIP</div>
     <p>© 2026 BONASHIP Financial. Všetky práva vyhradené.</p>
-    <p style="margin-top:8px;max-width:680px;margin-inline:auto;">Kalkulačka slúži na orientačný odhad. Skutočné podmienky závisia od individuálneho posúdenia.</p>
+    <p style="margin-top:10px;max-width:600px;margin-inline:auto;">Kalkulačka slúži na orientačný odhad. Skutočné podmienky závisia od individuálneho posúdenia.</p>
     <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;gap:12px;">
       <span style="font-size:11px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;">Kalkulačky:</span>
-      <span style="font-size:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:20px;font-weight:600;">Pre obchodníkov</span>
-      <a href="index2.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">Pre zákazníkov →</a>
-      <a href="index3.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">Pre zákazníkov dynamic (alt2) →</a>
+      <a href="obchodnici.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">← Pre obchodníkov</a>
+      <span style="font-size:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:20px;font-weight:600;">Pre zákazníkov</span>
+      <a href="zakaznici.html" style="font-size:11px;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.12)'">Pre zákazníkov (klasik) →</a>
     </div>
   </footer>
 
-  <!-- ── SCRIPTS ── -->
   <script>
+    /* ── CONFIG ── */
     const CONFIG = {
       upfrontFee: 0.05,
       maxFee: 20000,
-      maxShare: 0.15,
+      bonaSharePct: 0.10,
       maxLTV: 0.80,
-      appreciation: 0.0391,
       mortgageRate: 0.025,
       mortgageYears: 30,
-      consumerLoanRate: 0.0699
+      consumerLoanRate: 0.08
     };
+    const OWN_OPTIONS_PCT = [0.05, 0.10, 0.15];
+    const MIN_OWN_PCT = 0.05;
+    const MAX_BONASHIP_PCT = 0.25;
+    const PCT_EPS = 1e-6;
+    let selectedOwnPct = 0.10;
 
+    /* ── HELPERS ── */
     function fmt(n) {
       return Math.round(n).toLocaleString('sk-SK');
     }
-
     function monthlyPayment(principal, annualRate, years) {
       const r = annualRate / 12;
       const n = years * 12;
-      if (r === 0 || principal <= 0) return 0;
+      if (principal <= 0 || years <= 0) return 0;
+      if (r === 0) return principal / n;
       return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     }
-
     function remainingBalance(principal, annualRate, totalYears, elapsedYears) {
+      if (principal <= 0 || totalYears <= 0) return 0;
       const r = annualRate / 12;
-      const n = totalYears * 12;
-      const p = elapsedYears * 12;
+      const n = Math.round(totalYears * 12);
+      const p = Math.min(Math.round(elapsedYears * 12), n);
+      if (r === 0) return principal * (1 - p / n);
       const mp = monthlyPayment(principal, annualRate, totalYears);
       return principal * Math.pow(1 + r, p) - mp * (Math.pow(1 + r, p) - 1) / r;
     }
+    function parsePercentInput(str, fallback) {
+      const cleaned = String(str ?? '').replace(/\s/g, '').replace(',', '.');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? fallback : num;
+    }
+    function readMortgageSettings() {
+      const termRaw = parseInt(document.getElementById('mortgageTermYears')?.value, 10);
+      const termYears = Math.max(5, Math.min(40, isNaN(termRaw) ? CONFIG.mortgageYears : termRaw));
+      const ltvPct = parsePercentInput(document.getElementById('mortgageLtvPct')?.value, CONFIG.maxLTV * 100);
+      const maxLTV = Math.max(0.7, Math.min(0.95, ltvPct / 100));
+      const ratePct = parsePercentInput(document.getElementById('mortgageRatePct')?.value, CONFIG.mortgageRate * 100);
+      const annualRate = Math.max(0, Math.min(0.20, ratePct / 100));
+      return { termYears, maxLTV, annualRate };
+    }
+    function readConsumerLoanRate() {
+      const ratePct = parsePercentInput(document.getElementById('consumerLoanRatePct')?.value, CONFIG.consumerLoanRate * 100);
+      return Math.max(0, Math.min(25, ratePct)) / 100;
+    }
+    const SHARE_MATRIX = {
+      10:   { 3: 0.128, 4: 0.143, 5: 0.159, 6: 0.174, 7: 0.190, 8: 0.207, 9: 0.225, 10: 0.243, 15: 0.352 },
+      12.5: { 3: 0.158, 4: 0.175, 5: 0.193, 6: 0.211, 7: 0.230, 8: 0.250, 9: 0.271, 10: 0.293, 15: 0.423 },
+      15:   { 3: 0.187, 4: 0.207, 5: 0.227, 6: 0.248, 7: 0.269, 8: 0.292, 9: 0.316, 10: 0.341, 15: 0.491 },
+      17.5: { 3: 0.217, 4: 0.238, 5: 0.260, 6: 0.284, 7: 0.308, 8: 0.333, 9: 0.360, 10: 0.389, 15: 0.559 },
+      20:   { 3: 0.246, 4: 0.269, 5: 0.294, 6: 0.319, 7: 0.346, 8: 0.374, 9: 0.404, 10: 0.436, 15: 0.625 },
+      22.5: { 3: 0.275, 4: 0.301, 5: 0.327, 6: 0.355, 7: 0.384, 8: 0.415, 9: 0.447, 10: 0.482, 15: 0.690 },
+      25:   { 3: 0.305, 4: 0.332, 5: 0.360, 6: 0.390, 7: 0.422, 8: 0.455, 9: 0.490, 10: 0.528, 15: 0.753 }
+    };
+    function normalizePct(pct) {
+      return Math.round(pct * 10) / 10;
+    }
+    function getMatrixShare(downpaymentPct, years) {
+      const normalized = normalizePct(downpaymentPct);
+      let row = SHARE_MATRIX[normalized];
+      if (!row) {
+        const availableRows = Object.keys(SHARE_MATRIX).map(Number).sort((a, b) => a - b);
+        if (!availableRows.length) return 0;
+        const fallbackKey = availableRows.reduce((closest, current) => (
+          Math.abs(current - normalized) < Math.abs(closest - normalized) ? current : closest
+        ), availableRows[0]);
+        row = SHARE_MATRIX[fallbackKey];
+      }
+      if (!row) return 0;
+      return row[years] ?? 0;
+    }
+    function formatPct(pct) {
+      return (pct * 100).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+    }
+    function parseValue(str) {
+      const cleaned = String(str).replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? 180000 : Math.max(50000, Math.min(2000000, num));
+    }
+    function formatInput(val) {
+      return Math.round(val).toLocaleString('sk-SK');
+    }
+    function getRequiredDownpaymentPct(maxLTV) {
+      return Math.max(0, Math.round((1 - maxLTV) * 10000) / 10000);
+    }
+    function getValidOwnOptions(maxLTV) {
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      return OWN_OPTIONS_PCT
+        .filter((ownPct) => {
+          const bonashipPct = requiredDownpaymentPct - ownPct;
+          return ownPct >= (MIN_OWN_PCT - PCT_EPS)
+            && bonashipPct >= -PCT_EPS
+            && bonashipPct <= (MAX_BONASHIP_PCT + PCT_EPS);
+        })
+        .sort((a, b) => a - b);
+    }
+    function renderOwnTabs(maxLTV, preferredOwnPct) {
+      const ownTabsContainer = document.getElementById('ownTabs');
+      if (!ownTabsContainer) return MIN_OWN_PCT;
+      const validOwnOptions = getValidOwnOptions(maxLTV);
+      if (!validOwnOptions.length) return MIN_OWN_PCT;
 
-    function getEquityShare(years) {
-      if (years <= 3) return 0.15;
-      if (years <= 6) return 0.175;
-      return 0.20;
+      let resolvedOwnPct = validOwnOptions.includes(preferredOwnPct) ? preferredOwnPct : validOwnOptions[0];
+      if (!validOwnOptions.includes(resolvedOwnPct)) {
+        resolvedOwnPct = validOwnOptions.reduce((closest, current) => (
+          Math.abs(current - preferredOwnPct) < Math.abs(closest - preferredOwnPct) ? current : closest
+        ), validOwnOptions[0]);
+      }
+
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      ownTabsContainer.innerHTML = validOwnOptions.map((ownPct) => {
+        const bonashipPct = Math.max(0, requiredDownpaymentPct - ownPct);
+        const ownLabel = (ownPct * 100).toLocaleString('sk-SK', { maximumFractionDigits: 0 });
+        const bonaLabel = (bonashipPct * 100).toLocaleString('sk-SK', { minimumFractionDigits: 0, maximumFractionDigits: 1 });
+        const isActive = ownPct === resolvedOwnPct;
+        return '<button class="own-tab' + (isActive ? ' active' : '') + '" data-own="' + ownPct + '">' +
+          '<span class="own-tab-own">' + ownLabel + '%</span>' +
+          '<span class="own-tab-bona">Bonaship ' + bonaLabel + '%</span>' +
+          '</button>';
+      }).join('');
+      return resolvedOwnPct;
     }
 
-    function updateSliderBackground(el, min, max, val) {
-      const pct = ((val - min) / (max - min)) * 100;
-      el.style.background = `linear-gradient(to right, var(--navy) ${pct}%, var(--slate-200) ${pct}%)`;
-    }
-
+    /* ── CALCULATE ── */
     function calculate() {
-      const priceInput = document.getElementById('propertyPrice');
-      const savingsInput = document.getElementById('savings');
-      const appreciationInput = document.getElementById('appreciationRate');
+      const valInput = document.getElementById('propertyValue');
+      const homeVal = parseValue(valInput.value) || 180000;
 
-      const homeVal = parseFloat(priceInput.value) || 180000;
-      let savings = parseFloat(savingsInput.value) || 0;
-      const apprRaw = parseFloat(appreciationInput?.value);
-      const appreciation = (isNaN(apprRaw) ? 3.91 : apprRaw) / 100;
+      const activeTab = document.querySelector('.pill-tab.active');
+      const years = parseInt(activeTab?.dataset.years) || 10;
 
-      const maxSavings = Math.min(homeVal, 100000);
-      savingsInput.max = maxSavings;
-      document.getElementById('savingsMaxDisplay').textContent = fmt(maxSavings) + ' €';
-      if (savings > maxSavings) { savings = maxSavings; savingsInput.value = savings; }
+      const apprSelect = document.getElementById('appreciationSelect');
+      const appreciation = parseFloat(apprSelect.value) / 100;
 
-      updateSliderBackground(priceInput, priceInput.min, priceInput.max, homeVal);
-      updateSliderBackground(savingsInput, savingsInput.min, savingsInput.max, savings);
-      if (appreciationInput && appreciationInput.type === 'range') updateSliderBackground(appreciationInput, 0, 10, parseFloat(appreciationInput.value));
-
-      const apprVal = isNaN(apprRaw) ? 3.91 : apprRaw;
-      const apprDisplay = document.getElementById('appreciationDisplay');
-      if (apprDisplay) apprDisplay.textContent = apprVal.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
-
-      const activeTab = document.querySelector('.year-tab.active');
-      const years = parseInt(activeTab?.dataset.years) || 7;
-
-      const requiredDown = homeVal * 0.20;
-      const gap = Math.max(0, requiredDown - savings);
-      const maxBona = Math.floor(homeVal * CONFIG.maxShare);
-      let bonaAmt = gap > 0 ? Math.min(gap, maxBona) : maxBona;
-
+      const { termYears: mortgageTermYears, maxLTV, annualRate: mortgageAnnualRate } = readMortgageSettings();
+      selectedOwnPct = renderOwnTabs(maxLTV, selectedOwnPct);
+      const activeOwnTab = document.querySelector('.own-tab.active');
+      const customerPct = parseFloat(activeOwnTab?.dataset.own) || selectedOwnPct || MIN_OWN_PCT;
+      const requiredDownpaymentPct = getRequiredDownpaymentPct(maxLTV);
+      const bonaPct = Math.max(0, requiredDownpaymentPct - customerPct);
+      const bonashipDownpaymentPct = bonaPct * 100;
+      const savings = Math.round(homeVal * customerPct);
+      const bonaAmt = Math.round(homeVal * bonaPct);
       const upfrontFee = Math.min(bonaAmt * CONFIG.upfrontFee, CONFIG.maxFee);
       const cashReceived = bonaAmt - upfrontFee;
       const mortgageAmt = Math.max(0, homeVal - savings - bonaAmt);
-      const mortMonthly = monthlyPayment(mortgageAmt, CONFIG.mortgageRate, CONFIG.mortgageYears);
       const futureVal = homeVal * Math.pow(1 + appreciation, years);
-      const equityShare = getEquityShare(years);
+      const equityShare = getMatrixShare(bonashipDownpaymentPct, years);
       const investorPayout = futureVal * equityShare;
-      const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, CONFIG.mortgageRate, CONFIG.mortgageYears, years) : 0;
-      const userEquity = Math.max(0, futureVal - mortgageBalance - investorPayout);
-
-      const newMaxMortgage = futureVal * CONFIG.maxLTV;
+      const mortgageBalance = mortgageAmt > 0 ? remainingBalance(mortgageAmt, mortgageAnnualRate, mortgageTermYears, years) : 0;
+      const newMaxMortgage = futureVal * maxLTV;
+      const mortgageMonthly = mortgageAmt > 0 ? monthlyPayment(mortgageAmt, mortgageAnnualRate, mortgageTermYears) : 0;
       const cashExtracted = newMaxMortgage - mortgageBalance;
       const refRemainder = cashExtracted - investorPayout;
       const refCoversBonaship = cashExtracted >= investorPayout;
 
-      // DOM Updates
-      document.getElementById('propertyPriceDisplay').textContent = fmt(homeVal) + ' €';
-      document.getElementById('savingsDisplay').textContent = fmt(savings) + ' €';
-
-      // Dynamic summary sentence
-      const dynBona = document.getElementById('dynBonaAmt');
-      const dynHome = document.getElementById('dynHomeVal');
-      const dynMort = document.getElementById('dynMortgageAmt');
-      if (dynBona) dynBona.textContent = fmt(bonaAmt) + ' €';
-      if (dynHome) dynHome.textContent = fmt(homeVal) + ' €';
-      if (dynMort) dynMort.textContent = fmt(mortgageAmt) + ' €';
-      document.getElementById('resFutureVal').textContent = fmt(futureVal) + ' €';
-      document.getElementById('resYearsViz').textContent = years;
-      const resAppr = document.getElementById('resAppreciation');
-      if (resAppr) resAppr.textContent = apprVal.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      const consumerLoanAnnual = readConsumerLoanRate();
+      const compLoanMonthly = monthlyPayment(bonaAmt, consumerLoanAnnual, years);
+      const totalSaved = compLoanMonthly * 12 * years;
 
       const userShareVal = futureVal - investorPayout;
       const userSharePct = ((futureVal - investorPayout) / futureVal) * 100;
       const bonaSharePct = (investorPayout / futureVal) * 100;
-      document.getElementById('vizUserBar').style.height = userSharePct + '%';
-      document.getElementById('vizBonaBar').style.height = bonaSharePct + '%';
+
+      // Update DOM
+      document.getElementById('bonaAmount').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('bonaShareDesc').textContent =
+        Math.round(bonaPct * 100) + '% z hodnoty nehnuteľnosti · vaše zdroje: ' + fmt(savings) + ' €';
+      document.getElementById('futureValDisplay').textContent = fmt(futureVal) + ' €';
+
+      document.getElementById('bonaAmountReceived').textContent = fmt(bonaAmt) + ' €';
+      document.getElementById('upfrontFeeDisplay').textContent = fmt(upfrontFee);
+
+      document.getElementById('vizUserBar').style.width = userSharePct + '%';
+      document.getElementById('vizBonaBar').style.width = bonaSharePct + '%';
       document.getElementById('vizUserAmount').textContent = fmt(userShareVal) + ' €';
       document.getElementById('vizUserPct').textContent = userSharePct.toFixed(1) + '%';
       document.getElementById('vizBonaAmount').textContent = fmt(investorPayout) + ' €';
       document.getElementById('vizBonaPct').textContent = bonaSharePct.toFixed(1) + '%';
 
-      const yourEquitySpan = document.getElementById('resYourEquity');
-      yourEquitySpan.textContent = fmt(userEquity) + ' €';
+      document.getElementById('apprDisplay').textContent = parseFloat(apprSelect.value).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-      const refNewMortgageEl = document.getElementById('refNewMortgage');
-      const refMortgageBalanceEl = document.getElementById('refMortgageBalance');
-      const refCashExtractedEl = document.getElementById('refCashExtracted');
-      const refBonashipPayoutEl = document.getElementById('refBonashipPayout');
-      const refRemainderEl = document.getElementById('refRemainder');
-      const refCoversLabelEl = document.getElementById('refCoversLabel');
-      if (refNewMortgageEl) refNewMortgageEl.textContent = fmt(newMaxMortgage) + ' €';
-      if (refMortgageBalanceEl) refMortgageBalanceEl.textContent = fmt(mortgageBalance) + ' €';
-      if (refCashExtractedEl) refCashExtractedEl.textContent = fmt(Math.max(0, cashExtracted)) + ' €';
-      if (refBonashipPayoutEl) refBonashipPayoutEl.textContent = fmt(investorPayout) + ' €';
-      if (refRemainderEl) {
-        refRemainderEl.textContent = fmt(refRemainder) + ' €';
-        refRemainderEl.style.color = refRemainder >= 0 ? '#5DCFB1' : '#F87171';
+      document.getElementById('compYears').textContent = years;
+      document.getElementById('compRateDisplay').textContent = (consumerLoanAnnual * 100).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      document.getElementById('compMonthly').textContent = '~' + fmt(compLoanMonthly) + ' €';
+      document.getElementById('compSaved').textContent = fmt(totalSaved) + ' €';
+
+      const ltvLabelPct = (maxLTV * 100).toLocaleString('sk-SK', { maximumFractionDigits: 2 });
+      document.getElementById('refNewMortgageLabel').textContent = 'Nová hypotéka (' + ltvLabelPct + ' % LTV)';
+      document.getElementById('refNewMortgage').textContent = fmt(newMaxMortgage) + ' €';
+      document.getElementById('refMortgageBalance').textContent = fmt(mortgageBalance) + ' €';
+      const mmEl = document.getElementById('mortgageMonthlyDisplay');
+      if (mmEl) {
+        mmEl.textContent = mortgageAmt > 0 ? '~' + fmt(mortgageMonthly) + ' € / mesiac' : '— (bez hypotéky)';
       }
-      if (refCoversLabelEl) {
-        refCoversLabelEl.textContent = refCoversBonaship
-          ? '✓ Refinancovanie pokryje celý podiel Bonaship'
-          : '⚠ Rozdiel: ' + fmt(Math.abs(refRemainder)) + ' €';
-        refCoversLabelEl.style.color = refCoversBonaship ? '#5DCFB1' : '#FBBF24';
-      }
+      document.getElementById('refCashExtracted').textContent = fmt(Math.max(0, cashExtracted)) + ' €';
+      document.getElementById('refBonashipPayout').textContent = fmt(investorPayout) + ' €';
+      document.getElementById('refRemainder').textContent = fmt(refRemainder) + ' €';
+      document.getElementById('refRemainder').style.color = refRemainder >= 0 ? '#2ED8AD' : '#F87171';
 
-      const compLoanMonthly = monthlyPayment(bonaAmt, CONFIG.consumerLoanRate, years);
-      const totalSaved = compLoanMonthly * 12 * years;
-      document.getElementById('compLoanMonthly').textContent = fmt(compLoanMonthly);
-      document.getElementById('cfYears').textContent = years;
-      document.getElementById('cfSavedTotal').textContent = fmt(totalSaved) + ' €';
-      document.getElementById('estMortgage').textContent = fmt(mortMonthly);
+      const refLabel = document.getElementById('refCoversLabel');
+      refLabel.textContent = refCoversBonaship ? '✓ Refinancovanie pokryje celý podiel Bonaship' : '⚠ Rozdiel: ' + fmt(Math.abs(refRemainder)) + ' €';
+      refLabel.className = 'settle-status ' + (refCoversBonaship ? 'green' : 'amber');
 
-      const savingsPct = (savings / homeVal) * 100;
-      const bonaPct = (bonaAmt / homeVal) * 100;
-      const mortPct = (mortgageAmt / homeVal) * 100;
-      document.getElementById('barSavings').style.width = savingsPct + '%';
-      document.getElementById('barBonaship').style.width = bonaPct + '%';
-      document.getElementById('barMortgage').style.width = mortPct + '%';
-
-      document.getElementById('legSavings').textContent = fmt(savings) + ' €';
-      document.getElementById('legSavingsPct').textContent = savingsPct.toFixed(0) + '% z ceny';
-      document.getElementById('legBonaship').textContent = fmt(bonaAmt) + ' €';
-      document.getElementById('legFee').textContent = fmt(upfrontFee) + ' €';
-      document.getElementById('legCash').textContent = fmt(cashReceived) + ' €';
-      document.getElementById('legBonashipPct').textContent = bonaPct.toFixed(0) + '% z ceny';
-      document.getElementById('legMortgage').textContent = fmt(mortgageAmt) + ' €';
-      document.getElementById('legMortgagePct').textContent = mortPct.toFixed(0) + '% z ceny';
-
-      const warn = document.getElementById('savingsWarning');
-      if (savings >= requiredDown) warn.classList.remove('hidden');
-      else warn.classList.add('hidden');
+      document.querySelectorAll('.tier-item[data-year]').forEach(el => {
+        const tierYear = parseInt(el.dataset.year, 10);
+        const tierShare = getMatrixShare(bonashipDownpaymentPct, tierYear);
+        const pctNode = el.querySelector('.tier-pct');
+        const textNode = el.querySelector('.tier-text');
+        if (pctNode) pctNode.textContent = formatPct(tierShare);
+        if (textNode) textNode.textContent = 'vyplatenie za ' + tierYear + ' ' + (tierYear === 1 ? 'rok' : (tierYear >= 2 && tierYear <= 4 ? 'roky' : 'rokov'));
+        el.classList.toggle('active', tierYear === years);
+      });
     }
 
-    document.getElementById('propertyPrice').addEventListener('input', calculate);
-    document.getElementById('savings').addEventListener('input', calculate);
-    const apprSlider = document.getElementById('appreciationRate');
-    if (apprSlider) {
-      apprSlider.addEventListener('input', calculate);
-      apprSlider.addEventListener('change', calculate);
-    }
+    /* ── EVENT LISTENERS ── */
+    document.getElementById('propertyValue').addEventListener('input', calculate);
+    document.getElementById('propertyValue').addEventListener('blur', function() {
+      const val = parseValue(this.value);
+      this.value = formatInput(val);
+    });
+    document.getElementById('clearBtn').addEventListener('click', function() {
+      document.getElementById('propertyValue').value = '';
+      document.getElementById('propertyValue').focus();
+      calculate();
+    });
+    document.getElementById('appreciationSelect').addEventListener('change', calculate);
 
-    document.querySelectorAll('.year-tab').forEach(tab => {
+    ['mortgageTermYears', 'mortgageLtvPct', 'mortgageRatePct', 'consumerLoanRatePct'].forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', calculate);
+    });
+    document.getElementById('mortgageTermYears')?.addEventListener('blur', function() {
+      const t = Math.max(5, Math.min(40, parseInt(this.value, 10) || CONFIG.mortgageYears));
+      this.value = String(t);
+      calculate();
+    });
+    document.getElementById('mortgageLtvPct')?.addEventListener('blur', function() {
+      const p = Math.max(70, Math.min(95, Math.round(parsePercentInput(this.value, CONFIG.maxLTV * 100))));
+      this.value = String(p);
+      calculate();
+    });
+    document.getElementById('mortgageRatePct')?.addEventListener('blur', function() {
+      const v = Math.max(0, Math.min(20, parsePercentInput(this.value, CONFIG.mortgageRate * 100)));
+      this.value = v.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      calculate();
+    });
+    document.getElementById('consumerLoanRatePct')?.addEventListener('blur', function() {
+      const v = Math.max(0, Math.min(25, parsePercentInput(this.value, CONFIG.consumerLoanRate * 100)));
+      this.value = v.toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+      calculate();
+    });
+
+    document.querySelectorAll('.pill-tab').forEach(tab => {
       tab.addEventListener('click', function() {
-        document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
         this.classList.add('active');
         calculate();
       });
+    });
+
+    document.getElementById('ownTabs')?.addEventListener('click', function(event) {
+      const btn = event.target.closest('.own-tab');
+      if (!btn) return;
+      const ownPct = parseFloat(btn.dataset.own);
+      if (!isNaN(ownPct)) selectedOwnPct = ownPct;
+      calculate();
+    });
+
+    /* ── SCROLL ANIMATIONS ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger above-fold elements immediately
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
     });
 
     function toggleFaq(btn) {
@@ -1833,6 +1850,8 @@
       item.classList.toggle('open');
     }
 
+    /* ── INIT ── */
+    document.getElementById('propertyValue').value = '180 000';
     calculate();
   </script>
 </body>
