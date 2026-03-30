@@ -367,11 +367,6 @@
     .field-input-wrap:hover .field-clear,
     .field-input:focus ~ .field-clear { opacity: 0.7; }
     .field-clear:hover { opacity: 1 !important; background: var(--gray-200); }
-    .field-hint {
-      font-size: 12px;
-      color: var(--gray-400);
-      margin-top: 8px;
-    }
 
     /* Output preview */
     .output-preview {
@@ -644,46 +639,37 @@
       margin: 28px 0;
     }
 
-    /* Hero result - the big cashout number */
-    .result-hero {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 32px;
-      align-items: start;
-      margin-bottom: 8px;
+    /* Pic2 (0 € vs úver) + callout vedľa seba */
+    .compare-row-hero {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
     }
-    .result-hero-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--teal-bright);
-      margin-bottom: 6px;
+    .compare-row-hero .combined-compare {
+      flex: 0 1 auto;
+      margin-bottom: 0;
     }
-    .result-hero-amount {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(36px, 5vw, 52px);
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 8px;
+    .compare-row-hero .savings-callout {
+      flex: 1 1 220px;
+      margin-top: 0;
+      min-width: min(100%, 200px);
+      max-width: 100%;
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .result-hero-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.65;
-      max-width: 480px;
+
+    /* Combined comparison row */
+    .combined-compare {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
     }
-    .result-hero-amount-gold {
-      color: var(--gold-light) !important;
-      text-shadow: 0 0 32px rgba(232,184,82,0.3);
-    }
-    .result-hero-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.5;
-      margin-top: 12px;
-    }
-    .result-hero-sub strong { color: rgba(255,255,255,0.7); }
     .result-hero-badge {
       display: flex;
       align-items: center;
@@ -707,80 +693,100 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-
-    /* Comparison strip */
-    .compare-strip {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-top: 20px;
+    .compare-vs {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
     }
-    .compare-card {
-      padding: 18px 20px;
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+    .compare-vs strong {
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
     }
-    .compare-card.highlight {
-      background: rgba(15,165,131,0.08);
-      border-color: rgba(46,216,173,0.15);
-    }
-    .compare-card-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 8px;
-    }
-    .compare-card.highlight .compare-card-label { color: rgba(46,216,173,0.6); }
-    .compare-card-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 24px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 2px;
-    }
-    .compare-card.highlight .compare-card-value { color: var(--teal-bright); }
-    .compare-card-sub {
+    .compare-vs-sub {
       font-size: 11px;
       color: rgba(255,255,255,0.3);
+      margin-top: 2px;
     }
-    .compare-card.highlight .compare-card-sub { color: rgba(46,216,173,0.4); }
+    .savings-callout {
+      padding: 18px 16px 20px;
+      background: linear-gradient(165deg, rgba(10,14,28,0.98) 0%, rgba(6,10,22,0.99) 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .savings-callout-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal-bright);
+      line-height: 1.45;
+      max-width: 36em;
+      margin: 0 auto 10px;
+    }
+    .savings-callout-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 400;
+      color: var(--gold-light);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
 
-    /* Share tiers */
+    .r-label-wrap { margin-bottom: 16px; }
+    .r-label-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.32);
+      margin-top: 6px;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    /* Share tiers — full list + selected row */
     .share-grid {
       display: grid;
       grid-template-columns: 1.3fr 1fr;
       gap: 28px;
       align-items: start;
     }
-    .tier-item {
+    .tier-list {
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      background: rgba(0,0,0,0.15);
+    }
+    .tier-row {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      transition: all 0.3s;
+      padding: 12px 14px 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-left: 2px solid transparent;
+      transition: background 0.15s ease;
     }
-    .tier-item:last-child { border-bottom: none; }
-    .tier-pct {
+    .tier-row:last-child { border-bottom: none; }
+    .tier-row .tier-pct {
       font-family: 'DM Serif Display', serif;
       font-size: 18px;
-      color: rgba(255,255,255,0.3);
-      min-width: 52px;
-      transition: color 0.3s;
+      min-width: 56px;
+      color: rgba(255,255,255,0.28);
     }
-    .tier-text {
+    .tier-row .tier-text {
       font-size: 13px;
-      color: rgba(255,255,255,0.35);
-      transition: color 0.3s;
+      color: rgba(255,255,255,0.38);
+      font-weight: 500;
     }
-    .tier-item.active .tier-pct { color: var(--gold-light); }
-    .tier-item.active .tier-text { color: rgba(255,255,255,0.7); font-weight: 600; }
-    .tier-item.active {
-      padding-left: 12px;
-      border-left: 2px solid var(--gold);
-      border-bottom-color: rgba(255,255,255,0.08);
+    .tier-row.active {
+      border-left-color: var(--gold);
+      background: rgba(200,147,58,0.07);
+    }
+    .tier-row.active .tier-pct { color: var(--gold-light); }
+    .tier-row.active .tier-text {
+      color: rgba(255,255,255,0.92);
+      font-weight: 600;
     }
 
     /* Projection viz */
@@ -850,6 +856,49 @@
       font-size: 10px;
       color: rgba(255,255,255,0.2);
       margin-top: 12px;
+    }
+
+    /* Settlement details disclosure */
+    .settle-disclosure {
+      margin-top: 0;
+    }
+    .settle-disclosure > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      user-select: none;
+      transition: color 0.2s;
+      margin-bottom: 16px;
+    }
+    .settle-disclosure > summary::-webkit-details-marker { display: none; }
+    .settle-disclosure > summary::marker { content: ''; }
+    .settle-disclosure > summary:hover { color: rgba(255,255,255,0.4); }
+    .settle-disclosure[open] > summary { color: rgba(255,255,255,0.35); }
+    .settle-disclosure-chev {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .settle-disclosure[open] .settle-disclosure-chev {
+      transform: rotate(180deg);
+      background: rgba(200,147,58,0.15);
+      border-color: rgba(200,147,58,0.3);
+    }
+    .settle-disclosure-chev svg {
+      width: 10px; height: 10px;
+      color: rgba(255,255,255,0.4);
     }
 
     /* Settlement */
@@ -959,53 +1008,6 @@
       font-weight: 400;
     }
     .own-tab.active .own-tab-bona { color: var(--teal); opacity: 0.7; }
-
-    /* ── VALUE PROPS ────────────────────────── */
-    .value-section {
-      padding: 80px 24px;
-      max-width: 1040px;
-      margin: 0 auto;
-    }
-    .value-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-top: 48px;
-    }
-    .value-card {
-      padding: 32px 28px;
-      background: var(--white);
-      border-radius: var(--radius);
-      border: 1px solid var(--gray-100);
-      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .value-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-      border-color: var(--gray-200);
-    }
-    .value-icon {
-      width: 48px; height: 48px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-    .value-icon.teal { background: var(--teal-pale); color: var(--teal); }
-    .value-icon.gold { background: var(--gold-pale); color: var(--gold); }
-    .value-icon.navy { background: rgba(10,18,35,0.06); color: var(--navy); }
-    .value-card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-    .value-card-desc {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--gray-500);
-    }
 
     /* ── FAQ ─────────────────────────────────── */
     .faq-section {
@@ -1136,14 +1138,12 @@
       .input-row { grid-template-columns: 1fr; gap: 24px; }
       .calc-inputs { padding: 28px 24px; }
       .results-panel { padding: 28px 24px 36px; }
-      .result-hero { grid-template-columns: 1fr; gap: 16px; }
-      .compare-strip { grid-template-columns: 1fr; }
+      .compare-row-hero { flex-direction: column; align-items: stretch; }
+      .combined-compare { flex-direction: column; align-items: flex-start; }
       .share-grid { grid-template-columns: 1fr; }
       .controls-row { flex-direction: column; gap: 20px; }
       .field-input { font-size: 28px; }
       .output-preview-value { font-size: 30px; }
-      .result-hero-amount { font-size: 36px; }
-      .value-grid { grid-template-columns: 1fr; }
       .faq-section { padding: 56px 20px; }
       .faq-head h2 { font-size: 28px; }
       .pill-tabs { flex-wrap: wrap; }
@@ -1179,7 +1179,7 @@
         Žiadne mesačné splátky
       </div>
       <h1 class="fade-up d1">Bývajte vo vlastnom ihneď,<br>s&nbsp;<span style="position:relative;display:inline-block;">0&nbsp;€<span style="position:absolute;bottom:2px;left:0;right:0;height:4px;background:var(--gold);border-radius:2px;opacity:0.6;"></span></span> mesačnou<br><em>splátkou navyše.</em></h1>
-      <p class="hero-sub fade-up d2">Bonaship vám vyplatí peniaze na účet <strong>hneď</strong>. Žiadne mesačné splátky, žiadne úroky. Vysporiadate až pri predaji alebo refinancovaní.</p>
+      <p class="hero-sub fade-up d2">Bonaship vám vyplatí peniaze na účet <strong>hneď</strong>.</p>
       <a href="#how-it-works" class="hero-scroll fade-up d3">
         Ako to funguje
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1196,21 +1196,21 @@
         <div class="step-num">01</div>
         <div class="step-content">
           <div class="step-title">Zadajte hodnotu nehnuteľnosti</div>
-          <div class="step-desc">Bonaship vám ponúkne sumu na základe odhadovanej trhovej hodnoty vášho bývania — zvyčajne 10%.</div>
+          <div class="step-desc">Na základe trhovej hodnoty vášho bývania.</div>
         </div>
       </div>
       <div class="step fade-up d2">
         <div class="step-num">02</div>
         <div class="step-content">
           <div class="step-title">Dostanete peniaze na účet</div>
-          <div class="step-desc">Po odsúhlasení podmienok sa hotovosť priamo pripíše na váš bankový účet. Bez čakania, bez splátok.</div>
+          <div class="step-desc">Hotovosť na účet. Bez čakania, bez splátok.</div>
         </div>
       </div>
       <div class="step fade-up d3">
         <div class="step-num">03</div>
         <div class="step-content">
           <div class="step-title">Vysporiadajte, keď sa vám hodí</div>
-          <div class="step-desc">Pri predaji alebo refinancovaní zaplatíte dohodnutý podiel z hodnoty. Žiadne mesačné platby medzitým.</div>
+          <div class="step-desc">Pri predaji alebo refinancovaní. Žiadne platby medzitým.</div>
         </div>
       </div>
     </div>
@@ -1233,12 +1233,11 @@
                 <span class="field-suffix">€</span>
                 <button type="button" class="field-clear" id="clearBtn" title="Vymazať">×</button>
               </div>
-              <div class="field-hint">Pomáha odhadnúť prístup k&nbsp;financovaniu.</div>
             </div>
             <div class="output-preview">
-              <div class="output-preview-label">Bonaship investícia</div>
+              <div class="output-preview-label">Bonaship dofinancuje</div>
               <div class="output-preview-value" id="bonaAmount">18 000 €</div>
-              <div class="output-preview-sub" id="bonaShareDesc">10% z hodnoty nehnuteľnosti · vaše zdroje: 18 000 €</div>
+              <div class="output-preview-sub" id="bonaShareDesc">10 % z hodnoty nehnuteľnosti</div>
             </div>
           </div>
 
@@ -1274,7 +1273,7 @@
                 <div class="advanced-section-grid cols-1">
                   <div class="mortgage-field">
                     <label for="consumerLoanRatePct">Sadzba spotrebného úveru (%)</label>
-                    <input type="text" id="consumerLoanRatePct" value="8" inputmode="decimal" placeholder="8" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver“">
+                    <input type="text" id="consumerLoanRatePct" value="8" inputmode="decimal" placeholder="8" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver"">
                   </div>
                 </div>
               </div>
@@ -1321,54 +1320,34 @@
         <!-- Results -->
         <div class="results-panel">
 
-          <!-- Hero Result: 0 € monthly = biggest differentiator -->
-          <div class="r-label">Okamžitá hotovostná výhoda</div>
-          <div class="result-hero">
-            <div class="result-hero-main">
-              <div class="result-hero-title">Ušetríte na mesačných splátach oproti spotrebnému úveru</div>
-              <div class="result-hero-amount result-hero-amount-gold" id="compSaved">25 068 €</div>
-              <div class="result-hero-sub">
-                Dostanete <strong id="bonaAmountReceived">18 000 €</strong> na účet. Jednorazový poplatok 5% (<span id="upfrontFeeDisplay">900</span> €) platíte zvlášť.
+          <!-- Combined comparison row -->
+          <div class="r-label-wrap">
+            <div class="r-label">Okamžitá hotovostná výhoda</div>
+            <div class="r-label-sub">Platí pri výbere Bonaship: žiadne mesačné splátky oproti spotrebnému úveru (porovnanie nižšie).</div>
+          </div>
+          <div class="compare-row-hero">
+            <div class="combined-compare">
+              <div class="result-hero-badge">
+                <div class="result-hero-badge-zero">0 €</div>
+                <div class="result-hero-badge-text">mesačná<br>splátka</div>
+              </div>
+              <div>
+                <div class="compare-vs">vs <strong id="compMonthly">~218 €</strong> spotrebný úver</div>
+                <div class="compare-vs-sub">pri <span id="compRateDisplay">8</span> % p.a. · <span id="compYears">10</span> rokov</div>
               </div>
             </div>
-            <div class="result-hero-badge">
-              <div class="result-hero-badge-zero">0 €</div>
-              <div class="result-hero-badge-text">mesačná<br>splátka</div>
-            </div>
-          </div>
-
-          <!-- Comparison -->
-          <div class="compare-strip">
-            <div class="compare-card">
-              <div class="compare-card-label">Spotrebný úver</div>
-              <div class="compare-card-value" id="compMonthly">~206 €</div>
-              <div class="compare-card-sub">mesačná splátka pri <span id="compRateDisplay">8</span>&nbsp;% p.a. · <span id="compYears">10</span> rokov</div>
+            <div class="savings-callout" role="region" aria-label="Suma k dispozícii oproti spotrebnému úveru počas celej doby bonaship investície">
+              <div class="savings-callout-label">Suma k dispozícii oproti spotrebnému úveru počas celej doby bonaship investície</div>
+              <div class="savings-callout-value" id="totalConsumerLoanPaid">26 207 €</div>
             </div>
           </div>
 
           <div class="r-divider"></div>
 
-          <!-- Share Tiers + Projection -->
+          <!-- Share Tier (active only) + Projection -->
           <div class="r-label">Podiel z hodnoty nehnuteľnosti</div>
           <div class="share-grid">
-            <div class="tier-list">
-              <div class="tier-item" data-year="3">
-                <span class="tier-pct">12,8%</span>
-                <span class="tier-text">vyplatenie za 3 roky</span>
-              </div>
-              <div class="tier-item" data-year="5">
-                <span class="tier-pct">15,9%</span>
-                <span class="tier-text">vyplatenie za 5 rokov</span>
-              </div>
-              <div class="tier-item" data-year="7">
-                <span class="tier-pct">19,0%</span>
-                <span class="tier-text">vyplatenie za 7 rokov</span>
-              </div>
-              <div class="tier-item active" data-year="10">
-                <span class="tier-pct">24,3%</span>
-                <span class="tier-text">vyplatenie za 10 rokov</span>
-              </div>
-            </div>
+            <div class="tier-list" id="shareTierList" aria-label="Podiel pri rôznej dĺžke obdobia"></div>
 
             <div class="proj-card">
               <div class="proj-card-label">Projekcia hodnoty</div>
@@ -1395,67 +1374,45 @@
 
           <div class="r-divider"></div>
 
-          <!-- Settlement -->
-          <div class="r-label">Vysporiadanie refinancovaním</div>
-          <div class="settle-card">
-            <div class="settle-row">
-              <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
-              <span id="refNewMortgage">211 114 €</span>
+          <!-- Settlement (collapsed) -->
+          <details class="settle-disclosure">
+            <summary>
+              <span class="settle-disclosure-chev" aria-hidden="true">
+                <svg fill="none" viewBox="0 0 12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1.5l5 5 5-5"/></svg>
+              </span>
+              Vysporiadanie refinancovaním
+            </summary>
+            <div class="settle-card">
+              <div class="settle-row">
+                <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
+                <span id="refNewMortgage">211 114 €</span>
+              </div>
+              <div class="settle-row">
+                <span>− Zostatok hypotéky</span>
+                <span id="refMortgageBalance">107 373 €</span>
+              </div>
+              <div class="settle-row">
+                <span>= Hotovosť na vyplatenie</span>
+                <span id="refCashExtracted">103 741 €</span>
+              </div>
+              <div class="settle-row">
+                <span>− Podiel Bonaship</span>
+                <span id="refBonashipPayout">52 779 €</span>
+              </div>
+              <div class="settle-row total">
+                <span>Zostatok po vysporiadaní</span>
+                <span id="refRemainder">50 962 €</span>
+              </div>
+              <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
+              <div class="settle-other">
+                <span class="settle-other-label">Iné možnosti:</span>
+                <span class="settle-other-pill">💰 Z vlastných úspor</span>
+                <span class="settle-other-pill">🏠 Predaj nehnuteľnosti</span>
+              </div>
             </div>
-            <div class="settle-row">
-              <span>− Zostatok hypotéky</span>
-              <span id="refMortgageBalance">107 373 €</span>
-            </div>
-            <div class="settle-row">
-              <span>= Hotovosť na vyplatenie</span>
-              <span id="refCashExtracted">103 741 €</span>
-            </div>
-            <div class="settle-row">
-              <span>− Podiel Bonaship</span>
-              <span id="refBonashipPayout">52 779 €</span>
-            </div>
-            <div class="settle-row total">
-              <span>Zostatok po vysporiadaní</span>
-              <span id="refRemainder">50 962 €</span>
-            </div>
-            <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
-            <div class="settle-other">
-              <span class="settle-other-label">Iné možnosti:</span>
-              <span class="settle-other-pill">💰 Z vlastných úspor</span>
-              <span class="settle-other-pill">🏠 Predaj nehnuteľnosti</span>
-            </div>
-          </div>
+          </details>
 
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── VALUE PROPS ─────────────────────── -->
-  <section class="value-section">
-    <div class="section-eyebrow fade-up">Prečo Bonaship</div>
-    <h2 class="section-title fade-up d1">Peniaze k dispozícii, keď ich potrebujete</h2>
-    <div class="value-grid">
-      <div class="value-card fade-up d1">
-        <div class="value-icon teal">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </div>
-        <div class="value-card-title">Žiadne mesačné splátky</div>
-        <div class="value-card-desc">Na rozdiel od úveru alebo hypotéky, s Bonaship neplatíte žiadne mesačné splátky. Peniaze si jednoducho necháte.</div>
-      </div>
-      <div class="value-card fade-up d2">
-        <div class="value-icon gold">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="value-card-title">Vysporiadanie podľa vás</div>
-        <div class="value-card-desc">Vysporiadajte kedykoľvek počas dohodnutého obdobia — pri predaji nehnuteľnosti alebo refinancovaní hypotéky.</div>
-      </div>
-      <div class="value-card fade-up d3">
-        <div class="value-icon navy">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="13" width="6" height="8" rx="1" stroke="currentColor" stroke-width="2"/></svg>
-        </div>
-        <div class="value-card-title">Bývanie ostáva vaše</div>
-        <div class="value-card-desc">Zostávate vlastníkom nehnuteľnosti. Bonaship investuje do hodnoty vášho bývania, nie do vášho života.</div>
       </div>
     </div>
   </section>
@@ -1467,7 +1424,7 @@
       <p>Všetko, čo potrebujete vedieť o spolufinancovaní s Bonaship.</p>
     </div>
     <div class="faq-list">
-      <div class="faq-item open">
+      <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">
           <span class="faq-q">Čo presne Bonaship robí?</span>
           <div class="faq-arrow">
@@ -1552,9 +1509,6 @@
   <script>
     /* ── CONFIG ── */
     const CONFIG = {
-      upfrontFee: 0.05,
-      maxFee: 20000,
-      bonaSharePct: 0.10,
       maxLTV: 0.80,
       mortgageRate: 0.025,
       mortgageYears: 30,
@@ -1702,8 +1656,6 @@
       const bonashipDownpaymentPct = bonaPct * 100;
       const savings = Math.round(homeVal * customerPct);
       const bonaAmt = Math.round(homeVal * bonaPct);
-      const upfrontFee = Math.min(bonaAmt * CONFIG.upfrontFee, CONFIG.maxFee);
-      const cashReceived = bonaAmt - upfrontFee;
       const mortgageAmt = Math.max(0, homeVal - savings - bonaAmt);
       const futureVal = homeVal * Math.pow(1 + appreciation, years);
       const equityShare = getMatrixShare(bonashipDownpaymentPct, years);
@@ -1717,7 +1669,6 @@
 
       const consumerLoanAnnual = readConsumerLoanRate();
       const compLoanMonthly = monthlyPayment(bonaAmt, consumerLoanAnnual, years);
-      const totalSaved = compLoanMonthly * 12 * years;
 
       const userShareVal = futureVal - investorPayout;
       const userSharePct = ((futureVal - investorPayout) / futureVal) * 100;
@@ -1726,11 +1677,11 @@
       // Update DOM
       document.getElementById('bonaAmount').textContent = fmt(bonaAmt) + ' €';
       document.getElementById('bonaShareDesc').textContent =
-        Math.round(bonaPct * 100) + '% z hodnoty nehnuteľnosti · vaše zdroje: ' + fmt(savings) + ' €';
+        Math.round(bonaPct * 100) + ' % z hodnoty nehnuteľnosti';
       document.getElementById('futureValDisplay').textContent = fmt(futureVal) + ' €';
 
-      document.getElementById('bonaAmountReceived').textContent = fmt(bonaAmt) + ' €';
-      document.getElementById('upfrontFeeDisplay').textContent = fmt(upfrontFee);
+      const totalConsumerRepayment = Math.round(compLoanMonthly * 12 * years);
+      document.getElementById('totalConsumerLoanPaid').textContent = fmt(totalConsumerRepayment) + ' €';
 
       document.getElementById('vizUserBar').style.width = userSharePct + '%';
       document.getElementById('vizBonaBar').style.width = bonaSharePct + '%';
@@ -1744,7 +1695,6 @@
       document.getElementById('compYears').textContent = years;
       document.getElementById('compRateDisplay').textContent = (consumerLoanAnnual * 100).toLocaleString('sk-SK', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
       document.getElementById('compMonthly').textContent = '~' + fmt(compLoanMonthly) + ' €';
-      document.getElementById('compSaved').textContent = fmt(totalSaved) + ' €';
 
       const ltvLabelPct = (maxLTV * 100).toLocaleString('sk-SK', { maximumFractionDigits: 2 });
       document.getElementById('refNewMortgageLabel').textContent = 'Nová hypotéka (' + ltvLabelPct + ' % LTV)';
@@ -1763,15 +1713,18 @@
       refLabel.textContent = refCoversBonaship ? '✓ Refinancovanie pokryje celý podiel Bonaship' : '⚠ Rozdiel: ' + fmt(Math.abs(refRemainder)) + ' €';
       refLabel.className = 'settle-status ' + (refCoversBonaship ? 'green' : 'amber');
 
-      document.querySelectorAll('.tier-item[data-year]').forEach(el => {
-        const tierYear = parseInt(el.dataset.year, 10);
-        const tierShare = getMatrixShare(bonashipDownpaymentPct, tierYear);
-        const pctNode = el.querySelector('.tier-pct');
-        const textNode = el.querySelector('.tier-text');
-        if (pctNode) pctNode.textContent = formatPct(tierShare);
-        if (textNode) textNode.textContent = 'vyplatenie za ' + tierYear + ' ' + (tierYear === 1 ? 'rok' : (tierYear >= 2 && tierYear <= 4 ? 'roky' : 'rokov'));
-        el.classList.toggle('active', tierYear === years);
-      });
+      const DISPLAY_TIER_YEARS = [3, 5, 7, 10];
+      const tierListEl = document.getElementById('shareTierList');
+      if (tierListEl) {
+        tierListEl.innerHTML = DISPLAY_TIER_YEARS.map(function(y) {
+          const share = getMatrixShare(bonashipDownpaymentPct, y);
+          const isActive = y === years;
+          const yw = y === 1 ? 'rok' : (y >= 2 && y <= 4 ? 'roky' : 'rokov');
+          return '<div class="tier-row' + (isActive ? ' active' : '') + '">' +
+            '<span class="tier-pct">' + formatPct(share) + '</span>' +
+            '<span class="tier-text">vyplatenie za ' + y + ' ' + yw + '</span></div>';
+        }).join('');
+      }
     }
 
     /* ── EVENT LISTENERS ── */
