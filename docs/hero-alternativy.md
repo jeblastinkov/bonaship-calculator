@@ -8,7 +8,7 @@
     
 - **H1:** Bývajte vo vlastnom ihneď, s 0 € mesačnou splátkou navyše.
     
-- **Sub:** Bonaship vám vyplatí peniaze na účet hneď. Žiadne mesačné splátky, žiadne úroky. Vysporiadate sa až pri predaji alebo refinancovaní.
+- **Sub:** Žiadne mesačné splátky, žiadne úroky. Vysporiadate sa až pri predaji alebo refinancovaní.
     
 
 **Hodnotenie:** Funguje na USP #1 (zero monthly burden), ale ignoruje #1 JTBD z výskumu — istotu a stabilitu (4,2/5). Má príliš transakčný tón. Chýba emocionálna vrstva.
