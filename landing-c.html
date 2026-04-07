@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonaship C | 0 EUR mesačná splátka navyše</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=General+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep: #101827;
+      --indigo: #312e81;
+      --teal: #0f766e;
+      --sun: #f5b65b;
+      --paper: #f8fafc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(245, 182, 91, 0.20), transparent 34%),
+        radial-gradient(circle at 90% 90%, rgba(15, 118, 110, 0.30), transparent 35%),
+        linear-gradient(140deg, #0f172a 0%, #18243f 50%, #111827 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .hero {
+      width: min(980px, 100%);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: linear-gradient(150deg, rgba(49, 46, 129, 0.42), rgba(16, 24, 39, 0.72));
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(10px);
+      padding: clamp(28px, 5vw, 62px);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -50px;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 182, 91, 0.32), transparent 68%);
+      pointer-events: none;
+    }
+    .label {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      background: rgba(255, 255, 255, 0.06);
+      color: #d7f5f0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+    h1 {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: clamp(2.1rem, 5vw, 4.1rem);
+      line-height: 1.08;
+      margin-bottom: 12px;
+      color: #fff8ec;
+      position: relative;
+      z-index: 2;
+    }
+    h2 {
+      font-size: clamp(1.16rem, 2.2vw, 1.66rem);
+      font-weight: 600;
+      line-height: 1.38;
+      margin-bottom: 18px;
+      color: #ccf8ef;
+      max-width: 860px;
+      position: relative;
+      z-index: 2;
+    }
+    p {
+      font-size: clamp(1rem, 1.6vw, 1.13rem);
+      line-height: 1.7;
+      max-width: 870px;
+      color: #e6edf8;
+      position: relative;
+      z-index: 2;
+    }
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+    .btn {
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-main {
+      color: #0f172a;
+      background: linear-gradient(135deg, #f5b65b, #f9cf87);
+      box-shadow: 0 12px 26px rgba(245, 182, 91, 0.35);
+    }
+    .btn-alt {
+      color: #eef9ff;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .btn:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <span class="label">Variant C</span>
+    <h1>0 EUR mesačná splátka navyše</h1>
+    <h2>Istota vlastného bývania. Bez čakania, bez splátok navyše.</h2>
+    <p>Nemáte dosť na akontáciu? Bonaship doplní 10-15 % hodnoty nehnuteľnosti — bez mesačných splátok, bez registra, bez ručiteľa. Bývate vo svojom už dnes.</p>
+    <div class="actions">
+      <a class="btn btn-main" href="index.html">Pokračovať na kalkulačku</a>
+      <a class="btn btn-alt" href="landing.html">Ďalší A/B/C variant</a>
+    </div>
+  </main>
+</body>
+</html>
