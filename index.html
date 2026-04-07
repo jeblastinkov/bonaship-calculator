@@ -649,18 +649,12 @@
       margin-bottom: 16px;
     }
     .compare-row-hero .combined-compare {
-      flex: 0 1 auto;
+      flex: 1 1 320px;
       margin-bottom: 0;
     }
-    .compare-row-hero .savings-callout {
-      flex: 1 1 220px;
-      margin-top: 0;
-      min-width: min(100%, 200px);
-      max-width: 100%;
-      align-self: stretch;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .compare-row-hero .proj-card {
+      flex: 1 1 320px;
+      min-width: min(100%, 280px);
     }
 
     /* Combined comparison row */
@@ -744,11 +738,11 @@
     }
 
     /* Share tiers — full list + selected row */
-    .share-grid {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 28px;
-      align-items: start;
+    .share-grid { display: block; }
+    .tier-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
     .tier-list {
       display: flex;
@@ -787,6 +781,87 @@
     .tier-row.active .tier-text {
       color: rgba(255,255,255,0.92);
       font-weight: 600;
+    }
+
+    /* Optimal Timeline Slider */
+    .optimal-timeline-wrap {
+      padding: 18px 20px;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-sm);
+    }
+    .optimal-timeline-title {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 24px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .optimal-timeline-title span {
+      color: var(--teal-bright);
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 14px;
+      margin-left: 6px;
+    }
+    .optimal-timeline {
+      position: relative;
+      height: 28px;
+    }
+    .opt-track {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+    }
+    .opt-highlight {
+      position: absolute;
+      top: 4px;
+      height: 8px;
+      background: var(--teal-bright);
+      border-radius: 4px;
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 10px rgba(46,216,173,0.3);
+      z-index: 2;
+    }
+    .opt-ticks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    .opt-ticks span {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      width: 12px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-top: 14px;
+    }
+    .opt-ticks span::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      width: 2px;
+      height: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 1px;
+    }
+    .opt-ticks span.in-range {
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+    .opt-ticks span.in-range::before {
+      background: transparent; /* hidden behind highlight */
     }
 
     /* Projection viz */
@@ -901,12 +976,58 @@
       color: rgba(255,255,255,0.4);
     }
 
+    .settle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
     /* Settlement */
     .settle-card {
       padding: 20px 24px;
       background: rgba(255,255,255,0.03);
       border-radius: var(--radius-sm);
       border: 1px solid rgba(255,255,255,0.06);
+    }
+    .settle-options-card {
+      padding: 20px 24px;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .settle-options-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.32);
+      margin-bottom: 12px;
+    }
+    .settle-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settle-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+    .settle-option span:last-child {
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
     }
     .settle-row {
       display: flex;
@@ -1141,6 +1262,7 @@
       .compare-row-hero { flex-direction: column; align-items: stretch; }
       .combined-compare { flex-direction: column; align-items: flex-start; }
       .share-grid { grid-template-columns: 1fr; }
+      .settle-grid { grid-template-columns: 1fr; }
       .controls-row { flex-direction: column; gap: 20px; }
       .field-input { font-size: 28px; }
       .output-preview-value { font-size: 30px; }
@@ -1271,7 +1393,7 @@
                 <div class="advanced-section-grid cols-1">
                   <div class="mortgage-field">
                     <label for="consumerLoanRatePct">Sadzba spotrebného úveru (%)</label>
-                    <input type="text" id="consumerLoanRatePct" value="8" inputmode="decimal" placeholder="8" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver"">
+                    <input type="text" id="consumerLoanRatePct" value="10" inputmode="decimal" placeholder="10" title="Ročná nominálna sadzba pre výpočet porovnania „Spotrebný úver"">
                   </div>
                 </div>
               </div>
@@ -1320,33 +1442,20 @@
 
           <!-- Combined comparison row -->
           <div class="r-label-wrap">
-            <div class="r-label">Okamžitá hotovostná výhoda</div>
-            <div class="r-label-sub">Platí pri výbere Bonaship: žiadne mesačné splátky oproti spotrebnému úveru (porovnanie nižšie).</div>
+            <div class="r-label" style="color: #ffffff;">Okamžitá hotovostná výhoda</div>
+            <div class="r-label-sub" style="color: rgba(255,255,255,0.9);">Platí pri výbere Bonaship: žiadne mesačné splátky oproti spotrebnému úveru (porovnanie nižšie).</div>
           </div>
           <div class="compare-row-hero">
             <div class="combined-compare">
-              <div class="result-hero-badge">
-                <div class="result-hero-badge-zero">0 €</div>
-                <div class="result-hero-badge-text">mesačná<br>splátka</div>
+              <div class="result-hero-badge" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3);">
+                <div class="result-hero-badge-zero" style="color: #ffffff;">0 €</div>
+                <div class="result-hero-badge-text" style="color: rgba(255,255,255,0.9);">mesačná<br>splátka</div>
               </div>
               <div>
-                <div class="compare-vs">vs <strong id="compMonthly">~218 €</strong> spotrebný úver</div>
-                <div class="compare-vs-sub">pri <span id="compRateDisplay">8</span> % p.a. · <span id="compYears">10</span> rokov</div>
+                <div class="compare-vs" style="color: rgba(255,255,255,0.85);">vs <strong id="compMonthly" style="color: #ffffff;">~218 €</strong> spotrebný úver</div>
+                <div class="compare-vs-sub" style="color: rgba(255,255,255,0.7);">pri <span id="compRateDisplay">10</span> % p.a. · <span id="compYears">10</span> rokov</div>
               </div>
             </div>
-            <div class="savings-callout" role="region" aria-label="Suma k dispozícii oproti spotrebnému úveru počas celej doby bonaship investície">
-              <div class="savings-callout-label">Suma k dispozícii oproti spotrebnému úveru počas celej doby bonaship investície</div>
-              <div class="savings-callout-value" id="totalConsumerLoanPaid">26 207 €</div>
-            </div>
-          </div>
-
-          <div class="r-divider"></div>
-
-          <!-- Share Tier (active only) + Projection -->
-          <div class="r-label">Podiel z hodnoty nehnuteľnosti</div>
-          <div class="share-grid">
-            <div class="tier-list" id="shareTierList" aria-label="Podiel pri rôznej dĺžke obdobia"></div>
-
             <div class="proj-card">
               <div class="proj-card-label">Projekcia hodnoty</div>
               <div class="proj-card-value" id="futureValDisplay">263 893 €</div>
@@ -1372,6 +1481,27 @@
 
           <div class="r-divider"></div>
 
+          <!-- Share Tier (active only) + Projection -->
+          <div class="r-label">Bonaship podiel z hodnoty nehnuteľnosti</div>
+          <div class="share-grid">
+            <div class="tier-col">
+              <div class="tier-list" id="shareTierList" aria-label="Podiel pri rôznej dĺžke obdobia"></div>
+              
+              <div class="optimal-timeline-wrap" id="optimalTimelineWrap" aria-hidden="true">
+                <div class="optimal-timeline-title">Idealny cas na refinancovanie novou hypotekov: <span id="optRangeText"></span></div>
+                <div class="optimal-timeline">
+                  <div class="opt-track"></div>
+                  <div class="opt-highlight" id="optHighlightBar"></div>
+                  <div class="opt-ticks" id="optTicksContainer">
+                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="r-divider"></div>
+
           <!-- Settlement (collapsed) -->
           <details class="settle-disclosure">
             <summary>
@@ -1380,32 +1510,36 @@
               </span>
               Vysporiadanie refinancovaním
             </summary>
-            <div class="settle-card">
-              <div class="settle-row">
-                <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
-                <span id="refNewMortgage">211 114 €</span>
+            <div class="settle-grid">
+              <div class="settle-card">
+                <div class="settle-row">
+                  <span id="refNewMortgageLabel">Nová hypotéka (80 % LTV)</span>
+                  <span id="refNewMortgage">211 114 €</span>
+                </div>
+                <div class="settle-row">
+                  <span>− Zostatok hypotéky</span>
+                  <span id="refMortgageBalance">107 373 €</span>
+                </div>
+                <div class="settle-row">
+                  <span>= Hotovosť na vyplatenie</span>
+                  <span id="refCashExtracted">103 741 €</span>
+                </div>
+                <div class="settle-row">
+                  <span>− Podiel Bonaship</span>
+                  <span id="refBonashipPayout">52 779 €</span>
+                </div>
+                <div class="settle-row total">
+                  <span>Zostatok po vysporiadaní</span>
+                  <span id="refRemainder">50 962 €</span>
+                </div>
+                <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
               </div>
-              <div class="settle-row">
-                <span>− Zostatok hypotéky</span>
-                <span id="refMortgageBalance">107 373 €</span>
-              </div>
-              <div class="settle-row">
-                <span>= Hotovosť na vyplatenie</span>
-                <span id="refCashExtracted">103 741 €</span>
-              </div>
-              <div class="settle-row">
-                <span>− Podiel Bonaship</span>
-                <span id="refBonashipPayout">52 779 €</span>
-              </div>
-              <div class="settle-row total">
-                <span>Zostatok po vysporiadaní</span>
-                <span id="refRemainder">50 962 €</span>
-              </div>
-              <div class="settle-status green" id="refCoversLabel">✓ Refinancovanie pokryje celý podiel Bonaship</div>
-              <div class="settle-other">
-                <span class="settle-other-label">Iné možnosti:</span>
-                <span class="settle-other-pill">💰 Z vlastných úspor</span>
-                <span class="settle-other-pill">🏠 Predaj nehnuteľnosti</span>
+              <div class="settle-options-card">
+                <div class="settle-options-title">Iné možnosti vysporiadania</div>
+                <div class="settle-options-list">
+                  <div class="settle-option"><span>💰 Z vlastných úspor</span><span>kedykoľvek</span></div>
+                  <div class="settle-option"><span>🏠 Predaj nehnuteľnosti</span><span>pri predaji</span></div>
+                </div>
               </div>
             </div>
           </details>
@@ -1510,7 +1644,7 @@
       maxLTV: 0.80,
       mortgageRate: 0.025,
       mortgageYears: 30,
-      consumerLoanRate: 0.08
+      consumerLoanRate: 0.10
     };
     const OWN_OPTIONS_PCT = [0.05, 0.10, 0.15];
     const MIN_OWN_PCT = 0.05;
@@ -1678,9 +1812,6 @@
         Math.round(bonaPct * 100) + ' % z hodnoty nehnuteľnosti';
       document.getElementById('futureValDisplay').textContent = fmt(futureVal) + ' €';
 
-      const totalConsumerRepayment = Math.round(compLoanMonthly * 12 * years);
-      document.getElementById('totalConsumerLoanPaid').textContent = fmt(totalConsumerRepayment) + ' €';
-
       document.getElementById('vizUserBar').style.width = userSharePct + '%';
       document.getElementById('vizBonaBar').style.width = bonaSharePct + '%';
       document.getElementById('vizUserAmount').textContent = fmt(userShareVal) + ' €';
@@ -1722,6 +1853,56 @@
             '<span class="tier-pct">' + formatPct(share) + '</span>' +
             '<span class="tier-text">vyplatenie za ' + y + ' ' + yw + '</span></div>';
         }).join('');
+      }
+
+      // Optimal year recommendation slider
+      let optimalYear = null;
+      let optimalYearIsFallback = false;
+      for (let y = 3; y <= 10; y++) {
+        const s = getMatrixShare(bonashipDownpaymentPct, y);
+        const fV = homeVal * Math.pow(1 + appreciation, y);
+        const pOut = fV * s;
+        const mBal = mortgageAmt > 0 ? remainingBalance(mortgageAmt, mortgageAnnualRate, mortgageTermYears, y) : 0;
+        const cExt = (fV * maxLTV) - mBal;
+        if (cExt >= pOut) {
+          optimalYear = y;
+          break;
+        }
+      }
+      
+      if (!optimalYear) {
+        optimalYear = 3;
+        optimalYearIsFallback = true;
+      }
+      
+      // Map optimal year to a group
+      let rStart = 1;
+      let rEnd = 2;
+      let rText = '1. - 2. rok';
+      if (optimalYear >= 8) { rStart = 8; rEnd = 10; rText = '8. - 10. rok'; }
+      else if (optimalYear >= 5) { rStart = 5; rEnd = 7; rText = '5. - 7. rok'; }
+      else if (optimalYear >= 3) { rStart = 3; rEnd = 4; rText = '3. - 4. rok'; }
+      
+      const optRangeText = document.getElementById('optRangeText');
+      if (optRangeText) {
+        optRangeText.textContent = rText;
+      }
+      
+      const highlightBar = document.getElementById('optHighlightBar');
+      if (highlightBar) {
+        const seg = 9; // 10 points -> 9 segments
+        highlightBar.style.left = ((rStart - 1) / seg * 100) + '%';
+        highlightBar.style.width = ((rEnd - rStart) / seg * 100) + '%';
+      }
+      
+      const ticksContainer = document.getElementById('optTicksContainer');
+      if (ticksContainer) {
+        let ticksHtml = '';
+        for (let i = 1; i <= 10; i++) {
+          const inRange = i >= rStart && i <= rEnd;
+          ticksHtml += '<span class="' + (inRange ? 'in-range' : '') + '">' + i + '</span>';
+        }
+        ticksContainer.innerHTML = ticksHtml;
       }
     }
 
